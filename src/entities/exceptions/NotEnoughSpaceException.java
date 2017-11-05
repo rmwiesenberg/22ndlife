@@ -1,4 +1,4 @@
-package exceptions;
+package entities.exceptions;
 
 public class NotEnoughSpaceException extends Exception{
 

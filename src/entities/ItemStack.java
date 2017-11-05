@@ -1,5 +1,7 @@
 package entities;
 
+import entities.exceptions.NotEnoughSpaceException;
+
 public class ItemStack {
 	private int curSize;
 	private int maxSize;
@@ -9,6 +11,14 @@ public class ItemStack {
 		this.curSize = curSize;
 		this.maxSize = maxSize;
 		this.item = item;
+	}
+	
+	public void add(int num) throws NotEnoughSpaceException{
+		throw new NotEnoughSpaceException();
+	}
+	
+	public void remove(int num) {
+		
 	}
 	
 	// Getters and Setters

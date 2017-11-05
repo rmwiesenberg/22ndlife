@@ -1,6 +1,6 @@
 package entities;
 
-import exceptions.NotEnoughSpaceException;
+import entities.exceptions.NotEnoughSpaceException;
 
 public class Inventory {
 	int slots;
@@ -21,8 +21,8 @@ public class Inventory {
 		}
 	}
 	
-	public void addItem(Item item) {
-		
+	public void addItem(Item item, int num) {
+		if
 	}
 	
 	// Getters and Setters
