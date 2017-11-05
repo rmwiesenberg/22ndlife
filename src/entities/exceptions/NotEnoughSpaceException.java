@@ -1,6 +1,7 @@
 package entities.exceptions;
 
-public class NotEnoughSpaceException extends Exception{
+public class NotEnoughSpaceException 
+extends NotEnoughException{
 
 	/**
 	 * 

@@ -3,6 +3,7 @@ package entities;
 public class Item{
 	private int id;
 	private String name;
+	private int maxSize;
 	
 	public Item(int id, String name) {
 		this.id = id;
@@ -16,5 +17,9 @@ public class Item{
 	
 	public String getName() {
 		return name;
+	}
+	
+	public int getMaxSize() {
+		return maxSize;
 	}
 }
