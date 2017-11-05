@@ -1,6 +1,6 @@
 package entities.exceptions;
 
-public class DoesNotContainException extends Exception{
+public class DoesNotContainException extends ItemStackException{
 
 	/**
 	 * 

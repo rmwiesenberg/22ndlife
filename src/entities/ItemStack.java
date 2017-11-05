@@ -2,7 +2,7 @@ package entities;
 
 import entities.exceptions.*;
 
-public class ItemStack {
+public class ItemStack implements IItemStack{
 	private int curSize;
 	private Item item;
 	
@@ -13,16 +13,41 @@ public class ItemStack {
 		add(curSize);
 	}
 	
-	public void add(int num) 
-			throws NotEnoughSpaceException{
-		if(num > (getMaxSize() - curSize)) {
+	@Override
+	public IItemStack addStack(ItemStack stack) 
+			throws ItemStackException {
+		if(stack.getID() != getID()) {
+			throw new DoesNotContainException();
+		}
+		add(stack.getCurSize());
+		return this;
+		
+	}
+	
+	private void add(int num) 
+			throws NotEnoughSpaceException {
+		if(num > (getMaxSize() - getCurSize())) {
 			throw new NotEnoughSpaceException();
 		} else {
 			curSize += num;
 		}
 	}
 	
-	public void remove(int num) 
+	@Override
+	public IItemStack removeStack(ItemStack stack) 
+			throws ItemStackException {
+		if(stack.getID() != getID()) {
+			throw new DoesNotContainException();
+		}		
+		remove(stack.getCurSize());
+		if(getCurSize() == 0) {
+			return new MTItemStack();
+		} else {
+			return this;
+		}
+	}
+	
+	private void remove(int num) 
 			throws NotEnoughItemsException {
 		if(curSize < num) {
 			throw new NotEnoughItemsException();
@@ -32,22 +57,27 @@ public class ItemStack {
 	}
 	
 	// Getters and Setters
+	@Override
 	public int getCurSize() {
 		return curSize;
 	}
 	
-	public Item getItem() {
+	@Override
+	public IItem getItem() {
 		return item;
 	}
 	
+	@Override
 	public int getID() {
 		return item.getID();
 	}
 	
+	@Override
 	public String getName() {
 		return item.getName();
 	}
 	
+	@Override
 	public int getMaxSize() {
 		return item.getMaxSize();
 	}

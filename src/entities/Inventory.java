@@ -4,15 +4,15 @@ import entities.exceptions.*;
 
 public class Inventory {
 	int slots;
-	ItemStack[] items;
+	IItemStack[] items;
 	
 	public Inventory(int slots) {
-		this.items = new ItemStack[slots];
+		this.items = new MTItemStack[slots];
 	}
 	
-	public Inventory(int slots, ItemStack[] items) 
+	public Inventory(int slots, IItemStack[] items) 
 			throws NotEnoughSpaceException {
-		this.items = new ItemStack[slots];
+		this.items = new MTItemStack[slots];
 		if(items.length > this.items.length) {
 			throw new NotEnoughSpaceException();
 		} else {
@@ -22,14 +22,15 @@ public class Inventory {
 		}
 	}
 	
-	public void addItem(Item item, int num) 
-			throws NotEnoughSpaceException{
+	public void addItem(ItemStack stack) 
+			throws ItemStackException {
 		// find a place to put the item
 		int space = items.length;
 		for(int i = 0; i < items.length; i++) {
-			if (items[i] == null && i == items.length) {
+			if (items[i].getCurSize() == 0 
+					&& i == items.length) {
 				space = i;
-			} else if(items[i].getID() == num) {
+			} else if(items[i].getID() == stack.getID()) {
 				space = i;
 				break;
 			} 
@@ -37,18 +38,17 @@ public class Inventory {
 		// try to add item
 		if(space == items.length) {
 			throw new NotEnoughSpaceException();
-		} else if (items[space] == null){
-			items[space] = new ItemStack(item, num);
+		} else {
+			items[space] = items[space].addStack(stack);
 		}
 	}
 	
-	public void removeItem(Item item, int num) 
-			throws NotEnoughItemsException, 
-			DoesNotContainException{
+	public void removeItem(ItemStack stack) 
+			throws ItemStackException {
 		// find item
 		int space = items.length;
 		for(int i = 0; i < items.length; i++) {
-			if(items[i].getID() == num) {
+			if(items[i].getID() == stack.getID()) {
 				space = i;
 				break;
 			}
@@ -57,7 +57,11 @@ public class Inventory {
 		if(space == items.length) {
 			throw new DoesNotContainException();
 		} else {
-			items[space].remove(num);
+			items[space] = items[space].removeStack(stack);
+		}
+		// check if 0 items are left
+		if(items[space].getCurSize() == 0) {
+			items[space] = null;
 		}
 	}
 	

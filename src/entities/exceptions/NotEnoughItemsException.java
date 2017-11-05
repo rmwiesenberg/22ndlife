@@ -1,7 +1,6 @@
 package entities.exceptions;
 
-public class NotEnoughItemsException 
-extends NotEnoughException {
+public class NotEnoughItemsException extends ItemStackException{
 
 	/**
 	 * 

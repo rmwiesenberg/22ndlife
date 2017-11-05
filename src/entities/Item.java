@@ -1,6 +1,6 @@
 package entities;
 
-public class Item{
+public class Item implements IItem{
 	private int id;
 	private String name;
 	private int maxSize;
