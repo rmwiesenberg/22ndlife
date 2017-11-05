@@ -6,9 +6,11 @@ public class ItemStack {
 	private int curSize;
 	private Item item;
 	
-	public ItemStack(Item item, int curSize) {
-		this.curSize = curSize;
+	public ItemStack(Item item, int curSize) 
+			throws NotEnoughSpaceException {
 		this.item = item;
+		this.curSize = 0;
+		add(curSize);
 	}
 	
 	public void add(int num) 
@@ -38,11 +40,11 @@ public class ItemStack {
 		return item;
 	}
 	
-	public int getItemID() {
+	public int getID() {
 		return item.getID();
 	}
 	
-	public String getItemName() {
+	public String getName() {
 		return item.getName();
 	}
 	

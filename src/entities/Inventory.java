@@ -29,7 +29,7 @@ public class Inventory {
 		for(int i = 0; i < items.length; i++) {
 			if (items[i] == null && i == items.length) {
 				space = i;
-			} else if(items[i].getItemID() == num) {
+			} else if(items[i].getID() == num) {
 				space = i;
 				break;
 			} 
@@ -48,7 +48,7 @@ public class Inventory {
 		// find item
 		int space = items.length;
 		for(int i = 0; i < items.length; i++) {
-			if(items[i].getItemID() == num) {
+			if(items[i].getID() == num) {
 				space = i;
 				break;
 			}

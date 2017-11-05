@@ -5,9 +5,10 @@ public class Item{
 	private String name;
 	private int maxSize;
 	
-	public Item(int id, String name) {
+	public Item(int id, String name, int maxSize) {
 		this.id = id;
 		this.name = name;
+		this.maxSize = maxSize;
 	}
 	
 	// Getters and Setters
