@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 import entities.exceptions.*;
 
 public class Inventory {
@@ -7,12 +9,15 @@ public class Inventory {
 	IItemStack[] items;
 	
 	public Inventory(int slots) {
-		this.items = new MTItemStack[slots];
+		this.items = new IItemStack[slots];
+		for(int i=0; i < this.items.length; i++) {
+			this.items[i] = new MTItemStack();
+		}
 	}
 	
 	public Inventory(int slots, IItemStack[] items) 
 			throws NotEnoughSpaceException {
-		this.items = new MTItemStack[slots];
+		this(slots);
 		if(items.length > this.items.length) {
 			throw new NotEnoughSpaceException();
 		} else {
@@ -22,13 +27,13 @@ public class Inventory {
 		}
 	}
 	
-	public void addItem(ItemStack stack) 
+	public void addItem(IItemStack stack) 
 			throws ItemStackException {
 		// find a place to put the item
 		int space = items.length;
 		for(int i = 0; i < items.length; i++) {
 			if (items[i].getCurSize() == 0 
-					&& i == items.length) {
+					&& space == items.length) {
 				space = i;
 			} else if(items[i].getID() == stack.getID()) {
 				space = i;
@@ -43,7 +48,7 @@ public class Inventory {
 		}
 	}
 	
-	public void removeItem(ItemStack stack) 
+	public void removeItem(IItemStack stack) 
 			throws ItemStackException {
 		// find item
 		int space = items.length;
@@ -59,12 +64,25 @@ public class Inventory {
 		} else {
 			items[space] = items[space].removeStack(stack);
 		}
-		// check if 0 items are left
-		if(items[space].getCurSize() == 0) {
-			items[space] = null;
-		}
 	}
 	
 	// Getters and Setters
+	public IItemStack[] getItems() {
+		return items;
+	}
+	
+	public IItemStack getItem(int pos) {
+		return items[pos];
+	}
+	
+	public ArrayList<Integer> getMTItems() {
+		ArrayList<Integer> posns = new ArrayList<Integer>();
+		for (int i=0; i < items.length; i++) {
+			if(items[i].getID() == 0) {
+				posns.add(i);
+			}
+		}
+		return posns;
+	}
 	
 }

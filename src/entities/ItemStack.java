@@ -14,14 +14,13 @@ public class ItemStack implements IItemStack{
 	}
 	
 	@Override
-	public IItemStack addStack(ItemStack stack) 
+	public IItemStack addStack(IItemStack stack) 
 			throws ItemStackException {
 		if(stack.getID() != getID()) {
 			throw new DoesNotContainException();
 		}
 		add(stack.getCurSize());
-		return this;
-		
+		return this;		
 	}
 	
 	private void add(int num) 
@@ -34,7 +33,7 @@ public class ItemStack implements IItemStack{
 	}
 	
 	@Override
-	public IItemStack removeStack(ItemStack stack) 
+	public IItemStack removeStack(IItemStack stack) 
 			throws ItemStackException {
 		if(stack.getID() != getID()) {
 			throw new DoesNotContainException();
@@ -42,9 +41,8 @@ public class ItemStack implements IItemStack{
 		remove(stack.getCurSize());
 		if(getCurSize() == 0) {
 			return new MTItemStack();
-		} else {
-			return this;
-		}
+		} 
+		return this;
 	}
 	
 	private void remove(int num) 
