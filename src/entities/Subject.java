@@ -2,10 +2,12 @@ package entities;
 
 public class Subject {
 	// <x, y, z>
-	float[] position;
-	float health;
-	float maxHealth;
-	Inventory inventory;
+	private float[] position;
+	private float health;
+	private float maxHealth;
+	private Inventory inventory;
+	private float mental;
+	private float mentalMax;
 	
 	public Subject(float[] position, Inventory inventory) {
 		this.position = position;
