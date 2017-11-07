@@ -3,23 +3,21 @@ package entities;
 public class Subject {
 	// <x, y, z>
 	private float[] position;
-	private float health;
-	private float maxHealth;
 	private Inventory inventory;
-	private float mental;
-	private float mentalMax;
+	private AbsHealth health;
+	private float healthInput;
 	
-	public Subject(float[] position, Inventory inventory) {
+	public Subject(float[] position, Inventory inventory, float healthInput) {
 		this.position = position;
-		this.maxHealth = 20;
-		this.health = this.maxHealth;
+		this.health.maxHealth = this.healthInput;
+		this.health.currentHealth = this.health.maxHealth;
 		this.inventory = inventory;
 	}
 	
-	public Subject(float[] position, int slots) {
+	public Subject(float[] position, int slots, float healthInput) {
 		this.position = position;
-		this.maxHealth = 20;
-		this.health = this.maxHealth;
+		this.health.maxHealth = this.healthInput;
+		this.health.currentHealth = this.health.maxHealth;
 		this.inventory = new Inventory(slots);
 	}
 }
