@@ -12,7 +12,7 @@ public class MTItemStack implements IItemStack {
 	@Override
 	public IItemStack addStack(IItemStack stack) 
 			throws NotEnoughSpaceException{
-		return stack;		
+		return stack;
 	}
 
 	@Override
@@ -46,7 +46,4 @@ public class MTItemStack implements IItemStack {
 	public int getMaxSize() {
 		return item.getMaxSize();
 	}
-
-	
-
 }
