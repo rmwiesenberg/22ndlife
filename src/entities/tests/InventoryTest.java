@@ -17,9 +17,7 @@ class InventoryTest {
 	@Test
 	void testInventoryBasic() {
 		Item cup = new Item(5, "cups", 20);
-		Item bean = new Item(3, "bean", 5);
 		IItemStack cup5 = null;
-		IItemStack bean5 = null;
 		IItemStack mtStack = null;
 		try {
 			cup5 = new ItemStack(cup, 5);
