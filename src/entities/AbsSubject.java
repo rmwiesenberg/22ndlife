@@ -1,13 +1,13 @@
 package entities;
 
-public abstract class absSubject implements ISubject{
+public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
 	private String name;
 	private float[] position;
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public absSubject(String name, float[] position, Inventory inventory, 
+	public AbsSubject(String name, float[] position, Inventory inventory, 
 			PhysicalHealth physHealth) {
 		this.name = name;
 		this.position = position;
@@ -15,7 +15,7 @@ public abstract class absSubject implements ISubject{
 		this.inventory = inventory;
 	}
 	
-	public absSubject(String name, float[] position, int slots, 
+	public AbsSubject(String name, float[] position, int slots, 
 			PhysicalHealth physHealth) {
 		this.name = name;
 		this.position = position;

@@ -1,6 +1,6 @@
 package entities;
 
-public class Human extends absSubject {
+public class Human extends AbsSubject {
 
 	private MentalHealth mentHealth;
 

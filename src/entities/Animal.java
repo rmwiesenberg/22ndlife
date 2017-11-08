@@ -1,6 +1,6 @@
 package entities;
 
-public class Animal extends absSubject {
+public class Animal extends AbsSubject {
 	private int id;
 
 	public Animal(String name, int id, float[] position, Inventory inventory, 
