@@ -22,12 +22,12 @@ class ItemStackTest {
 		try {
 			testStack = new ItemStack(cup, 21);
 		} catch (NotEnoughSpaceException e) {
-			assert(true);
+			assertTrue(true);
 		}
 		
 		try {
 			testStack = new ItemStack(cup, 20);
-			assert(true);
+			assertTrue(true);
 		} catch (NotEnoughSpaceException e) {
 			fail();
 		}
