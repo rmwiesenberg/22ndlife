@@ -15,4 +15,7 @@ public class Animal extends absSubject {
 		this.id = id;
 	}
 
+	public int getID() {
+		return id;
+	}
 }

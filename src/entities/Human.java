@@ -4,15 +4,15 @@ public class Human extends absSubject {
 
 	private MentalHealth mentHealth;
 
-	public Human(float[] position, Inventory inventory, 
+	public Human(String name, float[] position, Inventory inventory, 
 			MentalHealth mentHealth) {
-		super(position, inventory, new PhysicalHealth(20));
+		super(name, position, inventory, new PhysicalHealth(20));
 		this.mentHealth = mentHealth;
 	}
 
-	public Human(float[] position, int slots, 
+	public Human(String name, float[] position, int slots, 
 			MentalHealth mentHealth) {
-		super(position, new Inventory(slots), 
+		super(name, position, new Inventory(slots), 
 				new PhysicalHealth(20));
 		this.mentHealth = mentHealth;
 	}
