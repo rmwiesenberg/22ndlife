@@ -1,4 +1,4 @@
-package entities;
+package entities.subject;
 
 import entities.exceptions.NotEnoughHealthException;
 

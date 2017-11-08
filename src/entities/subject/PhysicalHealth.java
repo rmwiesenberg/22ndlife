@@ -1,4 +1,4 @@
-package entities;
+package entities.subject;
 
 public class PhysicalHealth extends AbsHealth {
 	public PhysicalHealth(float maxHealth, float currentHealth) {

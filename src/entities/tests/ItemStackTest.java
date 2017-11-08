@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import entities.*;
 import entities.exceptions.*;
+import entities.item.Item;
+import entities.item.ItemStack;
 
 class ItemStackTest {
 	@Test

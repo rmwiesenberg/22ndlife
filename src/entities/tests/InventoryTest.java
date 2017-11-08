@@ -11,6 +11,11 @@ import org.junit.jupiter.api.Test;
 import entities.*;
 import entities.exceptions.ItemStackException;
 import entities.exceptions.NotEnoughSpaceException;
+import entities.item.IItemStack;
+import entities.item.Inventory;
+import entities.item.Item;
+import entities.item.ItemStack;
+import entities.item.MTItemStack;
 
 class InventoryTest {
 

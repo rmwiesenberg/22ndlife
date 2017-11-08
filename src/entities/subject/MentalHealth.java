@@ -1,4 +1,4 @@
-package entities;
+package entities.subject;
 
 public class MentalHealth extends AbsHealth {
 

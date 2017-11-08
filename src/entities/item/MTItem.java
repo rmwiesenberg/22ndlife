@@ -1,4 +1,4 @@
-package entities;
+package entities.item;
 
 public class MTItem implements IItem {
 

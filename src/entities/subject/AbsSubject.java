@@ -1,4 +1,6 @@
-package entities;
+package entities.subject;
+
+import entities.item.Inventory;
 
 public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
