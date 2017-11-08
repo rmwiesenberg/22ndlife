@@ -66,6 +66,20 @@ public class Inventory {
 		}
 	}
 	
+	public boolean contains(IItemStack stack) {
+		int cont_num = 0;
+		for (int i = 0; i < items.length; i++) {
+			if(items[i].getID() == stack.getID()) {
+				cont_num += items[i].getCurSize();
+			}
+		}
+		if(cont_num <= stack.getCurSize()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	// Getters and Setters
 	public IItemStack[] getItems() {
 		return items;

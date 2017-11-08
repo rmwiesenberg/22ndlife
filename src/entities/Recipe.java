@@ -1,5 +1,7 @@
 package entities;
 
+import entities.exceptions.*;
+
 public class Recipe {
 	private IItemStack[] input;
 	private IItemStack[] output;
@@ -17,5 +19,17 @@ public class Recipe {
 		return output;
 	}
 	
-	// TODO: COMBINATION
+	public Inventory doRecipie(Inventory inv, int num) 
+			throws NotEnoughItemsException {
+		for(int i = 0; i < input.length; i++) {
+			if(! inv.contains(input[i])) {
+				throw new NotEnoughItemsException();
+			}
+		for(int i = 0; i < input.length; i++) {
+			if(! inv.contains(output[i])) {
+				throw new NotEnoughItemsException();
+			}
+		}
+		}
+	}
 }
