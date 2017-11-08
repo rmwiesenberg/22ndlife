@@ -16,4 +16,8 @@ public class Human extends absSubject {
 				new PhysicalHealth(20));
 		this.mentHealth = mentHealth;
 	}
+	
+	public MentalHealth getMentalHealth() {
+		return mentHealth;
+	}
 }
