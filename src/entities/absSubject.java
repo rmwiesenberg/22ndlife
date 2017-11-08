@@ -5,21 +5,18 @@ public abstract class absSubject implements ISubject{
 	private float[] position;
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
-	private MentalHealth mentalHealth;
 	
 	public absSubject(float[] position, Inventory inventory, 
-			PhysicalHealth physHealth, MentalHealth mentHealth) {
+			PhysicalHealth physHealth) {
 		this.position = position;
 		this.physicalHealth = physHealth;
-		this.mentalHealth = mentHealth;
 		this.inventory = inventory;
 	}
 	
 	public absSubject(float[] position, int slots, 
-			PhysicalHealth physHealth, MentalHealth mentHealth) {
+			PhysicalHealth physHealth) {
 		this.position = position;
 		this.physicalHealth = physHealth;
-		this.mentalHealth = mentHealth;
 		this.inventory = new Inventory(slots);
 	}
 	
@@ -37,10 +34,5 @@ public abstract class absSubject implements ISubject{
 	@Override
 	public PhysicalHealth getPhysicalHealth() {
 		return physicalHealth;
-	}
-	
-	@Override
-	public MentalHealth getMentalHealth() {
-		return mentalHealth;
 	}
 }

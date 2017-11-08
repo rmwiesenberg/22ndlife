@@ -4,5 +4,4 @@ public interface ISubject {
 	float[] getPosition();
 	Inventory getInventory();
 	PhysicalHealth getPhysicalHealth();
-	MentalHealth getMentalHealth();
 }
