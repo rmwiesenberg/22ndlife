@@ -1,15 +1,14 @@
 package entities;
 
-public class Human extends Subject {
+public class Human extends absSubject {
 
-	public Human(float[] position, Inventory inventory, float healthInput) {
-		super(position, inventory, healthInput);
-		healthInput = 20;
+	public Human(float[] position, Inventory inventory) {
+		super(position, inventory, 
+				new PhysicalHealth(20), new MentalHealth(10));
 	}
 
-	public Human(float[] position, int slots, float healthInput) {
-		super(position, slots, healthInput);
-		healthInput = 20;
+	public Human(float[] position, int slots) {
+		super(position, new Inventory(slots), 
+				new PhysicalHealth(20), new MentalHealth(10));
 	}
-
 }

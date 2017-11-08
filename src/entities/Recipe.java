@@ -20,16 +20,14 @@ public class Recipe {
 	}
 	
 	public Inventory doRecipie(Inventory inv, int num) 
-			throws NotEnoughItemsException {
-		for(int i = 0; i < input.length; i++) {
-			if(! inv.contains(input[i])) {
-				throw new NotEnoughItemsException();
-			}
-		for(int i = 0; i < input.length; i++) {
-			if(! inv.contains(output[i])) {
-				throw new NotEnoughItemsException();
-			}
+			throws ItemStackException {
+		int i;
+		for(i = 0; i < input.length; i++) {
+			inv.removeItem(input[i]);
 		}
+		for(i = 0; i < output.length; i++) {
+			inv.removeItem(output[i]);
 		}
+		return inv;
 	}
 }

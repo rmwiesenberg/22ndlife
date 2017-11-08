@@ -10,6 +10,11 @@ public abstract class AbsHealth implements IHealth {
 		this.maxHealth = maxHealth;
 		this.currentHealth = currentHealth;
 	}
+	
+	public AbsHealth(float maxHealth) {
+		this.maxHealth = maxHealth;
+		this.currentHealth = maxHealth;
+	}
 
 	@Override
 	public float getCurrentHealth() {
