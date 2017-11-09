@@ -1,52 +1,56 @@
-package boundary.core.scene;
+ package boundary.core.scene;
 
 import java.util.HashMap;
 
-public class GameObject extends Node {
+public class GameObject extends Node{
 
 	private HashMap<String, Component> components;
 	
-	public GameObject() {
+	public GameObject()
+	{
 		components = new HashMap<String, Component>();
 	}
 	
-	public void input() {
-		
-		for(String key : components.keySet()) {
-			components.get(key).input();
-		}
-		
-		super.input();
+	public void addComponent(String string, Component component)
+	{
+		component.setParent(this);
+		components.put(string, component);
 	}
 	
-	public void update() {
-		
-		for(String key : components.keySet()) {
+	public void update()
+	{	
+		for (String key : components.keySet()) {
 			components.get(key).update();
 		}
 		
 		super.update();
 	}
 	
-	public void render() {
+	public void input()
+	{
+		for (String key : components.keySet()) {
+			components.get(key).input();
+		}
 		
-		for(String key : components.keySet()) {
+		super.input();
+	}
+	
+	public void render()
+	{
+		for (String key : components.keySet()) {
 			components.get(key).render();
 		}
 		
 		super.render();
 	}
-	
-	public void addComponent(String key, Component component) {
-		component.setParent(this);
-		components.put(key, component);
-	}
 
 	public HashMap<String, Component> getComponents() {
 		return components;
 	}
-
-	public void setComponents(HashMap<String, Component> components) {
-		this.components = components;
-	}	
+	
+	public Component getComponent(String component)
+	{
+		return this.components.get(component);
+	}
+	
 }

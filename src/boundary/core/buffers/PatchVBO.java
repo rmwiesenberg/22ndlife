@@ -18,8 +18,8 @@ import static org.lwjgl.opengl.GL40.GL_PATCHES;
 import static org.lwjgl.opengl.GL40.GL_PATCH_VERTICES;
 import static org.lwjgl.opengl.GL40.glPatchParameteri;
 
-import boundary.core.utils.BufferUtil;
 import math.Vec2f;
+import boundary.core.utils.BufferUtil;
 
 public class PatchVBO implements VBO{
 

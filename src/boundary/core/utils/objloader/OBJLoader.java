@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 
+import math.Vec2f;
+import math.Vec3f;
 import boundary.core.model.Material;
 import boundary.core.model.Mesh;
 import boundary.core.model.Model;
 import boundary.core.model.Vertex;
 import boundary.core.texturing.Texture2D;
 import boundary.core.utils.Util;
-import math.Vec2f;
-import math.Vec3f;
 
 public class OBJLoader {
 

@@ -1,10 +1,9 @@
 package boundary.core.kernel;
 
-import boundary.core.utils.Constants;
 import math.Matrix4f;
 import math.Quaternion;
 import math.Vec3f;
-
+import boundary.core.utils.Constants;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;

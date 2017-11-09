@@ -3,13 +3,13 @@ package boundary.modules.terrain;
 import boundary.core.buffers.PatchVBO;
 import boundary.core.configs.Default;
 import boundary.core.kernel.Camera;
+import math.Vec2f;
+import math.Vec3f;
 import boundary.core.renderer.RenderInfo;
 import boundary.core.renderer.Renderer;
 import boundary.core.scene.GameObject;
 import boundary.core.scene.Node;
 import boundary.core.utils.Constants;
-import math.Vec2f;
-import math.Vec3f;
 
 public class TerrainNode extends GameObject{
 

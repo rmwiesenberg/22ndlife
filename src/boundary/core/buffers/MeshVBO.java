@@ -1,77 +1,83 @@
 package boundary.core.buffers;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glDrawElements;
 
 import boundary.core.model.Mesh;
 import boundary.core.utils.BufferUtil;
 
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+
 public class MeshVBO implements VBO{
-	
-	private int vbID;
-	private int ibID;
-	private int vaoID;
+
+	private int vbo;
+	private int ibo;
+	private int vaoId;
 	private int size;
 	
-	public MeshVBO() {
-		
-		vbID = GL15.glGenBuffers();
-		ibID = GL15.glGenBuffers();
-		vaoID = GL30.glGenVertexArrays();
+	public MeshVBO()
+	{
+		vbo = glGenBuffers();
+		ibo = glGenBuffers();
+		vaoId = glGenVertexArrays();
+		size = 0;
+	}
 	
+	public void allocate(Mesh mesh)
+	{
+			size = mesh.getIndices().length;
+			
+			glBindVertexArray(vaoId);
+			
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER, BufferUtil.createFlippedBufferAOS(mesh.getVertices()), GL_STATIC_DRAW);
+			
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferUtil.createFlippedBuffer(mesh.getIndices()), GL_STATIC_DRAW);
+			
+			glVertexAttribPointer(0, 3, GL_FLOAT, false, Float.BYTES * 8, 0);
+			glVertexAttribPointer(1, 3, GL_FLOAT, false, Float.BYTES * 8, Float.BYTES * 3);
+			glVertexAttribPointer(2, 2, GL_FLOAT, false, Float.BYTES * 8, Float.BYTES * 6);
+			
+			glBindVertexArray(0);
+	}
+	
+	
+	public void draw()
+	{
+			glBindVertexArray(vaoId);
+			
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(2);
+			
+			glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
+			
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(2);
+				
+			glBindVertexArray(0);
 	}
 
-	public void allocate(Mesh mesh) {
-		
-		size = mesh.getIndices().length;
-		
-		GL30.glBindVertexArray(vaoID);
-		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbID);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtil.createFlippedBufferAOS(mesh.getVertices()), GL15.GL_STATIC_DRAW);
-		
-		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, ibID);
-		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, BufferUtil.createFlippedBuffer(mesh.getIndices()), GL15.GL_STATIC_DRAW);
-		
-		GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, Float.BYTES * 8, 0);
-		GL20.glVertexAttribPointer(1, 3, GL11.GL_FLOAT, false, Float.BYTES * 8, Float.BYTES * 3);
-		GL20.glVertexAttribPointer(2, 3, GL11.GL_FLOAT, false, Float.BYTES * 8, Float.BYTES * 6);
-		
-		GL30.glBindVertexArray(0);
-		
-	}
-
-	@Override
-	public void draw() {
-		
-		GL30.glBindVertexArray(vaoID);
-		
-		GL20.glEnableVertexAttribArray(0);
-		GL20.glEnableVertexAttribArray(1);
-		GL20.glEnableVertexAttribArray(2);
-		
-		GL11.glDrawElements(GL11.GL_TRIANGLES, size, GL11.GL_UNSIGNED_INT, 0);
-		
-		GL20.glDisableVertexAttribArray(0);
-		GL20.glDisableVertexAttribArray(1);
-		GL20.glDisableVertexAttribArray(2);
-		
-		GL30.glBindVertexArray(0);
-
-		
-	}
-
-	@Override
 	public void delete() {
-		
-		GL30.glBindVertexArray(vaoID);
-		GL15.glDeleteBuffers(vbID);
-		GL15.glDeleteBuffers(ibID);
-		GL30.glDeleteVertexArrays(vaoID);
-		GL30.glBindVertexArray(0);
-		
+		glBindVertexArray(vaoId);
+		glDeleteBuffers(vbo);
+		glDeleteVertexArrays(vaoId);
+		glBindVertexArray(0);
 	}
-
 }

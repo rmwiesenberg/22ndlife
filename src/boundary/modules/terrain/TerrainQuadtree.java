@@ -1,8 +1,8 @@
 package boundary.modules.terrain;
 
 import boundary.core.buffers.PatchVBO;
-import boundary.core.scene.Node;
 import math.Vec2f;
+import boundary.core.scene.Node;
 
 public class TerrainQuadtree extends Node{
 

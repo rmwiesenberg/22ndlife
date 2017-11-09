@@ -3,13 +3,13 @@ package boundary.core.utils;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+import math.Quaternion;
+import math.Vec2f;
+import math.Vec3f;
 import boundary.core.model.Mesh;
 import boundary.core.model.Vertex;
 import boundary.core.utils.objloader.Face;
 import boundary.core.utils.objloader.SmoothingGroup;
-import math.Quaternion;
-import math.Vec2f;
-import math.Vec3f;
 
 public class Util {
 

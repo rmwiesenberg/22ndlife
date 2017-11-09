@@ -13,7 +13,7 @@ public class TerrainConfig {
 	private int tessellationFactor;
 	private float tessellationSlope;
 	private float tessellationShift;
-		
+	
 	private int[] lod_range = new int[8];
 	private int[] lod_morphing_area = new int[8];
 	
@@ -39,16 +39,15 @@ public class TerrainConfig {
 				if(tokens[0].equals("scaleXZ")){
 					setScaleXZ(Float.valueOf(tokens[1]));
 				}
-				if (tokens[0].equals("tesselationFactor")) {
+				if (tokens[0].equals("tessellationFactor")){
 					setTessellationFactor(Integer.valueOf(tokens[1]));
 				}
-				if (tokens[0].equals("tesselationSlope")) {
+				if (tokens[0].equals("tessellationSlope")){
 					setTessellationSlope(Float.valueOf(tokens[1]));
 				}
-				if (tokens[0].equals("tesselationShift")) {
+				if (tokens[0].equals("tessellationShift")){
 					setTessellationShift(Float.valueOf(tokens[1]));
 				}
-				
 				if (tokens[0].equals("#lod_ranges")){					
 					for (int i = 0; i < 8; i++){
 						line = reader.readLine();
@@ -125,8 +124,8 @@ public class TerrainConfig {
 		return tessellationShift;
 	}
 
-	public void setTessellationShift(float tesselationShift) {
-		this.tessellationShift = tesselationShift;
+	public void setTessellationShift(float tessellationShift) {
+		this.tessellationShift = tessellationShift;
 	}
 
 }

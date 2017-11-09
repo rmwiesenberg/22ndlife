@@ -2,15 +2,15 @@ package boundary.core.scene;
 
 import math.Transform;
 
-public abstract class Component {
+public abstract class Component{
 	
 	private GameObject parent;
-
-	public void update() {};
 	
-	public void input() {};
+	public void update(){};
 	
-	public void render() {};
+	public void input(){};
+	
+	public void render(){};
 	
 	public GameObject getParent() {
 		return parent;
@@ -19,15 +19,14 @@ public abstract class Component {
 	public void setParent(GameObject parent) {
 		this.parent = parent;
 	}
-	
-	public Transform getWorldTransform() {
-		
+
+	public Transform getWorldTransform()
+	{
 		return getParent().getWorldTransform();
 	}
 	
-	public Transform getLocalTransform() {
-		
+	public Transform getLocalTransform()
+	{
 		return getParent().getLocalTransform();
 	}
-
 }

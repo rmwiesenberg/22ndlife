@@ -1,7 +1,7 @@
 package boundary.core.model;
 
-import boundary.core.texturing.Texture2D;
 import math.Vec3f;
+import boundary.core.texturing.Texture2D;
 
 public class Material{
 	
