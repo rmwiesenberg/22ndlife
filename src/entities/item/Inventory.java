@@ -67,7 +67,7 @@ public class Inventory {
 	}
 	
 	public boolean contains(IItemStack stack) {
-		int cont_num = getItemNum(stack.getCurSize());
+		int cont_num = getItemNum(stack.getItem());
 		if(cont_num <= stack.getCurSize()) {
 			return true;
 		} else {
@@ -75,10 +75,10 @@ public class Inventory {
 		}
 	}
 	
-	public int getItemNum(Item item) {
+	public int getItemNum(IItem iItem) {
 		int cont_num = 0;
 		for (int i = 0; i < items.length; i++) {
-			if(items[i].getID() == item.getID()) {
+			if(items[i].getID() == iItem.getID()) {
 				cont_num += items[i].getCurSize();
 			}
 		}
