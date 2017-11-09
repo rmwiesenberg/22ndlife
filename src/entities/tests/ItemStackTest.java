@@ -1,8 +1,6 @@
 package entities.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +27,7 @@ class ItemStackTest {
 			testStack = new ItemStack(cup, 20);
 			assertTrue(true);
 		} catch (NotEnoughSpaceException e) {
-			fail();
+			fail("failed on cup 20");
 		}
 		assertEquals(testStack.getID(), 5);
 		assertEquals(testStack.getName(), "cup");
@@ -61,7 +59,7 @@ class ItemStackTest {
 			testStack.addStack(cup5);
 			assertEquals(testStack.getCurSize(), 20);
 		} catch (ItemStackException e) {
-			fail();
+			fail("failed on adding stack");
 		}
 		
 		// removing
@@ -70,7 +68,7 @@ class ItemStackTest {
 			testStack.removeStack(cup10);
 			assertEquals(testStack.getCurSize(), 5);
 		} catch (ItemStackException e) {
-			fail();
+			fail("failed on removing stack");
 		}
 		try {
 			testStack.removeStack(cup10);
@@ -83,7 +81,7 @@ class ItemStackTest {
 			testStack.removeStack(cup5);
 			assertEquals(testStack.getCurSize(), 0);
 		} catch (ItemStackException e) {
-			fail();
+			fail("failed removing to zero");
 		}
 	}
 	
