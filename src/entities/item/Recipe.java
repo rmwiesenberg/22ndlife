@@ -19,14 +19,14 @@ public class Recipe {
 		return output;
 	}
 	
-	public Inventory doRecipie(Inventory inv, int num) 
+	public Inventory doRecipie(Inventory inv) 
 			throws ItemStackException {
 		int i;
 		for(i = 0; i < input.length; i++) {
 			inv.removeItem(input[i]);
 		}
 		for(i = 0; i < output.length; i++) {
-			inv.removeItem(output[i]);
+			inv.addItem(output[i]);
 		}
 		return inv;
 	}

@@ -1,14 +1,11 @@
 package entities.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import entities.*;
 import entities.exceptions.ItemStackException;
 import entities.exceptions.NotEnoughSpaceException;
 import entities.item.IItemStack;
@@ -57,7 +54,7 @@ class InventoryTest {
 			assertTrue(mtItems.contains(7));
 		} catch (NotEnoughSpaceException e) {
 			e.printStackTrace();
-			fail();
+			fail("get MT");
 		}
 		
 		try {
@@ -96,7 +93,7 @@ class InventoryTest {
 			assertEquals(testInventory.getItem(0).getCurSize(), 5);
 		} catch (ItemStackException e) {
 			e.printStackTrace();
-			fail();
+			fail("add to inventory");
 		}
 		
 		try {
@@ -109,7 +106,7 @@ class InventoryTest {
 			assertTrue(mtItems.contains(4));
 		} catch (ItemStackException e) {
 			e.printStackTrace();
-			fail();
+			fail("add MT");
 		}
 		
 		try {
@@ -128,7 +125,7 @@ class InventoryTest {
 			assertEquals(testInventory.getItem(1).getID(), 3);
 		} catch (ItemStackException e) {
 			e.printStackTrace();
-			fail();
+			fail("adding cups and beans");
 		}
 		
 		try {
@@ -146,7 +143,7 @@ class InventoryTest {
 			assertEquals(testInventory.getItem(0).getID(), 5);
 		} catch (ItemStackException e) {
 			e.printStackTrace();
-			fail();
+			fail("removing from inventory");
 		}
 	}
 

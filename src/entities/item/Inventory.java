@@ -80,13 +80,14 @@ public class Inventory {
 		}
 	}
 	
-	// Getters and Setters
-	public IItemStack[] getItems() {
-		return items;
-	}
-	
-	public IItemStack getItem(int pos) {
-		return items[pos];
+	public int getItemNum(Item item) {
+		int cont_num = 0;
+		for (int i = 0; i < items.length; i++) {
+			if(items[i].getID() == item.getID()) {
+				cont_num += items[i].getCurSize();
+			}
+		}
+		return cont_num;
 	}
 	
 	public ArrayList<Integer> getMTItems() {
@@ -98,5 +99,16 @@ public class Inventory {
 		}
 		return posns;
 	}
+
+	// Getters and Setters
+	public IItemStack[] getItems() {
+		return items;
+	}
+	
+	public IItemStack getItem(int pos) {
+		return items[pos];
+	}
+	
+	
 	
 }
