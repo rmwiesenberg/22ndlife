@@ -66,7 +66,7 @@ public class Inventory {
 		}
 	}
 	
-	public boolean contains(IItemStack stack) {
+	public boolean containsStack(IItemStack stack) {
 		int cont_num = getItemNum(stack.getItem());
 		if(cont_num <= stack.getCurSize()) {
 			return true;
