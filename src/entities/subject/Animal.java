@@ -6,15 +6,16 @@ import math.Vec3f;
 public class Animal extends AbsSubject {
 	private int id;
 
-	public Animal(String name, int id, Vec3f position, Inventory inventory, 
-			PhysicalHealth physHealth) {
-		super(name, position, inventory, physHealth);
+	public Animal(String name, int id, Vec3f position, Vec3f orientation, 
+			Inventory inventory, PhysicalHealth physHealth) {
+		super(name, position, orientation, inventory, physHealth);
 		this.id = id;
 	}
 
-	public Animal(String name, int id, Vec3f position, int slots, 
-			PhysicalHealth physHealth) {
-		super(name, position, slots, physHealth);
+	public Animal(String name, int id, Vec3f position, Vec3f orientation, 
+			int slots,	PhysicalHealth physHealth) {
+		super(name, position, orientation, new Inventory(slots), 
+				physHealth);
 		this.id = id;
 	}
 

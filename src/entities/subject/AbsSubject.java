@@ -7,32 +7,37 @@ public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
 	private String name;
 	private Vec3f position;
+	private Vec3f orientation;
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public AbsSubject(String name, Vec3f position, Inventory inventory, 
-			PhysicalHealth physHealth) {
+	public AbsSubject(String name, Vec3f position, Vec3f orientation, 
+			Inventory inventory, PhysicalHealth physHealth) {
 		this.name = name;
 		this.position = position;
+		this.orientation = orientation;
 		this.physicalHealth = physHealth;
 		this.inventory = inventory;
 	}
 	
-	public AbsSubject(String name, Vec3f position, int slots, 
-			PhysicalHealth physHealth) {
+	public AbsSubject(String name, Vec3f position, Vec3f orientation, 
+			int slots, PhysicalHealth physHealth) {
 		this.name = name;
 		this.position = position;
+		this.orientation = orientation;
 		this.physicalHealth = physHealth;
 		this.inventory = new Inventory(slots);
 	}
 	
 	public ISubject translate(Vec3f delta) {
-		return null;
+		position = position.add(delta); 
+		return this;
 		
 	}
 	
-	public ISubject rotate(Vec3f delta) {
-		return null;
+	public ISubject rotate(float angle, Vec3f axis) {
+		orientation = orientation.rotate(angle, axis);
+		return this;
 	}
 	
 	// Getters and Setters
@@ -45,6 +50,11 @@ public abstract class AbsSubject implements ISubject{
 	@Override
 	public Vec3f getPosition() {
 		return position;
+	}
+	
+	@Override
+	public Vec3f getOrientation() {
+		return orientation;
 	}
 	
 	@Override

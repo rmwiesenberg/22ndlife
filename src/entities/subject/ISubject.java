@@ -6,6 +6,7 @@ import math.Vec3f;
 public interface ISubject {
 	String getName();
 	Vec3f getPosition();
+	Vec3f getOrientation();
 	Inventory getInventory();
 	PhysicalHealth getPhysicalHealth();
 }
