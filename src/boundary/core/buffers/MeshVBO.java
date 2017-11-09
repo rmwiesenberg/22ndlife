@@ -23,7 +23,6 @@ public class MeshVBO implements VBO{
 	
 	}
 
-	@Override
 	public void allocate(Mesh mesh) {
 		
 		size = mesh.getIndices().length;

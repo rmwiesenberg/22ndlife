@@ -2,16 +2,12 @@ package boundary.core.scene;
 
 import java.util.HashMap;
 
-import boundary.core.math.Transform;
-
-public class GameObject {
+public class GameObject extends Node {
 
 	private HashMap<String, Component> components;
-	private Transform transform;
 	
 	public GameObject() {
 		components = new HashMap<String, Component>();
-		transform = new Transform();
 	}
 	
 	public void input() {
@@ -19,6 +15,8 @@ public class GameObject {
 		for(String key : components.keySet()) {
 			components.get(key).input();
 		}
+		
+		super.input();
 	}
 	
 	public void update() {
@@ -26,6 +24,8 @@ public class GameObject {
 		for(String key : components.keySet()) {
 			components.get(key).update();
 		}
+		
+		super.update();
 	}
 	
 	public void render() {
@@ -33,6 +33,8 @@ public class GameObject {
 		for(String key : components.keySet()) {
 			components.get(key).render();
 		}
+		
+		super.render();
 	}
 	
 	public void addComponent(String key, Component component) {
@@ -46,14 +48,5 @@ public class GameObject {
 
 	public void setComponents(HashMap<String, Component> components) {
 		this.components = components;
-	}
-
-	public Transform getTransform() {
-		return transform;
-	}
-
-	public void setTransform(Transform transform) {
-		this.transform = transform;
-	}
-	
+	}	
 }

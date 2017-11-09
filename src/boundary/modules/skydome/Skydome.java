@@ -1,4 +1,4 @@
-package boundary.modules;
+package boundary.modules.skydome;
 
 import boundary.core.buffers.MeshVBO;
 import boundary.core.configs.CCW;

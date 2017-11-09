@@ -1,7 +1,8 @@
 package boundary.core.kernel;
 
 import boundary.core.kernel.Window;
-import boundary.modules.Skydome;
+import boundary.modules.skydome.Skydome;
+import boundary.modules.terrain.Terrain;
 import boundary.core.configs.Default;
 import boundary.core.kernel.Camera;
 
@@ -17,6 +18,7 @@ public class RenderingEngine {
 	private Window window;
 	
 	private Skydome skydome;
+	private Terrain terrain;
 	
 	public RenderingEngine()
 	{
@@ -27,6 +29,7 @@ public class RenderingEngine {
 	public void init()
 	{
 		window.init();
+		terrain.init("./res/settings/terrain_settings.txt");
 	}
 
 	public void render()
@@ -36,6 +39,9 @@ public class RenderingEngine {
 		Default.clearScreen();
 		
 		skydome.render();
+		
+		terrain.updateQuadtree();
+		terrain.render();
 		
 		// draw into OpenGL window
 		window.render();
