@@ -11,5 +11,4 @@ public class Main {
 		game.init();
 		game.launch();
 	}
-
 }
