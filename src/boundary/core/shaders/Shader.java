@@ -10,12 +10,12 @@ import static org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER;
 import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 import java.util.HashMap;
 
-import boundary.core.scene.GameObject;
-import boundary.core.utils.BufferUtil;
 import math.Matrix4f;
 import math.Quaternion;
 import math.Vec2f;
 import math.Vec3f;
+import boundary.core.scene.GameObject;
+import boundary.core.utils.BufferUtil;
 
 /**
  * 
