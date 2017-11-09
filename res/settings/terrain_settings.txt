@@ -1,5 +1,4 @@
 #terrain settings
-
 scaleXZ 6000.0
 scaleY 0.0
 

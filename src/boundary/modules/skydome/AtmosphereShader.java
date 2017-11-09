@@ -8,26 +8,29 @@ public class AtmosphereShader extends Shader{
 
 	private static AtmosphereShader instance = null;
 	
-	public static AtmosphereShader getInstance() {
-		if (instance == null) {
+	public static AtmosphereShader getInstance() 
+	{
+		if(instance == null) 
+		{
 			instance = new AtmosphereShader();
 		}
 		return instance;
 	}
-	
-	protected AtmosphereShader() {
-		super();
 		
+	protected AtmosphereShader()
+	{
+		super();
+
 		addVertexShader(ResourceLoader.loadShader("shaders/sky/atmosphere_VS.glsl"));
 		addFragmentShader(ResourceLoader.loadShader("shaders/sky/atmosphere_FS.glsl"));
 		compileShader();
-		
-		addUniform("m_MVP");
-		addUniform("m_World");
+			
+		addUniform("modelViewProjectionMatrix");
+		addUniform("worldMatrix");
 	}
-	
-	public void updateUniforms(GameObject object) {
 		
+	public void updateUniforms(GameObject object)
+	{
 		setUniform("modelViewProjectionMatrix", object.getWorldTransform().getModelViewProjectionMatrix());
 		setUniform("worldMatrix", object.getWorldTransform().getWorldMatrix());
 	}

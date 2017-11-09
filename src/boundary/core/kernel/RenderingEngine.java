@@ -24,6 +24,7 @@ public class RenderingEngine {
 	{
 		window = Window.getInstance();
 		skydome = new Skydome();
+		terrain = new Terrain();
 	}
 	
 	public void init()
@@ -41,13 +42,15 @@ public class RenderingEngine {
 		skydome.render();
 		
 		terrain.updateQuadtree();
+		
 		terrain.render();
 		
 		// draw into OpenGL window
 		window.render();
 	}
 	
-	public void update(){}
+	public void update(){
+	}
 	
 	public void shutdown(){}
 }

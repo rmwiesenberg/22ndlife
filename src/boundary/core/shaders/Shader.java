@@ -182,5 +182,5 @@ public abstract class Shader {
 		return this.program;
 	}
 	
-	public void updateUniforms(GameObject object) {};
+	public void updateUniforms(GameObject object){};
 }

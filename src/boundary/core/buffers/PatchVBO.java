@@ -1,60 +1,70 @@
 package boundary.core.buffers;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL40;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL40.GL_PATCHES;
+import static org.lwjgl.opengl.GL40.GL_PATCH_VERTICES;
+import static org.lwjgl.opengl.GL40.glPatchParameteri;
 
 import boundary.core.math.Vec2f;
 import boundary.core.utils.BufferUtil;
 
 public class PatchVBO implements VBO{
 
-	private int vbId;
+	private int vbo;
 	private int vaoId;
-	private int size;
+	private int size;	
 	
-	public PatchVBO() {
-		vbId = GL15.glGenBuffers();
-		vaoId = GL30.glGenVertexArrays();
+	public PatchVBO()
+	{
+		vbo = glGenBuffers();
+		vaoId = glGenVertexArrays();
+		size = 0;
 	}
-		
-	public void allocate(Vec2f[] verticies) {
-		
-		size = verticies.length;
-		
-		GL30.glBindVertexArray(vaoId);
-		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbId);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, BufferUtil.createFlippedBuffer(verticies), GL15.GL_STATIC_DRAW);
-		
-		GL20.glVertexAttribPointer(0, 2, GL11.GL_FLOAT, false, Float.BYTES*2, 0);
-		GL40.glPatchParameteri(GL40.GL_PATCH_VERTICES, size);
-		
-		GL30.glBindVertexArray(0);
+	
+	public void allocate(Vec2f[] vertices, int patchsize)
+	{
+			size = vertices.length;
+			
+			glBindVertexArray(vaoId);
+			
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER, BufferUtil.createFlippedBuffer(vertices), GL_STATIC_DRAW);
+			
+			glVertexAttribPointer(0, 2, GL_FLOAT, false, Float.BYTES*2, 0);
+			glPatchParameteri(GL_PATCH_VERTICES, patchsize);
+			
+			glBindVertexArray(0);
 	}
-
-	@Override
-	public void draw() {
-		
-		GL30.glBindVertexArray(vaoId);
-		GL20.glEnableVertexAttribArray(0);
-		
-		GL11.glDrawArrays(GL40.GL_PATCHES, 0, size);
-		
-		GL20.glDisableVertexAttribArray(0);
-		GL30.glBindVertexArray(0);
-		
+	
+	public void draw()
+	{
+			glBindVertexArray(vaoId);
+			glEnableVertexAttribArray(0);
+			
+			glDrawArrays(GL_PATCHES, 0, size);
+			
+			glDisableVertexAttribArray(0);
+			glBindVertexArray(0);
 	}
-
-	@Override
-	public void delete() {
-		
-		GL30.glBindVertexArray(vaoId);
-		GL15.glDeleteBuffers(vbId);
-		GL30.glDeleteVertexArrays(vaoId);
-		GL30.glBindVertexArray(0);
+	
+	public void delete()
+	{	
+			glBindVertexArray(vaoId);
+			glDeleteBuffers(vbo);
+			glDeleteVertexArrays(vaoId);
+			glBindVertexArray(0);
 	}
-
 }

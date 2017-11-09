@@ -1,8 +1,8 @@
-#version 430
+#version 330
 
-layout (location = 0) out vec4 outputColor;
+layout(location = 0) out vec4 outputColor;
 
-void main(){
-
-	outputColor = vec4(0.1,1.0,0.1,1.0);
+void main()
+{
+	outputColor = vec4(0.01,1,0.01,1.0);
 }
