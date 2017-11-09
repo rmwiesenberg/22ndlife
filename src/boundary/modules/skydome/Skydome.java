@@ -1,13 +1,13 @@
-package boundary.modules.skydome;
+package modules.skydome;
 
-import boundary.core.buffers.MeshVBO;
-import boundary.core.configs.CCW;
-import boundary.core.model.Mesh;
-import boundary.core.renderer.RenderInfo;
-import boundary.core.renderer.Renderer;
-import boundary.core.scene.GameObject;
-import boundary.core.utils.Constants;
-import boundary.core.utils.objloader.OBJLoader;
+import core.buffers.MeshVBO;
+import core.configs.CCW;
+import core.model.Mesh;
+import core.renderer.RenderInfo;
+import core.renderer.Renderer;
+import core.scene.GameObject;
+import core.utils.Constants;
+import core.utils.objloader.OBJLoader;
 
 public class Skydome extends GameObject{
 	
