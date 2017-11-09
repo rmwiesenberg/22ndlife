@@ -1,15 +1,16 @@
 package entities.subject;
 
 import entities.item.Inventory;
+import math.Vec3f;
 
 public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
 	private String name;
-	private float[] position;
+	private Vec3f position;
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public AbsSubject(String name, float[] position, Inventory inventory, 
+	public AbsSubject(String name, Vec3f position, Inventory inventory, 
 			PhysicalHealth physHealth) {
 		this.name = name;
 		this.position = position;
@@ -17,12 +18,21 @@ public abstract class AbsSubject implements ISubject{
 		this.inventory = inventory;
 	}
 	
-	public AbsSubject(String name, float[] position, int slots, 
+	public AbsSubject(String name, Vec3f position, int slots, 
 			PhysicalHealth physHealth) {
 		this.name = name;
 		this.position = position;
 		this.physicalHealth = physHealth;
 		this.inventory = new Inventory(slots);
+	}
+	
+	public ISubject translate(Vec3f delta) {
+		return null;
+		
+	}
+	
+	public ISubject rotate(Vec3f delta) {
+		return null;
 	}
 	
 	// Getters and Setters
@@ -33,7 +43,7 @@ public abstract class AbsSubject implements ISubject{
 	
 	
 	@Override
-	public float[] getPosition() {
+	public Vec3f getPosition() {
 		return position;
 	}
 	

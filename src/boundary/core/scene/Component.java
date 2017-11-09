@@ -1,6 +1,6 @@
 package boundary.core.scene;
 
-import boundary.core.math.Transform;
+import math.Transform;
 
 public abstract class Component {
 	

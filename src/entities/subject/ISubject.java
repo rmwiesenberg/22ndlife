@@ -1,10 +1,11 @@
 package entities.subject;
 
 import entities.item.Inventory;
+import math.Vec3f;
 
 public interface ISubject {
 	String getName();
-	float[] getPosition();
+	Vec3f getPosition();
 	Inventory getInventory();
 	PhysicalHealth getPhysicalHealth();
 }

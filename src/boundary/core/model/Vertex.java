@@ -1,7 +1,7 @@
 package boundary.core.model;
 
-import boundary.core.math.Vec2f;
-import boundary.core.math.Vec3f;
+import math.Vec2f;
+import math.Vec3f;
 
 public class Vertex {
 

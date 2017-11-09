@@ -3,7 +3,7 @@ package boundary.core.scene;
 import java.util.ArrayList;
 import java.util.List;
 
-import boundary.core.math.Transform;
+import math.Transform;
 
 public class Node {
 

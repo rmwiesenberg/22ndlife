@@ -6,11 +6,11 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 
-import boundary.core.math.Matrix4f;
-import boundary.core.math.Quaternion;
-import boundary.core.math.Vec2f;
-import boundary.core.math.Vec3f;
 import boundary.core.model.Vertex;
+import math.Matrix4f;
+import math.Quaternion;
+import math.Vec2f;
+import math.Vec3f;
 
 public class BufferUtil {
 

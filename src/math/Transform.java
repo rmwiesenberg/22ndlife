@@ -1,4 +1,4 @@
-package boundary.core.math;
+package math;
 
 import boundary.core.kernel.Camera;
 
