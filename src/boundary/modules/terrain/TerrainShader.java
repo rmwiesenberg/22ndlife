@@ -22,11 +22,11 @@ private static TerrainShader instance = null;
 	{
 		super();
 
-		addVertexShader(ResourceLoader.loadShader("shaders/terrain/Terrain_VS.glsl"));
-		addTessellationControlShader(ResourceLoader.loadShader("shaders/terrain/Terrain_TC.glsl"));
-		addTessellationEvaluationShader(ResourceLoader.loadShader("shaders/terrain/Terrain_TE.glsl"));
-		addGeometryShader(ResourceLoader.loadShader("shaders/terrain/Terrain_GS.glsl"));
-		addFragmentShader(ResourceLoader.loadShader("shaders/terrain/Terrain_FS.glsl"));
+		addVertexShader(ResourceLoader.loadShader("shaders/terrain/terrain_VS.glsl"));
+		addTessellationControlShader(ResourceLoader.loadShader("shaders/terrain/terrain_TC.glsl"));
+		addTessellationEvaluationShader(ResourceLoader.loadShader("shaders/terrain/terrain_TE.glsl"));
+		addGeometryShader(ResourceLoader.loadShader("shaders/terrain/terrain_GS.glsl"));
+		addFragmentShader(ResourceLoader.loadShader("shaders/terrain/terrain_FS.glsl"));
 		compileShader();
 	
 		addUniform("localMatrix");
