@@ -1,9 +1,9 @@
 package entities.subject;
 
-import org.ejml.simple.SimpleMatrix;
-
 import entities.item.Inventory;
 import math.*;
+import math.vectors.Orientation;
+import math.vectors.Position;
 import math.vectors.Quaterneon;
 
 public abstract class AbsSubject implements ISubject{
@@ -27,7 +27,7 @@ public abstract class AbsSubject implements ISubject{
 		this.inventory = new Inventory(slots);
 	}
 	
-	public ISubject translate(SimpleMatrix delta) {
+	public ISubject translate(Position delta) {
 		pose = pose.translate(delta);
 		return this;
 		
@@ -44,15 +44,19 @@ public abstract class AbsSubject implements ISubject{
 		return name;
 	}
 	
-	
 	@Override
-	public Vec3f getPosition() {
-		return position;
+	public Pose getPose() {
+		return pose;
 	}
 	
 	@Override
-	public Vec3f getOrientation() {
-		return orientation;
+	public Position getPosition() {
+		return pose.getPosition();
+	}
+	
+	@Override
+	public Orientation getOrientation() {
+		return pose.getOrientation();
 	}
 	
 	@Override
