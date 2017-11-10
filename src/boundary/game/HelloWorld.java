@@ -1,4 +1,4 @@
-package boundary;
+package boundary.game;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
