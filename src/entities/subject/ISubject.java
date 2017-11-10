@@ -1,12 +1,13 @@
 package entities.subject;
 
 import entities.item.Inventory;
-import math.Vec3f;
+
+import org.ejml.simple.*;
 
 public interface ISubject {
 	String getName();
-	Vec3f getPosition();
-	Vec3f getOrientation();
+	SimpleMatrix getPosition();
+	SimpleMatrix getOrientation();
 	Inventory getInventory();
 	PhysicalHealth getPhysicalHealth();
 }

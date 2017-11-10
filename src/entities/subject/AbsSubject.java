@@ -1,42 +1,40 @@
 package entities.subject;
 
+import org.ejml.simple.SimpleMatrix;
+
 import entities.item.Inventory;
-import math.Vec3f;
+import math.*;
+import math.vectors.Quaterneon;
 
 public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
 	private String name;
-	private Vec3f position;
-	private Vec3f orientation;
+	private Pose pose;
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public AbsSubject(String name, Vec3f position, Vec3f orientation, 
-			Inventory inventory, PhysicalHealth physHealth) {
+	public AbsSubject(String name, Pose pose, Inventory inventory, PhysicalHealth physHealth) {
 		this.name = name;
-		this.position = position;
-		this.orientation = orientation;
+		this.pose = pose;
 		this.physicalHealth = physHealth;
 		this.inventory = inventory;
 	}
 	
-	public AbsSubject(String name, Vec3f position, Vec3f orientation, 
-			int slots, PhysicalHealth physHealth) {
+	public AbsSubject(String name, Pose pose, int slots, PhysicalHealth physHealth) {
 		this.name = name;
-		this.position = position;
-		this.orientation = orientation;
+		this.pose = pose;
 		this.physicalHealth = physHealth;
 		this.inventory = new Inventory(slots);
 	}
 	
-	public ISubject translate(Vec3f delta) {
-		position = position.add(delta); 
+	public ISubject translate(SimpleMatrix delta) {
+		pose = pose.translate(delta);
 		return this;
 		
 	}
 	
-	public ISubject rotate(float angle, Vec3f axis) {
-		orientation = orientation.rotate(angle, axis);
+	public ISubject rotate(Quaterneon quat) {
+		pose = pose.rotate(quat);
 		return this;
 	}
 	
