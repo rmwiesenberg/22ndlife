@@ -1,8 +1,8 @@
-package modules.skydome;
+package boundary.modules.skydome;
 
-import core.scene.GameObject;
-import core.shaders.Shader;
-import core.utils.ResourceLoader;
+import boundary.core.scene.GameObject;
+import boundary.core.shaders.Shader;
+import boundary.core.utils.ResourceLoader;
 
 public class AtmosphereShader extends Shader{
 
