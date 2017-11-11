@@ -13,14 +13,16 @@ public abstract class AbsSubject implements ISubject{
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public AbsSubject(String name, Pose pose, Inventory inventory, PhysicalHealth physHealth) {
+	public AbsSubject(String name, Pose pose, Inventory inventory, 
+			PhysicalHealth physHealth) {
 		this.name = name;
 		this.pose = pose;
 		this.physicalHealth = physHealth;
 		this.inventory = inventory;
 	}
 	
-	public AbsSubject(String name, Pose pose, int slots, PhysicalHealth physHealth) {
+	public AbsSubject(String name, Pose pose, int slots, 
+			PhysicalHealth physHealth) {
 		this.name = name;
 		this.pose = pose;
 		this.physicalHealth = physHealth;
