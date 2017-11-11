@@ -2,6 +2,8 @@ package math.vectors;
 
 import org.ejml.simple.SimpleMatrix;
 
+import math.Projection;
+
 public class Position {
 	private SimpleMatrix position;
 	
