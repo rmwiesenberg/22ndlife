@@ -51,7 +51,10 @@ public class Camera {
     }
     
     public Camera moveRotation(double deltaRoll, double deltaPitch, double deltaYaw) {
-    	
+    	Orientation cur_ori = pose.getOrientation();
+    	return setOrientation(cur_ori.roll() + deltaRoll,
+    						  cur_ori.pitch() + deltaPitch,
+    						  cur_ori.yaw() + deltaYaw);
     }
 
     // Getters and Setters
