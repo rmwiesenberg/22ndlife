@@ -1,8 +1,8 @@
-package math.vectors;
+package math.vector;
 
 import org.ejml.simple.SimpleMatrix;
 
-import math.Projection;
+import math.matrix.Projection;
 
 public class Position {
 	private SimpleMatrix position;

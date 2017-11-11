@@ -1,6 +1,8 @@
 package math;
 
-import math.vectors.*;
+import math.vector.Orientation;
+import math.vector.Position;
+import math.vector.Quaterneon;
 
 public class Pose {
 	private Position position;

@@ -2,8 +2,8 @@ package entities.subject;
 
 import entities.item.Inventory;
 import math.Pose;
-import math.vectors.Orientation;
-import math.vectors.Position;
+import math.vector.Orientation;
+import math.vector.Position;
 
 import org.ejml.simple.*;
 

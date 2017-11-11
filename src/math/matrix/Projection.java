@@ -1,4 +1,4 @@
-package math;
+package math.matrix;
 
 import org.ejml.simple.SimpleMatrix;
 

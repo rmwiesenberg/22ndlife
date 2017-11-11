@@ -2,9 +2,9 @@ package entities.subject;
 
 import entities.item.Inventory;
 import math.*;
-import math.vectors.Orientation;
-import math.vectors.Position;
-import math.vectors.Quaterneon;
+import math.vector.Orientation;
+import math.vector.Position;
+import math.vector.Quaterneon;
 
 public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
