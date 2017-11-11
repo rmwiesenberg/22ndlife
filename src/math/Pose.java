@@ -11,6 +11,12 @@ public class Pose {
 		this.orientation = orientation;
 	}
 	
+	public Pose(double x, double y, double z, 
+				double roll, double pitch, double yaw) {
+		position = new Position(x, y, z);
+		orientation = new Orientation(roll, pitch, yaw);
+	}
+	
 	public Pose translate(Position delta) {
 		position = position.translate(delta);
 		return this;

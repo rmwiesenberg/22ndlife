@@ -6,12 +6,14 @@ import math.Pose;
 public class Animal extends AbsSubject {
 	private int id;
 
-	public Animal(String name, int id, Pose pose, Inventory inventory, PhysicalHealth physHealth) {
+	public Animal(String name, int id, Pose pose, Inventory inventory, 
+			PhysicalHealth physHealth) {
 		super(name, pose, inventory, physHealth);
 		this.id = id;
 	}
 
-	public Animal(String name, int id, Pose pose, int slots, PhysicalHealth physHealth) {
+	public Animal(String name, int id, Pose pose, int slots, 
+			PhysicalHealth physHealth) {
 		super(name, pose, new Inventory(slots), physHealth);
 		this.id = id;
 	}
