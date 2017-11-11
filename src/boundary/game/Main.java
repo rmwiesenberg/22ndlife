@@ -2,14 +2,21 @@ package boundary.game;
 
 import boundary.engine.GameEngine;
 import boundary.engine.IGameLogic;
- 
+import boundary.engine.Window;
+
 public class Main {
-	 
+
     public static void main(String[] args) {
         try {
             boolean vSync = true;
             IGameLogic gameLogic = new DummyGame();
-            GameEngine gameEng = new GameEngine("GAME", 600, 480, vSync, gameLogic);
+            Window.WindowOptions opts = new Window.WindowOptions();
+            opts.cullFace = false;
+            opts.showFps = true;
+            opts.compatibleProfile = true;
+            opts.antialiasing = true;
+            opts.frustumCulling = false;
+            GameEngine gameEng = new GameEngine("GAME", vSync, opts, gameLogic);
             gameEng.start();
         } catch (Exception excp) {
             excp.printStackTrace();

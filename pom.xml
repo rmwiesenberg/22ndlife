@@ -113,6 +113,11 @@
 		<artifactId>ejml-all</artifactId>
 		<version>0.32</version>
 	</dependency>
+	<dependency>
+		<groupId>org.l33tlabs.twl</groupId>
+		<artifactId>pngdecoder</artifactId>
+		<version>1.0</version>
+	</dependency>
   </dependencies>
 
   <profiles>
@@ -145,4 +150,13 @@
 	</profile>
   </profiles>
 
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>org.l33tlabs.twl</groupId>
+  			<artifactId>pngdecoder</artifactId>
+  			<version>${pngdecoder.version}</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>

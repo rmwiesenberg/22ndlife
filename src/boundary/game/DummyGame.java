@@ -1,77 +1,210 @@
 package boundary.game;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
+import java.io.File;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+import static org.lwjgl.glfw.GLFW.*;
 import boundary.engine.IGameLogic;
+import boundary.engine.MouseInput;
+import boundary.engine.Scene;
+import boundary.engine.SceneLight;
 import boundary.engine.Window;
+import boundary.engine.graph.Camera;
 import boundary.engine.graph.Mesh;
+import boundary.engine.graph.Renderer;
+import boundary.engine.graph.anim.AnimGameItem;
+import boundary.engine.graph.anim.Animation;
+import boundary.engine.graph.lights.DirectionalLight;
+import boundary.engine.graph.weather.Fog;
+import boundary.engine.items.GameItem;
+import boundary.engine.items.SkyBox;
+import boundary.engine.loaders.assimp.AnimMeshesLoader;
+import boundary.engine.loaders.assimp.StaticMeshesLoader;
 
 public class DummyGame implements IGameLogic {
 
-    private int direction = 0;
+    private static final float MOUSE_SENSITIVITY = 0.2f;
 
-    private float color = 0.0f;
+    private final Vector3f cameraInc;
 
     private final Renderer renderer;
-    
-    private Mesh mesh;
-    
+
+    private final Camera camera;
+
+    private Scene scene;
+
+    private static final float CAMERA_POS_STEP = 0.40f;
+
+    private float angleInc;
+
+    private float lightAngle;
+
+    private boolean firstTime;
+
+    private boolean sceneChanged;
+
+    private Animation animation;
+
+    private AnimGameItem animItem;
+
+    private GameItem[] gameItems;
+
     public DummyGame() {
         renderer = new Renderer();
-    }
-    
-    @Override
-    public void init() throws Exception {
-        renderer.init();
-        float[] positions = new float[]{
-            -0.5f,  0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-        };
-        float[] colours = new float[]{
-            0.5f, 0.0f, 0.0f,
-            0.0f, 0.5f, 0.0f,
-            0.0f, 0.0f, 0.5f,
-            0.0f, 0.5f, 0.5f,
-        };
-        int[] indices = new int[]{
-            0, 1, 3, 3, 1, 2,
-        };
-        mesh = new Mesh(positions, colours, indices);
+        camera = new Camera();
+        cameraInc = new Vector3f(0.0f, 0.0f, 0.0f);
+        angleInc = 0;
+        lightAngle = 90;
+        firstTime = true;
     }
 
     @Override
-    public void input(Window window) {
-        if (window.isKeyPressed(GLFW_KEY_UP)) {
-            direction = 1;
-        } else if (window.isKeyPressed(GLFW_KEY_DOWN)) {
-            direction = -1;
+    public void init(Window window) throws Exception {
+        renderer.init(window);
+
+        scene = new Scene();
+
+        String fileName = Thread.currentThread().getContextClassLoader()
+                .getResource("models/terrain/terrain.obj").getFile();
+        File file = new File(fileName);
+        Mesh[] terrainMesh = StaticMeshesLoader.load(file.getAbsolutePath(), "/models/terrain");
+        GameItem terrain = new GameItem(terrainMesh);
+        terrain.setScale(100.0f);
+
+        fileName = Thread.currentThread().getContextClassLoader()
+                .getResource("models/bob/boblamp.md5mesh").getFile();
+        file = new File(fileName);
+        animItem = AnimMeshesLoader.loadAnimGameItem(file.getAbsolutePath(), "");
+        animItem.setScale(0.05f);
+        animation = animItem.getCurrentAnimation();
+        
+        scene.setGameItems(new GameItem[]{animItem, terrain});
+
+        // Shadows
+        scene.setRenderShadows(true);
+
+        // Fog
+        Vector3f fogColour = new Vector3f(0.5f, 0.5f, 0.5f);
+        scene.setFog(new Fog(true, fogColour, 0.02f));
+
+        // Setup  SkyBox
+        float skyBoxScale = 100.0f;
+        fileName = Thread.currentThread().getContextClassLoader()
+                .getResource("models/skybox.obj").getFile();
+        file = new File(fileName);
+        SkyBox skyBox = new SkyBox(file.getAbsolutePath(), new Vector4f(0.65f, 0.65f, 0.65f, 1.0f));
+        skyBox.setScale(skyBoxScale);
+        scene.setSkyBox(skyBox);
+
+        // Setup Lights
+        setupLights();
+
+        camera.getPosition().x = -1.5f;
+        camera.getPosition().y = 3.0f;
+        camera.getPosition().z = 4.5f;
+        camera.getRotation().x = 15.0f;
+        camera.getRotation().y = 390.0f;
+    }
+
+    private void setupLights() {
+        SceneLight sceneLight = new SceneLight();
+        scene.setSceneLight(sceneLight);
+
+        // Ambient Light
+        sceneLight.setAmbientLight(new Vector3f(0.3f, 0.3f, 0.3f));
+        sceneLight.setSkyBoxLight(new Vector3f(1.0f, 1.0f, 1.0f));
+
+        // Directional Light
+        float lightIntensity = 1.0f;
+        Vector3f lightDirection = new Vector3f(0, 1, 1);
+        DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), lightDirection, lightIntensity);
+        sceneLight.setDirectionalLight(directionalLight);
+    }
+
+    @Override
+    public void input(Window window, MouseInput mouseInput) {
+        sceneChanged = false;
+        cameraInc.set(0, 0, 0);
+        if (window.isKeyPressed(GLFW_KEY_W)) {
+            sceneChanged = true;
+            cameraInc.z = -1;
+        } else if (window.isKeyPressed(GLFW_KEY_S)) {
+            sceneChanged = true;
+            cameraInc.z = 1;
+        }
+        if (window.isKeyPressed(GLFW_KEY_A)) {
+            sceneChanged = true;
+            cameraInc.x = -1;
+        } else if (window.isKeyPressed(GLFW_KEY_D)) {
+            sceneChanged = true;
+            cameraInc.x = 1;
+        }
+        if (window.isKeyPressed(GLFW_KEY_Z)) {
+            sceneChanged = true;
+            cameraInc.y = -1;
+        } else if (window.isKeyPressed(GLFW_KEY_X)) {
+            sceneChanged = true;
+            cameraInc.y = 1;
+        }
+        if (window.isKeyPressed(GLFW_KEY_LEFT)) {
+            sceneChanged = true;
+            angleInc -= 0.05f;
+        } else if (window.isKeyPressed(GLFW_KEY_RIGHT)) {
+            sceneChanged = true;
+            angleInc += 0.05f;
         } else {
-            direction = 0;
+            angleInc = 0;            
+        }
+        if (window.isKeyPressed(GLFW_KEY_SPACE)) {
+            sceneChanged = true;
+            animation.nextFrame();
         }
     }
 
     @Override
-    public void update(float interval) {
-        color += direction * 0.01f;
-        if (color > 1) {
-            color = 1.0f;
-        } else if (color < 0) {
-            color = 0.0f;
+    public void update(float interval, MouseInput mouseInput, Window window) {
+        if (mouseInput.isRightButtonPressed()) {
+            // Update camera based on mouse            
+            Vector2f rotVec = mouseInput.getDisplVec();
+            camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY, rotVec.y * MOUSE_SENSITIVITY, 0);
+            sceneChanged = true;
         }
+
+        // Update camera position
+        camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
+
+        lightAngle += angleInc;
+        if (lightAngle < 0) {
+            lightAngle = 0;
+        } else if (lightAngle > 180) {
+            lightAngle = 180;
+        }
+        float zValue = (float) Math.cos(Math.toRadians(lightAngle));
+        float yValue = (float) Math.sin(Math.toRadians(lightAngle));
+        Vector3f lightDirection = this.scene.getSceneLight().getDirectionalLight().getDirection();
+        lightDirection.x = 0;
+        lightDirection.y = yValue;
+        lightDirection.z = zValue;
+        lightDirection.normalize();
+
+        // Update view matrix
+        camera.updateViewMatrix();
     }
 
     @Override
     public void render(Window window) {
-        window.setClearColor(color, color, color, 0.0f);
-        renderer.render(window, mesh);
+        if (firstTime) {
+            sceneChanged = true;
+            firstTime = false;
+        }
+        renderer.render(window, camera, scene, sceneChanged);
     }
 
     @Override
     public void cleanup() {
         renderer.cleanup();
-        mesh.cleanUp();
-    }
 
+        scene.cleanup();
+    }
 }

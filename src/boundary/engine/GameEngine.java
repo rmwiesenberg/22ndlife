@@ -1,5 +1,7 @@
 package boundary.engine;
 
+import boundary.engine.sound.SoundManager;
+
 public class GameEngine implements Runnable {
 
     public static final int TARGET_FPS = 75;
@@ -14,9 +16,23 @@ public class GameEngine implements Runnable {
 
     private final IGameLogic gameLogic;
 
-    public GameEngine(String windowTitle, int width, int height, boolean vSync, IGameLogic gameLogic) throws Exception {
+    private final MouseInput mouseInput;
+
+    private double lastFps;
+    
+    private int fps;
+    
+    private String windowTitle;
+    
+    public GameEngine(String windowTitle, boolean vSync, Window.WindowOptions opts, IGameLogic gameLogic) throws Exception {
+        this(windowTitle, 0, 0, vSync, opts, gameLogic);
+    }
+
+    public GameEngine(String windowTitle, int width, int height, boolean vSync, Window.WindowOptions opts, IGameLogic gameLogic) throws Exception {
+        this.windowTitle = windowTitle;
         gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
-        window = new Window(windowTitle, width, height, vSync);
+        window = new Window(windowTitle, width, height, vSync, opts);
+        mouseInput = new MouseInput();
         this.gameLogic = gameLogic;
         timer = new Timer();
     }
@@ -45,7 +61,10 @@ public class GameEngine implements Runnable {
     protected void init() throws Exception {
         window.init();
         timer.init();
-        gameLogic.init();
+        mouseInput.init(window);
+        gameLogic.init(window);
+        lastFps = timer.getTime();
+        fps = 0;
     }
 
     protected void gameLoop() {
@@ -74,7 +93,7 @@ public class GameEngine implements Runnable {
     }
 
     protected void cleanup() {
-        gameLogic.cleanup();                
+        gameLogic.cleanup();
     }
     
     private void sync() {
@@ -89,15 +108,23 @@ public class GameEngine implements Runnable {
     }
 
     protected void input() {
-        gameLogic.input(window);
+        mouseInput.input(window);
+        gameLogic.input(window, mouseInput);
     }
 
     protected void update(float interval) {
-        gameLogic.update(interval);
+        gameLogic.update(interval, mouseInput, window);
     }
 
     protected void render() {
+        if ( window.getWindowOptions().showFps && timer.getLastLoopTime() - lastFps > 1 ) {
+            lastFps = timer.getLastLoopTime();
+            window.setWindowTitle(windowTitle + " - " + fps + " FPS");
+            fps = 0;
+        }
+        fps++;
         gameLogic.render(window);
         window.update();
     }
+
 }
