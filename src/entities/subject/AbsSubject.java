@@ -1,6 +1,7 @@
 package entities.subject;
 
 import entities.item.Inventory;
+import entities.subject.health.PhysicalHealth;
 import math.*;
 import math.vector.Orientation;
 import math.vector.Position;

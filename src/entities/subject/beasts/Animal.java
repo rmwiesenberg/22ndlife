@@ -1,6 +1,8 @@
-package entities.subject;
+package entities.subject.beasts;
 
 import entities.item.Inventory;
+import entities.subject.AbsSubject;
+import entities.subject.health.PhysicalHealth;
 import math.Pose;
 
 public class Animal extends AbsSubject {
