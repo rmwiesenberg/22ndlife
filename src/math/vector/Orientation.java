@@ -15,6 +15,11 @@ public class Orientation {
 		this.orientation = orientation;
 	}
 	
+	public Orientation move(Orientation delta) {
+		orientation = orientation.plus(delta.get());
+		return this;
+	}
+	
 	public Orientation rotate(Quaterneon quat) {
 		orientation = quat.getRotation().mult(orientation);
 		return this;
