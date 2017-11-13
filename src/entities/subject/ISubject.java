@@ -1,16 +1,16 @@
 package entities.subject;
 
+import org.joml.Vector3f;
+
 import entities.item.Inventory;
 import entities.subject.health.PhysicalHealth;
 import math.Pose;
-import math.vector.Orientation;
-import math.vector.Position;
 
 public interface ISubject {
 	String getName();
 	Pose getPose();
-	Position getPosition();
-	Orientation getOrientation();
+	Vector3f getPosition();
+	Vector3f getOrientation();
 	Inventory getInventory();
 	PhysicalHealth getPhysicalHealth();
 }

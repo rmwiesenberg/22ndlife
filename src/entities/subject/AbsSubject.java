@@ -1,11 +1,11 @@
 package entities.subject;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import entities.item.Inventory;
 import entities.subject.health.PhysicalHealth;
 import math.*;
-import math.vector.Orientation;
-import math.vector.Position;
-import math.vector.Quaterneon;
 
 public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
@@ -30,13 +30,13 @@ public abstract class AbsSubject implements ISubject{
 		this.inventory = new Inventory(slots);
 	}
 	
-	public ISubject translate(Position delta) {
+	public ISubject translate(Vector3f delta) {
 		pose = pose.translate(delta);
 		return this;
 		
 	}
 	
-	public ISubject rotate(Quaterneon quat) {
+	public ISubject rotate(Quaternionf quat) {
 		pose = pose.rotate(quat);
 		return this;
 	}
@@ -53,12 +53,12 @@ public abstract class AbsSubject implements ISubject{
 	}
 	
 	@Override
-	public Position getPosition() {
+	public Vector3f getPosition() {
 		return pose.getPosition();
 	}
 	
 	@Override
-	public Orientation getOrientation() {
+	public Vector3f getOrientation() {
 		return pose.getOrientation();
 	}
 	
