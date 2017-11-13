@@ -1,17 +1,16 @@
 package entities.subject;
 
-import entities.item.Inventory;
-import math.Pose;
-import math.vectors.Orientation;
-import math.vectors.Position;
+import org.joml.Vector3f;
 
-import org.ejml.simple.*;
+import entities.item.Inventory;
+import entities.subject.health.PhysicalHealth;
+import math.Pose;
 
 public interface ISubject {
 	String getName();
 	Pose getPose();
-	Position getPosition();
-	Orientation getOrientation();
+	Vector3f getPosition();
+	Vector3f getOrientation();
 	Inventory getInventory();
 	PhysicalHealth getPhysicalHealth();
 }

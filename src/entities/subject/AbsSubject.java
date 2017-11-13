@@ -1,10 +1,11 @@
 package entities.subject;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import entities.item.Inventory;
+import entities.subject.health.PhysicalHealth;
 import math.*;
-import math.vectors.Orientation;
-import math.vectors.Position;
-import math.vectors.Quaterneon;
 
 public abstract class AbsSubject implements ISubject{
 	// <x, y, z>
@@ -13,27 +14,29 @@ public abstract class AbsSubject implements ISubject{
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public AbsSubject(String name, Pose pose, Inventory inventory, PhysicalHealth physHealth) {
+	public AbsSubject(String name, Pose pose, Inventory inventory, 
+			PhysicalHealth physHealth) {
 		this.name = name;
 		this.pose = pose;
 		this.physicalHealth = physHealth;
 		this.inventory = inventory;
 	}
 	
-	public AbsSubject(String name, Pose pose, int slots, PhysicalHealth physHealth) {
+	public AbsSubject(String name, Pose pose, int slots, 
+			PhysicalHealth physHealth) {
 		this.name = name;
 		this.pose = pose;
 		this.physicalHealth = physHealth;
 		this.inventory = new Inventory(slots);
 	}
 	
-	public ISubject translate(Position delta) {
+	public ISubject translate(Vector3f delta) {
 		pose = pose.translate(delta);
 		return this;
 		
 	}
 	
-	public ISubject rotate(Quaterneon quat) {
+	public ISubject rotate(Quaternionf quat) {
 		pose = pose.rotate(quat);
 		return this;
 	}
@@ -50,12 +53,12 @@ public abstract class AbsSubject implements ISubject{
 	}
 	
 	@Override
-	public Position getPosition() {
+	public Vector3f getPosition() {
 		return pose.getPosition();
 	}
 	
 	@Override
-	public Orientation getOrientation() {
+	public Vector3f getOrientation() {
 		return pose.getOrientation();
 	}
 	
