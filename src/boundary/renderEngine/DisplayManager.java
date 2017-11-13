@@ -1,6 +1,5 @@
 package boundary.renderEngine;
 
-import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -17,6 +16,11 @@ public class DisplayManager {
 
 	// The window handle
 	private long window;
+	private final int WIDTH = 1080;
+	private final int HEIGHT = 720;
+	// An fps of 1 is 60fps
+	private final int FPS = 1;
+	public static Loader loader1 = null;
 
 	public void init() {
 		// Setup an error callback. The default implementation
@@ -33,7 +37,7 @@ public class DisplayManager {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
 		// Create the window
-		window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+		window = glfwCreateWindow(WIDTH, HEIGHT, "22nd Life", NULL, NULL);
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
@@ -65,13 +69,26 @@ public class DisplayManager {
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
 		// Enable v-sync
-		glfwSwapInterval(1);
+		glfwSwapInterval(FPS);
 
 		// Make the window visible
 		glfwShowWindow(window);
 	}
 
 	public void loop() {
+		Loader loader = new Loader();
+		loader1 = loader;	
+		
+		float[] vertices = {																// TEMPORARY CODE FOR QUAD
+				-0.5f, 0.5f, 0,
+				-0.5f, -0.5f, 0,
+				0.5f, -0.5f, 0,
+				0.5f, 0.5f, 0,
+				-0.5f, 0.5f, 0
+		};
+				
+		boundary.models.RawModel model = loader.loadToVAO(vertices);
+				
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
@@ -79,8 +96,10 @@ public class DisplayManager {
 		// bindings available for use.
 		GL.createCapabilities();
 
-		// Set the clear color
-		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+		MasterRenderer renderer = new MasterRenderer();
+		
+		renderer.prepare();
+		renderer.render(model);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
@@ -92,10 +111,14 @@ public class DisplayManager {
 			// Poll for window events. The key callback above will only be
 			// invoked during this call.
 			glfwPollEvents();
+			
+			
 		}
 	}
 
 	public void terminate() {
+		loader1.cleanUp();
+		
 	// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
