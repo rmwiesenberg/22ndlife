@@ -5,6 +5,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import boundary.models.RawModel;
+import boundary.shaders.StaticShader;
 
 import java.nio.*;
 
@@ -23,7 +24,8 @@ public class DisplayManager {
 	// An fps of 1 is 60fps
 	private final int FPS = 1;
 	public static Loader loader1 = null;
-
+	public static StaticShader shader1 = null;
+	
 	public void init() {
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
@@ -80,8 +82,12 @@ public class DisplayManager {
 	public void loop() {
 		
 		MasterRenderer renderer = new MasterRenderer();
+		
 		Loader loader = new Loader();
-		loader1 = loader;	
+		loader1 = loader;													// TODO FIX
+		
+		StaticShader shader = new StaticShader();
+		shader1 = shader;													// TODO FIX
 		
 		float[] vertices = {																// TEMPORARY CODE FOR QUAD
 				-0.5f, 0.5f, 0,
@@ -95,10 +101,6 @@ public class DisplayManager {
 				0, 1, 2,
 				2, 3, 0
 		};
-		
-		
-				
-		
 				
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
@@ -107,7 +109,6 @@ public class DisplayManager {
 		// bindings available for use.
 		GL.createCapabilities();
 
-		
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
 		RawModel model = loader.loadToVAO(vertices, indices);
@@ -118,7 +119,11 @@ public class DisplayManager {
 		while ( !glfwWindowShouldClose(window) ) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			
+			
+			shader.start();
 			renderer.render(model);
+			shader.stop();
+			
 			glfwSwapBuffers(window); // swap the color buffers
 
 			// Poll for window events. The key callback above will only be
@@ -131,6 +136,7 @@ public class DisplayManager {
 
 	public void terminate() {
 		loader1.cleanUp();
+		shader1.cleanUp();
 		
 	// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
