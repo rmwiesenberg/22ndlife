@@ -79,18 +79,24 @@ public class DisplayManager {
 
 	public void loop() {
 		
-		
+		MasterRenderer renderer = new MasterRenderer();
+		Loader loader = new Loader();
+		loader1 = loader;	
 		
 		float[] vertices = {																// TEMPORARY CODE FOR QUAD
 				-0.5f, 0.5f, 0,
 				-0.5f, -0.5f, 0,
 				0.5f, -0.5f, 0,
-				-0.5f, 0.5f, 0,
-				0.5f, -0.5f, 0,
 				0.5f, 0.5f, 0,
-				-0.5f, 0.5f, 0,
-				0.5f, -0.5f, 0
+
 		};
+		
+		int[] indices = {
+				0, 1, 2,
+				2, 3, 0
+		};
+		
+		
 				
 		
 				
@@ -101,14 +107,10 @@ public class DisplayManager {
 		// bindings available for use.
 		GL.createCapabilities();
 
-		MasterRenderer renderer = new MasterRenderer();
-		Loader loader = new Loader();
-		loader1 = loader;	
 		
-		renderer.prepare();
 		
-		RawModel model = loader.loadToVAO(vertices);
-		
+		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
+		RawModel model = loader.loadToVAO(vertices, indices);
 		
 
 		// Run the rendering loop until the user has attempted to close
