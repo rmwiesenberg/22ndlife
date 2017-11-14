@@ -78,15 +78,18 @@ public class DisplayManager {
 	}
 
 	public void loop() {
-		Loader loader = new Loader();
-		loader1 = loader;	
+		
+		
 		
 		float[] vertices = {																// TEMPORARY CODE FOR QUAD
 				-0.5f, 0.5f, 0,
 				-0.5f, -0.5f, 0,
 				0.5f, -0.5f, 0,
+				-0.5f, 0.5f, 0,
+				0.5f, -0.5f, 0,
 				0.5f, 0.5f, 0,
-				-0.5f, 0.5f, 0
+				-0.5f, 0.5f, 0,
+				0.5f, -0.5f, 0
 		};
 				
 		
@@ -99,18 +102,21 @@ public class DisplayManager {
 		GL.createCapabilities();
 
 		MasterRenderer renderer = new MasterRenderer();
+		Loader loader = new Loader();
+		loader1 = loader;	
 		
 		renderer.prepare();
 		
 		RawModel model = loader.loadToVAO(vertices);
 		
-		renderer.render(model);
+		
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while ( !glfwWindowShouldClose(window) ) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
+			
+			renderer.render(model);
 			glfwSwapBuffers(window); // swap the color buffers
 
 			// Poll for window events. The key callback above will only be
