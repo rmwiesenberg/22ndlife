@@ -4,6 +4,8 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import boundary.models.RawModel;
+
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -87,7 +89,7 @@ public class DisplayManager {
 				-0.5f, 0.5f, 0
 		};
 				
-		boundary.models.RawModel model = loader.loadToVAO(vertices);
+		
 				
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
@@ -99,6 +101,9 @@ public class DisplayManager {
 		MasterRenderer renderer = new MasterRenderer();
 		
 		renderer.prepare();
+		
+		RawModel model = loader.loadToVAO(vertices);
+		
 		renderer.render(model);
 
 		// Run the rendering loop until the user has attempted to close

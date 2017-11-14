@@ -1,7 +1,6 @@
 package boundary.gameData;
 
 import boundary.renderEngine.DisplayManager;
-import boundary.renderEngine.Loader;
 
 public class MainGameLoop {
 
