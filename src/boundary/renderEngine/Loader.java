@@ -17,10 +17,13 @@ public class Loader {
 	
 	static List<Integer> vaos = new ArrayList<Integer>();			// Array List of vaos to be used by program
 	static List<Integer> vbos = new ArrayList<Integer>();			// Array List of vbos to be used by program
-
-	public RawModel loadToVAO(float[] vertices, int[] indices) {	// Loads an array of verticies into a vao created at call
+	static List<Integer> textures = new ArrayList<Integer>();		// Array List of textures
+	
+	
+	public RawModel loadToVAO(float[] vertices, int[] indices, float[] uv) {	// Loads an array of verticies into a vao created at call
 		int vaoID = createVAO();
-		storeDataInAttributeList(vertices, 0, 3);					// Depth of 3 3D Matrix
+		storeDataInAttributeList(vertices, 0, 3);					// Depth of 3 3D Matrix to store verticies of object
+		storeDataInAttributeList(uv, 1, 2);							// Depth of 2 2D Matrix to store texture coordinates
 		bindIndicesBuffer(indices);
 		GL30.glBindVertexArray(0);									// Unbind vertex array
 		
@@ -33,6 +36,22 @@ public class Loader {
 		GL30.glBindVertexArray(vaoID);
 		
 		return vaoID;
+	}
+	
+	public int loadTexture(String fileName) {					// Each block has a texture to load by loadTexture
+		//TODO convert png filename into texture
+		
+//		Texture texture = null;
+//		try {
+//			texture = TextureLoader.getTexture("PNG", Class.class.getResourceAsStream("/src/resources/res" + fileName + ".PNG"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
+		//int textureID = texture.getTextureID();
+		//textures.add(textureID);
+		//return textureID;
+		
 	}
 	
 	private void storeDataInAttributeList(float[] data, int attributeNumber, int dimensions) {		// Adds used vbo to vbo list and stores float array into it
@@ -78,6 +97,10 @@ public class Loader {
 		
 		for (int vbo : vbos) {
 			GL15.glDeleteBuffers(vbo);
+		}
+		
+		for(int texture : textures) {
+			GL11.glDeleteTextures(texture);
 		}
 	}
 	
