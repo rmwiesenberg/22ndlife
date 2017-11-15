@@ -44,6 +44,7 @@ public class Voxel {
 		}
 	}
 	
+	// Getters and Setters
 	public int[][][] getSides(){
 		return sides;
 	}

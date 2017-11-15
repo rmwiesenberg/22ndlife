@@ -2,16 +2,16 @@
 	"voxel": [
 		{
 			"id": 0,
-			"filepath": "resources.images.test1voxel"
+			"filename": "test1voxel.png"
 		},{
 			"id": 1,
-			"filepath": "resources.images.test2voxel"
+			"filename": "test2voxel.png"
 		},{
 			"id": 2,
-			"filepath": "resources.images.test3voxel"
+			"filename": "test3voxel.png"
 		},{
 			"id": 3,
-			"filepath": "resources.images.test4voxel"
+			"filename": "test4voxel.png"
 		}
 	]
 }
