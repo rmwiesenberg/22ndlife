@@ -43,4 +43,34 @@ public class Voxel {
 			this.sides = sides;
 		}
 	}
+	
+	public int[][][] getSides(){
+		return sides;
+	}
+	
+	public int[][] getSide(int side){
+		return sides[side];
+	}
+	
+	public int[][] getTop(){
+		return getSide(0);
+	}
+	
+	public int[][] getBottom(){
+		return getSide(1);
+	}
+	
+	public int[][] getSide1(){
+		return getSide(2);
+	}
+	public int[][] getSide2(){
+		return getSide(3);
+	}
+	public int[][] getSide3(){
+		return getSide(4);
+	}
+	public int[][] getSide4(){
+		return getSide(5);
+	}
+	
 }
