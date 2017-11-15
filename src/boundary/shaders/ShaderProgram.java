@@ -15,13 +15,10 @@ public abstract class ShaderProgram {
 	private int fragmentShaderID;
 	
 	public ShaderProgram(String vertexFile, String fragmentFile) {					// Constructor takes the file names for both shaders and loads them into memory
-																					// --- Vertex shader does points in 3d space --- fragment shader does colour ---
 		
+		// --- Vertex shader does points in 3d space --- fragment shader does colour ---
+		programID = GL20.glCreateProgram();
 		
-		
-		if (programID == -1) {														// Error checking for shader program
-			programID = GL20.glCreateProgram();
-		}
 		if (programID == 0) {
 			System.out.println("Could not create shader program");
 			System.exit(-1);

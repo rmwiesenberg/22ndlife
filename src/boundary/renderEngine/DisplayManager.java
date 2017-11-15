@@ -86,8 +86,7 @@ public class DisplayManager {
 		Loader loader = new Loader();
 		loader1 = loader;													// TODO FIX
 		
-		StaticShader shader = new StaticShader();
-		shader1 = shader;													// TODO FIX
+															// TODO FIX
 		
 		float[] vertices = {																// TEMPORARY CODE FOR QUAD
 				-0.5f, 0.5f, 0,
@@ -112,6 +111,9 @@ public class DisplayManager {
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
 		RawModel model = loader.loadToVAO(vertices, indices);
+		
+		StaticShader shader = new StaticShader();
+		shader1 = shader;
 		
 
 		// Run the rendering loop until the user has attempted to close
