@@ -45,6 +45,10 @@ public class Voxel {
 	}
 	
 	// Getters and Setters
+	public int getId() {
+		return id;
+	}
+	
 	public int[][][] getSides(){
 		return sides;
 	}
@@ -72,10 +76,5 @@ public class Voxel {
 	}
 	public int[][] getSide4(){
 		return getSide(5);
-	}
-
-	public int getId() {
-		return id;
-	}
-	
+	}	
 }

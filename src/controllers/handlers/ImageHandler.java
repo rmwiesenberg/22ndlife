@@ -8,6 +8,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ImageHandler {
+	public static float[] convertInt2FloatArray(int color) {
+		float[] output = new float[4];
+		for(int i = 0; i < 4; i++) {
+			output[i] = ((float) ((color >> 8*i) & 0xff)) / 255.0f;
+		}
+		return output;
+	}
+	
 	public static int[][] convertPNG(String filepath) {
 		BufferedImage image = null;
 		try {
