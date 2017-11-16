@@ -16,6 +16,14 @@ import org.json.simple.parser.ParseException;
 import controllers.handlers.excpetions.InvalidImageSizeException;
 
 public class VoxelHandler {
+	/**
+	 * Returns a HashMap of voxels that should be loaded into memory at start.
+	 * This is based on the given JSON for all voxels to be loaded into the game.
+	 * 
+	 * @param filepath absolute or project relative path of voxel JSON
+	 * @return HashMap of voxels where their id is the key
+	 * @throws InvalidImageSizeException when image does not meet voxel size expectations
+	 */
 	public static HashMap<Integer, Voxel> readJSON(String filepath) 
 			throws InvalidImageSizeException {
 		JSONParser parser = new JSONParser();
@@ -46,6 +54,14 @@ public class VoxelHandler {
 		return voxels;
 	}
 	
+	/**
+	 * Returns a voxel from an id and a path to the PNG of the voxel
+	 * 
+	 * @param voxelID integer value of the voxelID
+	 * @param voxelPath absolute or project relative path of voxel PNG
+	 * @return voxel representative of the inputs
+	 * @throws InvalidImageSizeException when image does not meet voxel size expections
+	 */
 	public static Voxel makeVoxel(int voxelID, String voxelPath) 
 			throws InvalidImageSizeException {
 		int[][] img = ImageHandler.convertPNG(voxelPath);
