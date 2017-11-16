@@ -1,4 +1,4 @@
-package boundary.gameData;
+package game;
 
 import java.util.HashMap;
 
