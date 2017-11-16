@@ -1,5 +1,7 @@
 package boundary.models;
 
+import boundary.textures.ModelTexture;
+
 public class TexturedModel {
 
 	RawModel model;

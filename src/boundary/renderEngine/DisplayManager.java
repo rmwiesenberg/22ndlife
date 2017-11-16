@@ -7,6 +7,7 @@ import org.lwjgl.system.*;
 import boundary.models.RawModel;
 import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
+import boundary.textures.ModelTexture;
 
 import java.nio.*;
 
