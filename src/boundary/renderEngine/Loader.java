@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import boundary.models.RawModel;
+import controllers.handlers.ImageHandler;
+import entities.Voxel;
 
 public class Loader {
 	
@@ -39,7 +41,20 @@ public class Loader {
 	}
 	
 	public int loadTexture(String fileName) {					// Each block has a texture to load by loadTexture
-		//TODO convert png filename into texture
+		
+		Voxel texture = null;
+		
+		try {
+			texture = new Voxel(ImageHandler.convertPNG(Class.class.getResourceAsStream("/src/resources/res") + fileName + ".PNG"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		textures.add(texture.getId());
+		return texture.getId();
+		
+		
+		
 		
 //		Texture texture = null;
 //		try {

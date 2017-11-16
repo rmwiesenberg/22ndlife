@@ -3,8 +3,8 @@ package entities;
 import entities.exceptions.InvalidSidesException;
 
 public class Voxel {
-	int id;
-	int[][][] sides;
+	private int id;
+	private int[][][] sides;
 	
 	public Voxel(int[][] side) {
 		for(int i = 0; i < 6; i++) {
@@ -72,6 +72,10 @@ public class Voxel {
 	}
 	public int[][] getSide4(){
 		return getSide(5);
+	}
+
+	public int getId() {
+		return id;
 	}
 	
 }
