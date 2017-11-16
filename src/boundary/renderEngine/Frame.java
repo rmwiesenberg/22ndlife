@@ -30,6 +30,11 @@ public class Frame {
 	
 	/**
 	 * Create vao and give it an id to be used by other functions
+	 * 
+	 * @param vertices
+	 * @param indices
+	 * @param uv
+	 * @return vaoID
 	 */
 	private int createVAO(float[] vertices, int[] indices, float[] uv) {
 		int vaoID = GL30.glGenVertexArrays();
@@ -52,6 +57,14 @@ public class Frame {
 		return vaoID;
 	}
 	
+	/**
+	 * Create vbo and give it an id to be used by other functions
+	 * 
+	 * @param data
+	 * @param attributeNumber
+	 * @param dimensions
+	 * @return vboID
+	 */
 	private int createAttributesVBO(float[] data, int attributeNumber, int dimensions) {
 		int vboID = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
@@ -65,7 +78,7 @@ public class Frame {
 	 * Binds integer array of indicies to the selected vbo
 	 * 
 	 * @param indices
-	 * @return
+	 * @return vboID
 	 */
 	
 	private int createIndicesVBO(int[] indices) {
