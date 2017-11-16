@@ -3,6 +3,7 @@ package boundary.renderEngine;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
@@ -13,6 +14,8 @@ import org.lwjgl.opengl.GL30;
 
 import boundary.models.RawModel;
 import controllers.handlers.ImageHandler;
+import controllers.handlers.VoxelHandler;
+import controllers.handlers.excpetions.InvalidImageSizeException;
 import entities.Voxel;
 
 public class Loader {
@@ -40,18 +43,18 @@ public class Loader {
 		return vaoID;
 	}
 	
-	public int loadTexture(String fileName) {					// Each block has a texture to load by loadTexture
+	public int loadTexture() {					// Each block has a texture to load by loadTexture
 		
-		Voxel texture = null;
+				
 		
-		try {
-			texture = new Voxel(ImageHandler.convertPNG(Class.class.getResourceAsStream("/src/resources/res") + fileName + ".PNG"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		textures.add(texture.getId());
-		return texture.getId();
+//		try {
+//			texture = new Voxel(ImageHandler.convertPNG(Class.class.getResourceAsStream("/src/resources/res") + fileName + ".PNG"));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		textures.add(texture.getId());
+//		return texture.getId();
 		
 		
 		

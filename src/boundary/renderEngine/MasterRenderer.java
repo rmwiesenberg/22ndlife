@@ -15,8 +15,7 @@ public class MasterRenderer {
 		
 	}
 	
-	public void render(TexturedModel model) {
-		
-		EntityRenderer.render(model);
+	public void render(Frame frame) {		
+		EntityRenderer.render(frame);
 	}
 }
