@@ -7,9 +7,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import boundary.models.RawModel;
-import boundary.models.TexturedModel;
-
 public class EntityRenderer {
 	
 	public static void render(Frame frame) {
