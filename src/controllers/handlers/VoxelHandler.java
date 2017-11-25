@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import javax.swing.Painter;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -65,41 +67,63 @@ public class VoxelHandler {
 	public static Voxel makeVoxel(int voxelID, String voxelPath) 
 			throws InvalidImageSizeException {
 		int[][] img = ImageHandler.convertPNG(voxelPath);
-		int height = img.length;
-		int width = img[0].length;
+		int height = img.length - 1;
+		int width = img[0].length - 1;
+		
+		int s;
+		int i;
+		int[][] uv = new int[8][6];
 		
 		if(height == width){
-			return new Voxel(voxelID, img);
-		} else if (height*2 == width){
-			return new Voxel(voxelID, 
-					Arrays.copyOfRange(img, 0, height),
-					Arrays.copyOfRange(img, height, width)); 
+			// 1x1
+			for(s = 0; s < 6; s++) {
+				for(i = 0; i < 4; i++) {
+					uv[2*i][s] = width*(i%2);
+					uv[(2*i)+1][s] = height*(i/2);
+				}
+			}
+		} else if (height*2 == width) {
+			// 2x1
+			for(i = 0; i < 4; i++) {
+				uv[2*i][0] = (width/2)*(i%2);
+				uv[(2*i)+1][0] = height*(i/2);
+			}
+			for(s = 1; s < 6; s++) {
+				for(i = 0; i < 4; i++) {
+					uv[2*i][s] = width - (int)(width/2)*((3-i)%2);
+					uv[(2*i)+1][s] = height*(i/2);
+				}
+			}
 		} else if (height*3 == width) {
-			return new Voxel(voxelID, 
-					Arrays.copyOfRange(img, 0, height),
-					Arrays.copyOfRange(img, height, height*2), 
-					Arrays.copyOfRange(img, height, width));
+			// 3x1
+			for(i = 0; i < 4; i++) {
+				uv[2*i][0] = (width/3)*(i%2);
+				uv[(2*i)+1][0] = height*(i/2);
+			}
+			for(i = 1; i < 4; i++) {
+				uv[2*i][1] = (width*2/3) - (width/3)*((3-i)%2);
+				uv[(2*i)+1][1] = height*(i/2);
+			}
+			for(s = 2; s < 6; s++) {
+				for(i = 0; i < 4; i++) {
+					uv[2*i][s] = width - (width/3)*((3-i)%2);
+					uv[(2*i)+1][s] = height*((3-i)%2);
+				}
+			}
 		} else if (height*3 == width*2) {
-			int[][] tHalf = new int[height/2][width];
-			int[][] bHalf = new int[height/2][width];
-			for(int w = 0; w < width; w++) {
-				for(int h = 0; h < height; h++) {
-					if(h < height/2) {
-						tHalf[h][w] = img[h][w];
-					} else {
-						bHalf[h-height/2][w] = img[h][w];
+			// 3x2
+			for(int h = 1; h <= 3; h++) {
+				for(int w = 1; w <= 2; w++) {
+					s = w * h - 1;
+					for(i = 0; i < 8; i += 2) {
+						uv[i][s] = (width*w/3) - (width/3)*((3-i)%2);
+						uv[i+1][s] = (height*h/2) - (height/2)*((3-i)/2);
 					}
 				}
 			}
-			return new Voxel(voxelID,
-					Arrays.copyOfRange(tHalf, 0, height),
-					Arrays.copyOfRange(tHalf, height, height*2), 
-					Arrays.copyOfRange(tHalf, height, width),
-					Arrays.copyOfRange(bHalf, 0, height),
-					Arrays.copyOfRange(bHalf, height, height*2), 
-					Arrays.copyOfRange(bHalf, height, width));			
 		} else {
 			throw new InvalidImageSizeException(voxelPath);
 		}
+		return new Voxel(voxelID, img, uv);
 	}
 }
