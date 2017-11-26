@@ -64,7 +64,7 @@ public class VoxelHandler {
 	 * @return voxel representative of the inputs
 	 * @throws InvalidImageSizeException when image does not meet voxel size expections
 	 */
-	public static Voxel makeVoxel(int voxelID, String voxelPath) 
+	private static Voxel makeVoxel(int voxelID, String voxelPath) 
 			throws InvalidImageSizeException {
 		int[][] img = ImageHandler.convertPNG(voxelPath);
 		int height = img.length - 1;
