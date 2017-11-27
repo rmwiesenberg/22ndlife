@@ -1,9 +1,11 @@
 package entities.block;
 
-import entities.item.ItemStack;
+import entities.item.ItemDrop;
 
-public interface IBlock {
-	int getID();
-	public ItemStack[] getItems();
-	boolean isScenery();
+
+
+public interface IBlock {	
+	public int getID();
+	public ItemDrop getDrop();
+	public boolean isScenery();
 }

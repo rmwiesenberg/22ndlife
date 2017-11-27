@@ -1,14 +1,14 @@
 package entities.block;
 
-import entities.item.ItemStack;
+import entities.item.ItemDrop;
 
 public abstract class AbsBlock implements IBlock {
-	public int id;
-	public ItemStack[] items;
-	public float transparency;
+	private int id;
+	private ItemDrop drop;
 	
-	public AbsBlock(int id, ItemStack[] items, float transparency) {
-		this.transparency = transparency; 
+	public AbsBlock(int id, ItemDrop drop) {
+		this.id = id;
+		this.drop = drop;
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public abstract class AbsBlock implements IBlock {
 	}
 
 	@Override
-	public ItemStack[] getItems() {
-		return items;
+	public ItemDrop getDrop() {
+		return drop;
 	}
 }
