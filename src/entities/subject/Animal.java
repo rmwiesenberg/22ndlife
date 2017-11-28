@@ -1,9 +1,8 @@
-package entities.subject.beasts;
+package entities.subject;
 
 import org.joml.Vector3f;
 
 import entities.item.Inventory;
-import entities.subject.AbsSubject;
 import entities.subject.health.PhysicalHealth;
 
 public class Animal extends AbsSubject {

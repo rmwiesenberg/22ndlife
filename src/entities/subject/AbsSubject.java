@@ -5,8 +5,9 @@ import org.joml.Vector3f;
 
 import entities.item.Inventory;
 import entities.subject.health.PhysicalHealth;
+import entities.world.Camera;
 
-public abstract class AbsSubject implements ISubject{
+public abstract class AbsSubject implements ISubject {
 	// <x, y, z>
 	private String name;
 	private Vector3f position;
@@ -40,6 +41,18 @@ public abstract class AbsSubject implements ISubject{
 	public ISubject rotate(Quaternionf quat) {
 		orientation = orientation.rotate(quat);
 		return this;
+	}
+	
+	@Override
+	public Camera getViewCamera() {
+		// TODO: implement
+		return null;
+	}
+	
+	@Override
+	public Camera get3rdCamera() {
+		// TODO: implement
+		return null;
 	}
 	
 	// Getters and Setters
