@@ -4,7 +4,7 @@ import java.util.Random;
 
 import entities.exceptions.NotEnoughSpaceException;
 
-public class ItemDrop {
+public class ItemDrop implements IItemDrop{
 	private Item[] items;
 	private int[] min;
 	private int[] max;
@@ -28,7 +28,8 @@ public class ItemDrop {
 	 * 
 	 * @return ItemStacks of items from generation
 	 */
-	public ItemStack[] generate() {
+	@Override
+	public IItemStack[] generate() {
 		Random rand = new Random();
 		ItemStack[] stacks = new ItemStack[items.length];
 		for(int i = 0; i < items.length; i++) {
@@ -52,7 +53,8 @@ public class ItemDrop {
 	 * @param modifier multiplier - positive if multiply, negative if minimum, zero if 1 for each
 	 * @return
 	 */
-	public ItemStack[] generate(float modifier) {
+	@Override
+	public IItemStack[] generate(float modifier) {
 		Random rand = new Random();
 		ItemStack[] stacks = new ItemStack[items.length];
 		if(modifier > 0) {
@@ -91,18 +93,22 @@ public class ItemDrop {
 	}
 	
 	// Getters and Setters
-	public Item[] getItems() {
+	@Override
+	public IItem[] getItems() {
 		return items;
 	}
 
+	@Override
 	public int[] getMin() {
 		return min;
 	}
 
+	@Override
 	public int[] getMax() {
 		return max;
 	}
 
+	@Override
 	public float[] getChance() {
 		return chance;
 	}
