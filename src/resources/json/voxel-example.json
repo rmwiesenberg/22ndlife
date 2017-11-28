@@ -3,18 +3,21 @@
 	"voxel": [
 		{
 			"id": 0,
-			"filename": "test1voxel.png"
+			"filename": "emptyvoxel.png"
 		},{
 			"id": 1,
-			"filename": "test2voxel.png"
+			"filename": "test1voxel.png"
 		},{
 			"id": 2,
-			"filename": "test3voxel.png"
+			"filename": "test2voxel.png"
 		},{
 			"id": 3,
-			"filename": "test6voxel.png"
+			"filename": "test3voxel.png"
 		},{
 			"id": 4,
+			"filename": "test6voxel.png"
+		},{
+			"id": 5,
 			"filename": "testtransvoxel.png"
 		}
 	]

@@ -4,6 +4,7 @@ import entities.item.ItemDrop;
 
 public class WorldBlock extends AbsBlock {
 	int voxel;
+	String name;
 	
 	public WorldBlock(int id, ItemDrop drop, int voxel) {
 		super(id, drop);		

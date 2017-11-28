@@ -31,7 +31,8 @@ class VoxelHandlerTest {
 		assertTrue(keys.contains(2));
 		assertTrue(keys.contains(3));
 		assertTrue(keys.contains(4));
-		assertEquals(keys.size(), 5);
+		assertTrue(keys.contains(5));
+		assertEquals(keys.size(), 6);
 		
 		for(Integer key: keys) {
 			Voxel curVoxel = voxelMap.get(key);
