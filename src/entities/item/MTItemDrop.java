@@ -19,17 +19,17 @@ public class MTItemDrop implements IItemDrop {
 
 	@Override
 	public int[] getMin() {
-		return null;
+		return new int[0];
 	}
 
 	@Override
 	public int[] getMax() {
-		return null;
+		return new int[0];
 	}
 
 	@Override
 	public float[] getChance() {
-		return null;
+		return new float[0];
 	}
 
 }
