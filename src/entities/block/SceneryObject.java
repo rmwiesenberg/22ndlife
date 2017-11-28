@@ -1,5 +1,10 @@
 package entities.block;
 
-public class SceneryObject {
+import entities.item.ItemDrop;
 
+public class SceneryObject extends AbsWorldObject {
+
+	public SceneryObject(int id, String name, ItemDrop drop) {
+		super(id, name, drop);
+	}
 }

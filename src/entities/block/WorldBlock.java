@@ -2,12 +2,11 @@ package entities.block;
 
 import entities.item.ItemDrop;
 
-public class WorldBlock extends AbsBlock {
+public class WorldBlock extends AbsWorldObject implements IBlock {
 	int voxel;
-	String name;
 	
-	public WorldBlock(int id, ItemDrop drop, int voxel) {
-		super(id, drop);		
+	public WorldBlock(int id, String name, ItemDrop drop, int voxel) {
+		super(id, name, drop);		
 		this.voxel = voxel;
 	}
 	
