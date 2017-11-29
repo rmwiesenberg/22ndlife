@@ -11,10 +11,21 @@ import entities.subject.ISubject;
 public class World {
 	private IBlock[][][] blocks;
 	private ArrayList<ISubject> subjects;
+	private Camera camera;
 	
-	public World(IBlock[][][] blocks, ArrayList<ISubject> subjects){
+	public World(IBlock[][][] blocks, ArrayList<ISubject> subjects, Camera camera){
 		this.blocks = blocks;
 		this.subjects = subjects;
+		this.camera = camera;
+	}
+	
+	public World(String seed) {
+		generateWorld(seed);
+	}
+	
+	private void generateWorld(String seed) {
+		// TODO
+		return;
 	}
 	
 	void addBlock(IBlock block, Vector3i pos) {
@@ -40,5 +51,9 @@ public class World {
 
 	public ArrayList<ISubject> getSubjects() {
 		return subjects;
+	}
+	
+	public Camera getCamera() {
+		return camera;
 	}
 }

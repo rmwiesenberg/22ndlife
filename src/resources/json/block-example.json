@@ -3,28 +3,28 @@
 	"block": [
 		{
 			"id": 0,
+			"name": "empty",
 			"voxelID": 0,
-			"name": "empty"
 		},{
 			"id": 1,
+			"name": "test1",
 			"voxelID": 1,
-			"name": "test1"
 		},{
 			"id": 2,
-			"voxelID": 2,
-			"name": "test2"
+			"name": "test2",
+			"voxelID": 2,			
 		},{
 			"id": 3,
-			"voxelID": 3,
-			"name": "test3"
+			"name": "test3",
+			"voxelID": 3,			
 		},{
 			"id": 4,
-			"voxelID": 4,
-			"name": "test6"
+			"name": "test6",
+			"voxelID": 4,			
 		},{
 			"id": 5,
-			"voxelID": 5,
-			"name": "trans"
+			"name": "trans",
+			"voxelID": 5,			
 		}
 	]
 }
