@@ -1,4 +1,4 @@
-package controllers.handlers;
+package controllers.parsers;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class ImageHandler {	
+public class ImageParser {	
 	/**
 	 * Returns the float array derived from a single integer
 	 * 

@@ -1,4 +1,4 @@
-package controllers.handlers.tests;
+package controllers.parsers.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,8 +7,8 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import controllers.handlers.VoxelHandler;
-import controllers.handlers.excpetions.InvalidImageSizeException;
+import controllers.parsers.VoxelParser;
+import controllers.parsers.exceptions.InvalidImageSizeException;
 import entities.Voxel;
 
 class VoxelHandlerTest {
@@ -18,7 +18,7 @@ class VoxelHandlerTest {
 	void testVoxelHandler() {
 		HashMap<Integer, Voxel> voxelMap = null;
 		try {
-			voxelMap = VoxelHandler.readJSON("src/resources/json/voxel-example.json");
+			voxelMap = VoxelParser.readJSON("src/resources/json/voxel-example.json");
 		} catch (InvalidImageSizeException e) {
 			e.printStackTrace();
 			fail("Invalid Image Size");

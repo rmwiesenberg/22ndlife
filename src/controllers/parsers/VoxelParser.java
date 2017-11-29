@@ -1,24 +1,21 @@
-package controllers.handlers;
+package controllers.parsers;
 
 import entities.Voxel;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import static java.lang.Math.toIntExact;
-
-import javax.swing.Painter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import controllers.handlers.excpetions.InvalidImageSizeException;
+import controllers.parsers.exceptions.InvalidImageSizeException;
 
-public class VoxelHandler {
+public class VoxelParser {
 	/**
 	 * Returns a HashMap of voxels that should be loaded into memory at start.
 	 * This is based on the given JSON for all voxels to be loaded into the game.
@@ -67,7 +64,7 @@ public class VoxelHandler {
 	 */
 	private static Voxel makeVoxel(int voxelID, String voxelPath) 
 			throws InvalidImageSizeException {
-		int[][] img = ImageHandler.convertPNG(voxelPath);
+		int[][] img = ImageParser.convertPNG(voxelPath);
 		int height = img.length;
 		int width = img[0].length;
 		

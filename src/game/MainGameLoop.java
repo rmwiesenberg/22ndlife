@@ -3,8 +3,8 @@ package game;
 import java.util.HashMap;
 
 import boundary.renderEngine.DisplayManager;
-import controllers.handlers.VoxelHandler;
-import controllers.handlers.excpetions.InvalidImageSizeException;
+import controllers.parsers.VoxelParser;
+import controllers.parsers.exceptions.InvalidImageSizeException;
 import entities.Voxel;
 
 public class MainGameLoop {
@@ -13,7 +13,7 @@ public class MainGameLoop {
 		DisplayManager window = new DisplayManager();
 		
 		try {
-			HashMap<Integer, Voxel> voxels = VoxelHandler.readJSON("resources/json/voxel.json");
+			HashMap<Integer, Voxel> voxels = VoxelParser.readJSON("resources/json/voxel.json");
 		} catch (InvalidImageSizeException e) {
 			e.printStackTrace();
 		}

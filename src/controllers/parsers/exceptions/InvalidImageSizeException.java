@@ -1,4 +1,4 @@
-package controllers.handlers.excpetions;
+package controllers.parsers.exceptions;
 
 public class InvalidImageSizeException extends Exception {
 

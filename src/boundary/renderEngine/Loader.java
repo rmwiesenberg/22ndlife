@@ -13,9 +13,9 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import boundary.models.RawModel;
-import controllers.handlers.ImageHandler;
-import controllers.handlers.VoxelHandler;
-import controllers.handlers.excpetions.InvalidImageSizeException;
+import controllers.parsers.ImageHandler;
+import controllers.parsers.VoxelHandler;
+import controllers.parsers.exceptions.InvalidImageSizeException;
 import entities.Voxel;
 
 public class Loader {
