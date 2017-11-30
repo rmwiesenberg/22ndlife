@@ -1,0 +1,5 @@
+{
+	"voxel": "src/resources/json/voxel-example.json",
+	"block": "src/resources/json/block-example.json",
+	"world": "world"
+}

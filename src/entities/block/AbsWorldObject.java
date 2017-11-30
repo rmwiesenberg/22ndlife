@@ -1,13 +1,13 @@
 package entities.block;
 
-import entities.item.ItemDrop;
+import entities.item.IItemDrop;
 
 public abstract class AbsWorldObject implements IWorldObject {
 	private int id;
 	private String name;
-	private ItemDrop drop;
+	private IItemDrop drop;
 	
-	public AbsWorldObject(int id, String name, ItemDrop drop) {
+	public AbsWorldObject(int id, String name, IItemDrop drop) {
 		this.id = id;
 		this.name = name;
 		this.drop = drop;
@@ -23,7 +23,7 @@ public abstract class AbsWorldObject implements IWorldObject {
 		return name;
 	}
 
-	public ItemDrop getDrop() {
+	public IItemDrop getDrop() {
 		return drop;
 	}
 }
