@@ -36,7 +36,7 @@ class VoxelParserTest {
 		
 		for(Integer key: keys) {
 			Voxel curVoxel = voxelMap.get(key);
-			int[][] tex = curVoxel.getTexture();
+			byte[] tex = curVoxel.getTexture();
 			for(int s = 0; s < 6; s++) {
 				int[] uv = curVoxel.getSideUV(s);
 				// check box is correct

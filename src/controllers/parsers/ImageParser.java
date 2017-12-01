@@ -38,7 +38,7 @@ public class ImageParser {
 			e.printStackTrace();
 		}
 		// transfer image and create canvas
-	    final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+	    final byte[] texture = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 	    final int width = image.getWidth();
 	    final int height = image.getHeight();
 	    final boolean hasAlphaChannel = image.getAlphaRaster() != null;

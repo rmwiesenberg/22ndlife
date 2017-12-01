@@ -2,11 +2,18 @@ package controllers.parsers;
 
 import entities.Voxel;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
 import static java.lang.Math.toIntExact;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -64,9 +71,17 @@ public class VoxelParser {
 	 */
 	private static Voxel makeVoxel(int voxelID, String voxelPath) 
 			throws InvalidImageSizeException {
-		int[][] img = ImageParser.convertPNG(voxelPath);
-		int height = img.length;
-		int width = img[0].length;
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File(voxelPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// transfer image and create canvas
+	    final byte[] texture = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+	    final int width = image.getWidth();
+	    final int height = image.getHeight();
+	    final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 		
 		int sides = 6;
 		int idx = 4;
@@ -134,6 +149,6 @@ public class VoxelParser {
 			uv[s][7]--;
 		}
 		
-		return new Voxel(voxelID, img, uv);
+		return new Voxel(voxelID, width, height, hasAlphaChannel, texture, uv);
 	}
 }
