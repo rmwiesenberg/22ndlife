@@ -2,7 +2,3 @@
 .classpath
 /target/
 *.log
-*.xcf
-
-*.sublime-project
-*.sublime-workspace

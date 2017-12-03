@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import org.lwjgl.opengl.GL11;
 
-import boundary.models.TexturedModel;
+import boundary.models.RawModel;
 
 public class MasterRenderer {
 
@@ -15,7 +15,8 @@ public class MasterRenderer {
 		
 	}
 	
-	public void render(Frame frame) {		
-		EntityRenderer.render(frame);
+	public void render(RawModel model) {
+		
+		EntityRenderer.render(model);
 	}
 }

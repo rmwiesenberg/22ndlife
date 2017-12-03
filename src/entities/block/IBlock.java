@@ -1,6 +1,9 @@
 package entities.block;
 
+import entities.item.ItemStack;
 
 public interface IBlock {
-	public boolean isScenery();
+	int getID();
+	public ItemStack[] getItems();
+	boolean isScenery();
 }

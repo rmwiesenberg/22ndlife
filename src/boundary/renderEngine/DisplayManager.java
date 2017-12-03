@@ -5,9 +5,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import boundary.models.RawModel;
-import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
-import boundary.textures.ModelTexture;
 
 import java.nio.*;
 
@@ -82,13 +80,16 @@ public class DisplayManager {
 	}
 
 	public void loop() {
-		
+		GL.createCapabilities();
 		MasterRenderer renderer = new MasterRenderer();
 		
 		Loader loader = new Loader();
-		loader1 = loader;															// TODO FIX
+		loader1 = loader;													// TODO FIX
 		
-		float[] vertices = {														// TEMPORARY CODE FOR QUAD
+		StaticShader shader = new StaticShader();
+		shader1 = shader;													// TODO FIX
+		
+		float[] vertices = {																// TEMPORARY CODE FOR QUAD
 				-0.5f, 0.5f, 0,
 				-0.5f, -0.5f, 0,
 				0.5f, -0.5f, 0,
@@ -100,29 +101,17 @@ public class DisplayManager {
 				0, 1, 2,
 				2, 3, 0
 		};
-		
-		float[] uv = {
-				0, 0,
-				0, 1,
-				1, 1,
-				1, 0
-		};
 				
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
 		// LWJGL detects the context that is current in the current thread,
 		// creates the GLCapabilities instance and makes the OpenGL
 		// bindings available for use.
-		GL.createCapabilities();
+		
 
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
-		RawModel model = loader.loadToVAO(vertices, indices, uv);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
-		TexturedModel texModel = new TexturedModel(model, texture);
-		
-		StaticShader shader = new StaticShader();
-		shader1 = shader;														// TODO FIX
+		RawModel model = loader.loadToVAO(vertices, indices);
 		
 
 		// Run the rendering loop until the user has attempted to close
@@ -132,7 +121,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.render(texModel);
+			renderer.render(model);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers

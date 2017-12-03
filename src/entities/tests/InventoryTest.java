@@ -1,4 +1,4 @@
-package entities.item.tests;
+package entities.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,8 +20,10 @@ class InventoryTest {
 	void testInventoryBasic() {
 		Item cup = new Item(5, "cups", 20);
 		IItemStack cup5 = null;
+		IItemStack mtStack = null;
 		try {
 			cup5 = new ItemStack(cup, 5);
+			mtStack = new MTItemStack();
 		} catch (NotEnoughSpaceException e) {
 			e.printStackTrace();
 		}

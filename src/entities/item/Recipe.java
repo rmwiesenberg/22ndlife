@@ -11,6 +11,14 @@ public class Recipe {
 		this.output = output;
 	}
 	
+	public IItemStack[] getInput() {
+		return input;
+	}
+	
+	public IItemStack[] getOutput() {
+		return output;
+	}
+	
 	public Inventory doRecipie(Inventory inv) 
 			throws ItemStackException {
 		int i;
@@ -21,14 +29,5 @@ public class Recipe {
 			inv.addItem(output[i]);
 		}
 		return inv;
-	}
-	
-	// Getters and Setters
-	public IItemStack[] getInput() {
-		return input;
-	}
-	
-	public IItemStack[] getOutput() {
-		return output;
 	}
 }

@@ -1,29 +1,33 @@
 package entities.block;
 
-import java.util.HashMap;
+import entities.item.ItemStack;
 
-import org.joml.Vector3f;
-
-public class SceneryBlock implements IBlock {
-	SceneryObject[] scenery;
-	Vector3f[] offset;
-	Vector3f[] rotation;
+public class SceneryBlock extends AbsBlock {
+	public int[][][] voxelArray;
 	
 	
-	
-	public SceneryBlock(SceneryObject[] scenery, Vector3f[] offset, Vector3f[] rotation) {
-		this.scenery = scenery;
-		this.offset = offset;
-		this.rotation = rotation;
+	public SceneryBlock(int id, ItemStack[] items, float transparency) {
+		super(id, items, transparency);
+		this.voxelArray = new int[32][32][32];
 	}
-
-
-	public HashMap<Integer, HashMap<Integer, Vector3f[]>> getVisible(Vector3f view){
-		return null;		
+	
+	// Getters and Setters
+	public int[][][] getVoxelArray(){
+		return voxelArray;
+	}
+	
+	public int getVoxel(int x, int y, int z) {
+		return voxelArray[x][y][z];
+	}
+	
+	public SceneryBlock setVoxel(int x, int y, int z, int voxel) {
+		voxelArray[x][y][z] = voxel;
+		return this;
 	}
 	
 	@Override
 	public boolean isScenery() {
 		return true;
 	}
+	
 }
