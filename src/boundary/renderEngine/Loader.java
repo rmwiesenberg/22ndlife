@@ -2,21 +2,11 @@ package boundary.renderEngine;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-
-import boundary.models.RawModel;
-import controllers.parsers.ImageHandler;
-import controllers.parsers.VoxelHandler;
-import controllers.parsers.exceptions.InvalidImageSizeException;
-import entities.Voxel;
 
 public class Loader {
 	/**
@@ -48,6 +38,38 @@ public class Loader {
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
 		
 		return buffer;
+	}
+	
+	/**
+	 * Create vbo and give it an id to be used by other functions
+	 * 
+	 * @param data
+	 * @param attributeNumber
+	 * @param dimensions
+	 * @return vboID
+	 */
+	public static int createAttributesVBO(float[] data, int attributeNumber, int dimensions) {
+		int vboID = GL15.glGenBuffers();
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
+		Loader.storeDataInFloatBuffer(data);
+		GL20.glVertexAttribPointer(attributeNumber, dimensions, GL11.GL_FLOAT, false, 0, 0);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		return vboID;
+	}
+	
+	/**
+	 * Binds integer array of indicies to the selected vbo
+	 * 
+	 * @param indices
+	 * @return vboID
+	 */
+	
+	public static int createIndicesVBO(int[] indices) {
+		int vboID = GL15.glGenBuffers();
+		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
+		Loader.storeDataInIntBuffer(indices);		
+		
+		return vboID;
 	}
 	
 }

@@ -2,10 +2,7 @@ package boundary.renderEngine;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 public class EntityRenderer {
 	
@@ -22,13 +19,13 @@ public class EntityRenderer {
 			GL20.glEnableVertexAttribArray(1);
 			
 			// Enable texture bank
-			GL13.glActiveTexture(GL13.GL_TEXTURE0);
+			GL13.glActiveTexture(GL13.GL_TEXTURE0);                          
 			
 			// 2D texture ------
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, frame.getTexture(vao));
 			
 			// Draw Triangles based on model data vertex count
-			GL11.nglDrawElements(GL11.GL_TRIANGLES, frame.getVertexCount(vao), GL11.GL_UNSIGNED_INT, 0);
+			GL11.glDrawElements(GL11.GL_TRIANGLES, frame.getVertexCount(vao), GL11.GL_UNSIGNED_INT, 0);
 			
 			// Unbind VBO from render data "vertex data"
 			GL20.glDisableVertexAttribArray(0);

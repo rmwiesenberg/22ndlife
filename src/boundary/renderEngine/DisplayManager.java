@@ -1,15 +1,15 @@
 package boundary.renderEngine;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
-import boundary.models.RawModel;
-import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
-import boundary.textures.ModelTexture;
+import entities.Voxel;
 
 import java.nio.*;
+import java.util.HashMap;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -28,7 +28,10 @@ public class DisplayManager {
 	public static Loader loader1 = null;
 	public static StaticShader shader1 = null;
 	
-	public void init() {
+	private HashMap<Integer, Voxel> voxels = null;
+	
+	public void init(HashMap<Integer, Voxel> voxels) {
+		this.voxels = voxels;
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
 		GLFWErrorCallback.createPrint(System.err).set();
@@ -81,72 +84,71 @@ public class DisplayManager {
 		glfwShowWindow(window);
 	}
 
-	public void loop() {
+	public void loop(Frame frame) {
 		
 		MasterRenderer renderer = new MasterRenderer();
 		
 		Loader loader = new Loader();
 		loader1 = loader;															// TODO FIX
 		
-		float[] vertices = {														// TEMPORARY CODE FOR QUAD
-				-0.5f, 0.5f, 0,
-				-0.5f, -0.5f, 0,
-				0.5f, -0.5f, 0,
-				0.5f, 0.5f, 0,
-
-		};
-		
-		int[] indices = {
-				0, 1, 2,
-				2, 3, 0
-		};
-		
-		float[] uv = {
-				0, 0,
-				0, 1,
-				1, 1,
-				1, 0
-		};
-				
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GL.createCapabilities();
-
-		
-		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
-		RawModel model = loader.loadToVAO(vertices, indices, uv);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
-		TexturedModel texModel = new TexturedModel(model, texture);
-		
+//		float[] vertices = {														// TEMPORARY CODE FOR QUAD
+//				-0.5f, 0.5f, 0,
+//				-0.5f, -0.5f, 0,
+//				0.5f, -0.5f, 0,
+//				0.5f, 0.5f, 0,
+//
+//		};
+//		
+//		int[] indices = {
+//				0, 1, 2,
+//				2, 3, 0
+//		};
+//		
+//		float[] uv = {
+//				0, 0,
+//				0, 1,
+//				1, 1,
+//				1, 0
+//		};
+//				
+//		// This line is critical for LWJGL's interoperation with GLFW's
+//		// OpenGL context, or any context that is managed externally.
+//		// LWJGL detects the context that is current in the current thread,
+//		// creates the GLCapabilities instance and makes the OpenGL
+//		// bindings available for use.
+//		GL.createCapabilities();
+//
+//		
+//		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
+//		RawModel model = loader.loadToVAO(vertices, indices, uv);
+//		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
+//		TexturedModel texModel = new TexturedModel(model, texture);
+//		
 		StaticShader shader = new StaticShader();
 		shader1 = shader;														// TODO FIX
+//		
+//
+//		// Run the rendering loop until the user has attempted to close
+//		// the window or has pressed the ESCAPE key.
+//		while ( !glfwWindowShouldClose(window) ) {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 		
+		
+		shader.start();
+		renderer.render(frame);
+		shader.stop();
+		
+		glfwSwapBuffers(window); // swap the color buffers
 
-		// Run the rendering loop until the user has attempted to close
-		// the window or has pressed the ESCAPE key.
-		while ( !glfwWindowShouldClose(window) ) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+		// Poll for window events. The key callback above will only be
+		// invoked during this call.
+		glfwPollEvents();
 			
 			
-			shader.start();
-			renderer.render(texModel);
-			shader.stop();
-			
-			glfwSwapBuffers(window); // swap the color buffers
-
-			// Poll for window events. The key callback above will only be
-			// invoked during this call.
-			glfwPollEvents();
-			
-			
-		}
+//		}
 	}
 
 	public void terminate() {
-		loader1.cleanUp();
 		shader1.cleanUp();
 		
 	// Free the window callbacks and destroy the window
@@ -156,5 +158,9 @@ public class DisplayManager {
 	// Terminate GLFW and free the error callback
 		glfwTerminate();
 		glfwSetErrorCallback(null).free();
+	}
+
+	public boolean shouldClose() {
+		return glfwWindowShouldClose(window);
 	}
 }

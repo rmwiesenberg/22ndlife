@@ -4,8 +4,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import org.lwjgl.opengl.GL11;
 
-import boundary.models.TexturedModel;
-
 public class MasterRenderer {
 
 	public void prepare() {
