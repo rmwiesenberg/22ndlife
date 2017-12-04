@@ -3,6 +3,7 @@ package boundary.renderEngine;
 import org.lwjgl.opengl.GL11;
 
 import boundary.models.TexturedModel;
+import entities.Voxel;
 
 public class MasterRenderer {
 	
@@ -17,6 +18,10 @@ public class MasterRenderer {
 		
 		EntityRenderer.render(model);
 		
+	}
+	
+	public void renderVoxel(Voxel voxel, int side) {
+		EntityRenderer.renderVoxelSide(voxel, side);
 	}
 
 }

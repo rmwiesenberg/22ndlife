@@ -1,6 +1,7 @@
 package boundary.renderEngine;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -11,8 +12,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import boundary.models.RawModel;
 
@@ -22,7 +21,7 @@ public class Loader {
 	static List<Integer> vbos = new ArrayList<Integer>();
 	static List<Integer> textures = new ArrayList<Integer>();
 	
-	public RawModel loadToVAO(float[] vertices, int[] indices, float[] uv) {
+	public int loadToVAO(float[] vertices, int[] indices, float[] uv) {
 		
 		int vaoID = createVAO();
 		storeDataInAttributeList(vertices, 0, 3);
@@ -30,12 +29,11 @@ public class Loader {
 		bindIndicesBuffer(indices);
 		GL30.glBindVertexArray(0);
 		
-		return new RawModel(vaoID, indices.length);
-		
+		return vaoID;	
 	}
 	
 	private int createVAO() {
-		
+
 		int vaoID = GL30.glGenVertexArrays();
 		vaos.add(vaoID);
 		GL30.glBindVertexArray(vaoID);
@@ -44,18 +42,18 @@ public class Loader {
 		
 	}
 	
-	public int loadTexture(String fileName) {
-		
-		Texture texture = null;
-		try {
-			texture = TextureLoader.getTexture("PNG", Class.class.getResourceAsStream("/boundary/res/" + fileName + ".PNG"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		int textureID = texture.getTextureID();
-		textures.add(textureID);
-		
+	public int loadTexture(int[] colors, int width, int height) {
+		int textureID = GL11.glGenTextures(); 
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID); 
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 
+                		  0, 
+                		  GL30.GL_RGBA32I, 
+                		  width, 
+                		  height, 
+                		  0, 
+                		  GL11.GL_RGBA, 
+                		  GL11.GL_INT, 
+                		  storeDataInIntBuffer(colors));
 		return textureID;
 		
 	}
@@ -100,6 +98,14 @@ public class Loader {
 		
 		return buffer;
 		
+	}
+	
+	private ByteBuffer storeDataInByteBuffer(byte[] data) {		
+		ByteBuffer buffer = BufferUtils.createByteBuffer(data.length);
+		buffer.put(data);
+		buffer.flip();
+		
+		return buffer;		
 	}
 	
 	public void cleanUp() {

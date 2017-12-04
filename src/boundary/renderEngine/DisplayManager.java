@@ -8,8 +8,12 @@ import boundary.Textures.ModelTexture;
 import boundary.models.RawModel;
 import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
+import controllers.parsers.VoxelParser;
+import controllers.parsers.exceptions.InvalidImageSizeException;
+import entities.Voxel;
 
 import java.nio.*;
+import java.util.HashMap;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -91,27 +95,27 @@ public class DisplayManager {
 		StaticShader shader = new StaticShader();
 		shader1 = shader;													// TODO FIX
 		
-		float[] vertices = {																// TEMPORARY CODE FOR QUAD
-				-0.5f, 0.5f, 0,
-				-0.5f, -0.5f, 0,
-				0.5f, -0.5f, 0,
-				0.5f, 0.5f, 0,
-
-		};
-		
-		int[] indices = {
-				0, 1, 2,
-				2, 3, 0
-		};
-		
-		float[] uv = {
-				
-				0, 0,
-				0, 1,
-				1, 1,
-				1, 0
-				
-		};
+//		float[] vertices = {																// TEMPORARY CODE FOR QUAD
+//				-0.5f, 0.5f, 0,
+//				-0.5f, -0.5f, 0,
+//				0.5f, -0.5f, 0,
+//				0.5f, 0.5f, 0,
+//
+//		};
+//		
+//		int[] indices = {
+//				0, 1, 2,
+//				2, 3, 0
+//		};
+//		
+//		float[] uv = {
+//				
+//				0, 0,
+//				0, 1,
+//				1, 1,
+//				1, 0
+//				
+//		};
 				
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
@@ -122,9 +126,18 @@ public class DisplayManager {
 
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
-		RawModel model = loader.loadToVAO(vertices, indices, uv);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
-		TexturedModel texModel = new TexturedModel(model, texture);
+//		RawModel model = loader.loadToVAO(vertices, indices, uv);
+//		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
+//		TexturedModel texModel = new TexturedModel(model, texture);
+		
+		HashMap<Integer, Voxel> voxels = null;
+		try {
+			voxels = VoxelParser.readJSON("src/resources/json/voxel-example.json",
+					loader);
+		} catch (InvalidImageSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
@@ -133,7 +146,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.render(texModel);
+			renderer.renderVoxel(voxels.get(4), 1);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers

@@ -10,22 +10,13 @@ package entities;
  */
 public class Voxel {
 	private int id;
-	private int textureWidth;
-	private int textureHeight;
-	private boolean hasAlphhaChannel;
-	private byte[] texture;
+	private int textureID;
+	private int[] vaoID;
 	
-	// uv[][side]
-	private int[][] uv;
-	
-	public Voxel(int id, int textureWidth, int textureHeight, boolean hasAlphaChannel, 
-			byte[] texture, int[][] uv) {
+	public Voxel(int id, int textureID, int[] vaoID) {
 		this.id = id;
-		this.textureWidth = textureWidth;
-		this.textureHeight = textureHeight;
-		this.hasAlphhaChannel = hasAlphaChannel;
-		this.texture = texture;
-		this.uv = uv;
+		this.textureID = textureID;
+		this.vaoID = vaoID;
 	}
 		
 
@@ -34,29 +25,11 @@ public class Voxel {
 		return id;
 	}
 	
-	public byte[] getTexture(){
-		return texture;
+	public int getTexture(){
+		return textureID;
 	}
 	
-	public int getTextureWidth() {
-		return textureWidth;
-	}
-
-	public int getTextureHeight() {
-		return textureHeight;
-	}
-
-	public boolean hasAlphhaChannel() {
-		return hasAlphhaChannel;
-	}
-	
-	public int[][] getUV() {
-		return uv;
-	}
-	
-	public int[] getSideUV(int side){
-		return uv[side];
-	}
-	
-	
+	public int getVAO(int side) {
+		return vaoID[side];
+	}	
 }

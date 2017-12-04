@@ -20,9 +20,54 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import boundary.renderEngine.Loader;
 import controllers.parsers.exceptions.InvalidImageSizeException;
 
 public class VoxelParser {
+	private static float[][] vertices = {
+			// top
+			{-.5f, .5f, 0f,
+			 -.5f, -.5f, 0f,
+			 .5f, -.5f, 0f,
+			 .5f, .5f, 0f},
+			
+			// bottom
+			{-1f, 1f, -1f,
+		     -1f, -1f, -1f,
+			 1f, -1f, -1f,
+			 1f, 1f, -1f},
+			
+			// side 1 (north)
+			{1f, -1f, 1f,
+			 1f, 1f, 1f,
+			 1f, -1f, -1f,
+			 1f, 1f, -1f},
+			
+			// side 2 (south)
+			{-1f, -1f, 1f,
+			 -1f, 1f, 1f,
+			 -1f, -1f, -1f,
+			 -1f, 1f, -1f},
+			
+			// side 3 (east)
+			{-1f, 1f, 1f,
+			 -1f, -1f, 1f,
+			 -1f, 1f, -1f,
+			 -1f, -1f, -1f},
+			
+			// side 4 (west)
+			{1f, 1f, 1f,
+			 1f, -1f, 1f,
+			 1f, 1f, -1f,
+			 1f, -1f, -1f},
+	};
+	
+	private static int[] indices = {
+			0, 1, 2,
+			2, 3, 0			
+	}; 
+	
+	
 	/**
 	 * Returns a HashMap of voxels that should be loaded into memory at start.
 	 * This is based on the given JSON for all voxels to be loaded into the game.
@@ -31,7 +76,7 @@ public class VoxelParser {
 	 * @return HashMap of voxels where their id is the key
 	 * @throws InvalidImageSizeException when image does not meet voxel size expectations
 	 */
-	public static HashMap<Integer, Voxel> readJSON(String filepath) 
+	public static HashMap<Integer, Voxel> readJSON(String filepath, Loader loader) 
 			throws InvalidImageSizeException {
 		JSONParser parser = new JSONParser();
 		JSONObject obj = null;
@@ -56,7 +101,7 @@ public class VoxelParser {
 			int voxelID = toIntExact((long) curVoxel.get("id"));
 			String voxelFile = (String) curVoxel.get("filename");
 			String voxelPath = voxelDir.concat(voxelFile);
-			voxels.put(voxelID, makeVoxel(voxelID, voxelPath));
+			voxels.put(voxelID, makeVoxel(voxelID, voxelPath, loader));
 		}		
 		return voxels;
 	}
@@ -69,7 +114,7 @@ public class VoxelParser {
 	 * @return voxel representative of the inputs
 	 * @throws InvalidImageSizeException when image does not meet voxel size expections
 	 */
-	private static Voxel makeVoxel(int voxelID, String voxelPath) 
+	private static Voxel makeVoxel(int voxelID, String voxelPath, Loader loader) 
 			throws InvalidImageSizeException {
 		BufferedImage image = null;
 		try {
@@ -78,10 +123,12 @@ public class VoxelParser {
 			e.printStackTrace();
 		}
 		// transfer image and create canvas
-	    final byte[] texture = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+	    final boolean hasAlphaChannel = image.getAlphaRaster() != null;
+	    final int[] texture = convertByteBufferIntBuffer(pixels, hasAlphaChannel);
+	    
 	    final int width = image.getWidth();
 	    final int height = image.getHeight();
-	    final boolean hasAlphaChannel = image.getAlphaRaster() != null;
 		
 		int sides = 6;
 		int idx = 4;
@@ -149,6 +196,52 @@ public class VoxelParser {
 			uv[s][7]--;
 		}
 		
-		return new Voxel(voxelID, width, height, hasAlphaChannel, texture, uv);
+		float[][] uvFloat = new float[6][8];
+		for(s = 0; s < sides; s++) {
+			for(i = 0; i < idx; i++) {
+				uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width);
+				uvFloat[s][(2*i)+1] = (float) uv[s][(2*i)+1]/((float) height);
+			}
+		}
+				
+		
+		int[] vaoID = new int[6];
+		for (s = 0; s < sides; s++) {
+			vaoID[s] = loader.loadToVAO(vertices[s], indices, uvFloat[s]);
+		}
+		int textureID = loader.loadTexture(texture, width, height);
+		
+		return new Voxel(voxelID, textureID, vaoID);
 	}
+	
+	public static int[] convertByteBufferIntBuffer(byte[] pixels, boolean hasAlphaChannel) {
+	    // handle alpha channel and int parsing
+	    int[] result = null;
+	    if (hasAlphaChannel) {
+	       final int pixelLength = 4;
+	       result = new int[pixels.length/pixelLength];
+	       for (int pixel = 0; pixel < pixels.length; pixel += pixelLength) {
+	          int argb = 0;
+	          argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
+	          argb += ((int) pixels[pixel + 1] & 0xff); // blue
+	          argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
+	          argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
+	          result[pixel/pixelLength] = argb;
+	       }
+	    } else {
+	       final int pixelLength = 3;
+	       result = new int[pixels.length/pixelLength];
+	       for (int pixel = 0; pixel < pixels.length; pixel += pixelLength) {
+	          int argb = 0;
+	          argb += -16777216; // 255 alpha
+	          argb += ((int) pixels[pixel] & 0xff); // blue
+	          argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
+	          argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
+	          result[pixel/pixelLength] = argb;
+	       }
+	    }
+	    
+	    return result;
+	}
+
 }
