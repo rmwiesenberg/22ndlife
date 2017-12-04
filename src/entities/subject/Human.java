@@ -1,24 +1,25 @@
-package entities.subject.beasts;
+package entities.subject;
+
+import org.joml.Vector3f;
 
 import entities.item.Inventory;
-import entities.subject.AbsSubject;
 import entities.subject.health.MentalHealth;
 import entities.subject.health.PhysicalHealth;
-import math.Pose;
 
 public class Human extends AbsSubject {
 
 	private MentalHealth mentHealth;
 
-	public Human(String name, Pose pose, Inventory inventory, 
+	public Human(String name, Vector3f position, Vector3f orientation, Inventory inventory, 
 			MentalHealth mentHealth) {
-		super(name, pose, inventory, new PhysicalHealth(20));
+		super(name, position, orientation, inventory, new PhysicalHealth(20));
 		this.mentHealth = mentHealth;
 	}
 
-	public Human(String name, Pose pose, int slots,	
+	public Human(String name, Vector3f position, Vector3f orientation, int slots,	
 			MentalHealth mentHealth) {
-		super(name, pose, new Inventory(slots), new PhysicalHealth(20));
+		super(name, position, orientation, new Inventory(slots), 
+				new PhysicalHealth(20));
 		this.mentHealth = mentHealth;
 	}
 	

@@ -5,40 +5,54 @@ import org.joml.Vector3f;
 
 import entities.item.Inventory;
 import entities.subject.health.PhysicalHealth;
-import math.*;
+import entities.world.Camera;
 
-public abstract class AbsSubject implements ISubject{
+public abstract class AbsSubject implements ISubject {
 	// <x, y, z>
 	private String name;
-	private Pose pose;
+	private Vector3f position;
+	private Vector3f orientation;
 	private Inventory inventory;
 	private PhysicalHealth physicalHealth;
 	
-	public AbsSubject(String name, Pose pose, Inventory inventory, 
-			PhysicalHealth physHealth) {
+	public AbsSubject(String name, Vector3f position, Vector3f orientation, 
+			Inventory inventory, PhysicalHealth physHealth) {
 		this.name = name;
-		this.pose = pose;
+		this.position = position;
 		this.physicalHealth = physHealth;
 		this.inventory = inventory;
 	}
 	
-	public AbsSubject(String name, Pose pose, int slots, 
-			PhysicalHealth physHealth) {
+	public AbsSubject(String name, Vector3f position, Vector3f orientation,
+			int slots, PhysicalHealth physHealth) {
 		this.name = name;
-		this.pose = pose;
+		this.position = position;
+		this.orientation = orientation;
 		this.physicalHealth = physHealth;
 		this.inventory = new Inventory(slots);
 	}
 	
 	public ISubject translate(Vector3f delta) {
-		pose = pose.translate(delta);
+		position = position.add(delta);
 		return this;
 		
 	}
 	
 	public ISubject rotate(Quaternionf quat) {
-		pose = pose.rotate(quat);
+		orientation = orientation.rotate(quat);
 		return this;
+	}
+	
+	@Override
+	public Camera getViewCamera() {
+		// TODO: implement
+		return null;
+	}
+	
+	@Override
+	public Camera get3rdCamera() {
+		// TODO: implement
+		return null;
 	}
 	
 	// Getters and Setters
@@ -48,18 +62,13 @@ public abstract class AbsSubject implements ISubject{
 	}
 	
 	@Override
-	public Pose getPose() {
-		return pose;
-	}
-	
-	@Override
 	public Vector3f getPosition() {
-		return pose.getPosition();
+		return position;
 	}
 	
 	@Override
 	public Vector3f getOrientation() {
-		return pose.getOrientation();
+		return orientation;
 	}
 	
 	@Override
