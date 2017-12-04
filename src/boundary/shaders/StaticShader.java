@@ -11,8 +11,7 @@ public class StaticShader extends ShaderProgram{
 
 	@Override
 	protected void bindAttributes() {
-		super.bindAttribute("position", 0);			// Position from slot 1 of vao
-		super.bindAttribute("textureCoords", 1);	// Texture from slot 2 of vao
+		super.bindAttribute("position", 0);
 	}
 	
 }

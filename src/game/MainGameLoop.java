@@ -16,11 +16,6 @@ public class MainGameLoop {
 		DisplayManager window = new DisplayManager();
 		HashMap<Integer, Voxel> voxels = null;
 		
-		try {
-			voxels = VoxelParser.readJSON("resources/json/voxel.json");
-		} catch (InvalidImageSizeException e) {
-			e.printStackTrace();
-		}
 		
 		window.init(voxels);
 		GameStateManager gsm = new GameStateManager();
