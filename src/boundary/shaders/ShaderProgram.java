@@ -17,10 +17,7 @@ public abstract class ShaderProgram {
 	public ShaderProgram(String vertexFile, String fragmentFile) {					// Constructor takes the file names for both shaders and loads them into memory
 																					// --- Vertex shader does points in 3d space --- fragment shader does colour ---
 		
-		
-		
-															// Error checking for shader program
-			programID = GL20.glCreateProgram();
+		programID = GL20.glCreateProgram();											// DON'T TOUCH THIS... IT BREAKS THINGS @Odega
 			
 		
 		vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
