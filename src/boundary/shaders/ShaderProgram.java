@@ -19,6 +19,10 @@ public abstract class ShaderProgram {
 		
 		programID = GL20.glCreateProgram();											// DON'T TOUCH THIS... IT BREAKS THINGS @Odega
 			
+		if (programID == 0) {
+			System.out.println("Could not create shader program");
+			System.exit(-1);
+		}
 		
 		vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
