@@ -57,4 +57,6 @@ public class Voxel {
 	public int[] getSideUV(int side){
 		return uv[side];
 	}
+	
+	
 }

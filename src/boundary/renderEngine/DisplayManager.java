@@ -4,7 +4,9 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import boundary.Textures.ModelTexture;
 import boundary.models.RawModel;
+import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
 
 import java.nio.*;
@@ -101,6 +103,15 @@ public class DisplayManager {
 				0, 1, 2,
 				2, 3, 0
 		};
+		
+		float[] uv = {
+				
+				0, 0,
+				0, 1,
+				1, 1,
+				1, 0
+				
+		};
 				
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
@@ -111,8 +122,9 @@ public class DisplayManager {
 
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
-		RawModel model = loader.loadToVAO(vertices, indices);
-		
+		RawModel model = loader.loadToVAO(vertices, indices, uv);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
+		TexturedModel texModel = new TexturedModel(model, texture);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
@@ -121,7 +133,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.render(model);
+			renderer.render(texModel);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers
