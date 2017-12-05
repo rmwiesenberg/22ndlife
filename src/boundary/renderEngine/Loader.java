@@ -51,7 +51,7 @@ public class Loader {
                 		  width, 
                 		  height, 
                 		  0, 
-                		  GL11.GL_RGBA, 
+                		  GL30.GL_RGBA_INTEGER, 
                 		  GL11.GL_INT, 
                 		  storeDataInIntBuffer(colors));
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0); 

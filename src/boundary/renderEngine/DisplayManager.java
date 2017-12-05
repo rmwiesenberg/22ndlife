@@ -132,8 +132,7 @@ public class DisplayManager {
 		
 		HashMap<Integer, Voxel> voxels = null;
 		try {
-			voxels = VoxelParser.readJSON("src/resources/json/voxel-example.json",
-					loader);
+			voxels = VoxelParser.readJSON("src/resources/json/voxel-example.json", loader1);
 		} catch (InvalidImageSizeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

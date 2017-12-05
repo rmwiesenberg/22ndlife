@@ -177,7 +177,7 @@ public class VoxelParser {
 			// 3x2
 			for(int h = 1; h <= 2; h++) {
 				for(int w = 1; w <= 3; w++) {
-					s = w * h - 1;
+					s = ((h-1) * 3) + (w-1);
 					for(i = 0; i < idx; i++) {
 						uv[s][(2*i)] = (width*w/3) - (width/3)*((3-i)%2);
 						uv[s][(2*i)+1] = (height*h/2) - (height/2)*((3-i)/2);
@@ -197,7 +197,20 @@ public class VoxelParser {
 		}
 		
 		float[][] uvFloat = new float[6][8];
-		if(!((height == 1) || ((width == 3) && (height == 2)))) {
+		if(height == 1) {
+			if (width != height) {
+				for(s = 0; s < sides; s++) {
+					for(i = 0; i < idx; i++) {
+						uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width - 1);
+					}
+				}
+			}
+			for(s = 0; s < sides; s++) {
+				for(i = 2; i < idx; i++) {
+					uvFloat[s][(2*i) + 1] = 1f;
+				}
+			}
+		} else {
 			for(s = 0; s < sides; s++) {
 				for(i = 0; i < idx; i++) {
 					uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width - 1);
