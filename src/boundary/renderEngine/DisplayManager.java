@@ -126,7 +126,11 @@ public class DisplayManager {
 
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable( GL_BLEND );
 		glEnable(GL_TEXTURE_2D); //Enable texturing
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 //		RawModel model = loader.loadToVAO(vertices, indices, uv);
 //		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
 //		TexturedModel texModel = new TexturedModel(model, texture);
@@ -146,7 +150,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.renderVoxel(voxels.get(0), 0);
+			renderer.renderVoxel(voxels.get(1), 0);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers

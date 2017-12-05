@@ -28,9 +28,9 @@ public class VoxelParser {
 	private static float[][] vertices = {
 			// top
 			{-.5f, .5f, 0f,
-			 .5f, .5f, 0f,
 			 -.5f, -.5f, 0f,
-			 .5f, -.5f, 0f},
+			 .5f, -.5f, 0f,
+			 .5f, .5f, 0f},
 			
 			// bottom
 			{-1f, 1f, -1f,
@@ -64,8 +64,8 @@ public class VoxelParser {
 	};
 	
 	private static int[] indices = {
-			0, 3, 2,
-			0, 1, 3,			
+			0, 1, 2,
+			2, 3, 0,			
 	}; 
 	
 	
@@ -126,6 +126,7 @@ public class VoxelParser {
 		// transfer image and create canvas  
 	    int width = image.getWidth();
 	    int height = image.getHeight();
+	    boolean hasAlpha = image.getColorModel().hasAlpha();
 	    byte[] texture = new byte[height*width*4];
 	    for (int x = 0; x < width; x++) {
 	    	for (int y = 0; y < height; y++) {
@@ -134,7 +135,11 @@ public class VoxelParser {
 	    		texture[idx] = (byte) (c.getRed() & 0xff);
 	    		texture[idx+1] = (byte) (c.getGreen() & 0xff);
 	    		texture[idx+2] = (byte) (c.getBlue() & 0xff);
-	    		texture[idx+3] = (byte) (c.getAlpha() & 0xff);
+	    		if (hasAlpha) {
+	    			texture[idx+3] = (byte) (c.getAlpha() & 0xff);
+	    		} else {
+	    			texture[idx+3] = (byte) 255;
+	    		}
 	    	}
 	    }
 
