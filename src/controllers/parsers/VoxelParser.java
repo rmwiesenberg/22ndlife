@@ -197,10 +197,12 @@ public class VoxelParser {
 		}
 		
 		float[][] uvFloat = new float[6][8];
-		for(s = 0; s < sides; s++) {
-			for(i = 0; i < idx; i++) {
-				uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width);
-				uvFloat[s][(2*i)+1] = (float) uv[s][(2*i)+1]/((float) height);
+		if(!((height == 1) || ((width == 3) && (height == 2)))) {
+			for(s = 0; s < sides; s++) {
+				for(i = 0; i < idx; i++) {
+					uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width - 1);
+					uvFloat[s][(2*i)+1] = (float) uv[s][(2*i)+1]/((float) height - 1);
+				}
 			}
 		}
 				
