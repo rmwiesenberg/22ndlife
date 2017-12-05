@@ -145,7 +145,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.renderVoxel(voxels.get(4), 0);
+			renderer.renderVoxel(voxels.get(5), 0);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers

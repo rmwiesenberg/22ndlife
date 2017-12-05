@@ -47,12 +47,12 @@ public class Loader {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID); 
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 
                 		  0, 
-                		  GL30.GL_RGBA32I,
+                		  GL30.GL_RGBA32UI,
                 		  width, 
                 		  height, 
                 		  0, 
                 		  GL30.GL_RGBA_INTEGER, 
-                		  GL11.GL_INT, 
+                		  GL11.GL_UNSIGNED_INT, 
                 		  storeDataInIntBuffer(colors));
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0); 
 		return textureID;

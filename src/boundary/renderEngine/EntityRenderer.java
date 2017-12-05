@@ -21,12 +21,9 @@ public class EntityRenderer {
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
-		
-		
 	}
 	
-	public static void renderVoxelSide(Voxel voxel, int side) {
-		
+	public static void renderVoxelSide(Voxel voxel, int side) {		
 		GL30.glBindVertexArray(voxel.getVAO(side));
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
@@ -36,8 +33,5 @@ public class EntityRenderer {
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL30.glBindVertexArray(0);
-		
-		
 	}
-
 }

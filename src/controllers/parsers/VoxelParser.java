@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import static java.lang.Math.toIntExact;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
@@ -122,14 +123,21 @@ public class VoxelParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// transfer image and create canvas
-		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-	    final boolean hasAlphaChannel = image.getAlphaRaster() != null;
-	    final int[] texture = convertByteBufferIntBuffer(pixels, hasAlphaChannel);
-	    
+		// transfer image and create canvas  
 	    final int width = image.getWidth();
 	    final int height = image.getHeight();
-		
+	    int[] texture = new int[height*width];
+	    for (int x = 0; x < width; x++) {
+	    	for (int y = 0; y < height; y++) {
+	    		Color c = new Color(image.getRGB(x, y), true);
+	    		final byte r = (byte) c.getRed();
+	    		final byte g = (byte) c.getGreen();
+	    		final byte b = (byte) c.getBlue();
+	    		final byte a = (byte) c.getAlpha();
+	    		texture[y*width + x] = (byte) 0;
+	    	}
+	    }
+
 		int sides = 6;
 		int idx = 4;
 		
@@ -228,35 +236,4 @@ public class VoxelParser {
 		
 		return new Voxel(voxelID, textureID, vaoID);
 	}
-	
-	public static int[] convertByteBufferIntBuffer(byte[] pixels, boolean hasAlphaChannel) {
-	    // handle alpha channel and int parsing
-	    int[] result = null;
-	    if (hasAlphaChannel) {
-	       final int pixelLength = 4;
-	       result = new int[pixels.length/pixelLength];
-	       for (int pixel = 0; pixel < pixels.length; pixel += pixelLength) {
-	          int argb = 0;
-	          argb += (((int) pixels[pixel] & 0xff) << 24); // alpha
-	          argb += ((int) pixels[pixel + 1] & 0xff); // blue
-	          argb += (((int) pixels[pixel + 2] & 0xff) << 8); // green
-	          argb += (((int) pixels[pixel + 3] & 0xff) << 16); // red
-	          result[pixel/pixelLength] = argb;
-	       }
-	    } else {
-	       final int pixelLength = 3;
-	       result = new int[pixels.length/pixelLength];
-	       for (int pixel = 0; pixel < pixels.length; pixel += pixelLength) {
-	          int argb = 0;
-	          argb += -16777216; // 255 alpha
-	          argb += ((int) pixels[pixel] & 0xff); // blue
-	          argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-	          argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-	          result[pixel/pixelLength] = argb;
-	       }
-	    }
-	    
-	    return result;
-	}
-
 }
