@@ -44,6 +44,7 @@ public class Loader {
 	
 	public int loadTexture(int[] colors, int width, int height) {
 		int textureID = GL11.glGenTextures(); 
+		textures.add(textureID);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID); 
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 
                 		  0, 

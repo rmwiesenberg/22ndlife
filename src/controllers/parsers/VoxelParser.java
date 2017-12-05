@@ -134,7 +134,7 @@ public class VoxelParser {
 	    		final byte g = (byte) c.getGreen();
 	    		final byte b = (byte) c.getBlue();
 	    		final byte a = (byte) c.getAlpha();
-	    		texture[y*width + x] = (byte) 0;
+	    		texture[y*width + x] = 255;
 	    	}
 	    }
 
