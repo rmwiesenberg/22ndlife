@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -42,22 +43,20 @@ public class Loader {
 		
 	}
 	
-	public int loadTexture(int[] colors, int width, int height) {
+	public int loadTexture(byte[] colors, int width, int height) {
 		int textureID = GL11.glGenTextures(); 
-		textures.add(textureID);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID); 
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 
                 		  0, 
-                		  GL30.GL_RGBA32UI,
+                		  GL11.GL_RGBA8,
                 		  width, 
                 		  height, 
                 		  0, 
-                		  GL30.GL_RGBA_INTEGER, 
-                		  GL11.GL_UNSIGNED_INT, 
-                		  storeDataInIntBuffer(colors));
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0); 
-		return textureID;
-		
+                		  GL11.GL_RGBA, 
+                		  GL11.GL_UNSIGNED_BYTE, 
+                		  storeDataInByteBuffer(colors));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+		return textureID;		
 	}
 	
 	private void storeDataInAttributeList(float[] data, int attributeNumber, int dimentions) {

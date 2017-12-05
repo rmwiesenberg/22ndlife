@@ -28,9 +28,9 @@ public class VoxelParser {
 	private static float[][] vertices = {
 			// top
 			{-.5f, .5f, 0f,
+			 .5f, .5f, 0f,
 			 -.5f, -.5f, 0f,
-			 .5f, -.5f, 0f,
-			 .5f, .5f, 0f},
+			 .5f, -.5f, 0f},
 			
 			// bottom
 			{-1f, 1f, -1f,
@@ -64,8 +64,8 @@ public class VoxelParser {
 	};
 	
 	private static int[] indices = {
-			0, 1, 2,
-			2, 3, 0,			
+			0, 3, 2,
+			0, 1, 3,			
 	}; 
 	
 	
@@ -124,17 +124,17 @@ public class VoxelParser {
 			e.printStackTrace();
 		}
 		// transfer image and create canvas  
-	    final int width = image.getWidth();
-	    final int height = image.getHeight();
-	    int[] texture = new int[height*width];
+	    int width = image.getWidth();
+	    int height = image.getHeight();
+	    byte[] texture = new byte[height*width*4];
 	    for (int x = 0; x < width; x++) {
 	    	for (int y = 0; y < height; y++) {
-	    		Color c = new Color(image.getRGB(x, y), true);
-	    		final byte r = (byte) c.getRed();
-	    		final byte g = (byte) c.getGreen();
-	    		final byte b = (byte) c.getBlue();
-	    		final byte a = (byte) c.getAlpha();
-	    		texture[y*width + x] = 255;
+	    		Color c = new Color(image.getRGB(x, y));
+	    		int idx = y*width + x;
+	    		texture[idx] = (byte) (c.getRed() & 0xff);
+	    		texture[idx+1] = (byte) (c.getGreen() & 0xff);
+	    		texture[idx+2] = (byte) (c.getBlue() & 0xff);
+	    		texture[idx+3] = (byte) (c.getAlpha() & 0xff);
 	    	}
 	    }
 
@@ -227,12 +227,11 @@ public class VoxelParser {
 			}
 		}
 				
-		
+		int textureID = loader.loadTexture(texture, width, height);
 		int[] vaoID = new int[6];
 		for (s = 0; s < sides; s++) {
 			vaoID[s] = loader.loadToVAO(vertices[s], indices, uvFloat[s]);
-		}
-		int textureID = loader.loadTexture(texture, width, height);
+		}		
 		
 		return new Voxel(voxelID, textureID, vaoID);
 	}

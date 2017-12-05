@@ -126,6 +126,7 @@ public class DisplayManager {
 
 		
 		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
+		glEnable(GL_TEXTURE_2D); //Enable texturing
 //		RawModel model = loader.loadToVAO(vertices, indices, uv);
 //		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
 //		TexturedModel texModel = new TexturedModel(model, texture);
@@ -145,7 +146,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.renderVoxel(voxels.get(5), 0);
+			renderer.renderVoxel(voxels.get(0), 0);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers
