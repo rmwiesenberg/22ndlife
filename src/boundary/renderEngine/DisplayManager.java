@@ -130,7 +130,6 @@ public class DisplayManager {
 		glEnable( GL_BLEND );
 		glEnable(GL_TEXTURE_2D); //Enable texturing
 
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 //		RawModel model = loader.loadToVAO(vertices, indices, uv);
 //		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
 //		TexturedModel texModel = new TexturedModel(model, texture);
