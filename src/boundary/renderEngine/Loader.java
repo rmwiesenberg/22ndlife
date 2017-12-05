@@ -54,6 +54,7 @@ public class Loader {
                 		  GL11.GL_RGBA, 
                 		  GL11.GL_INT, 
                 		  storeDataInIntBuffer(colors));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0); 
 		return textureID;
 		
 	}
