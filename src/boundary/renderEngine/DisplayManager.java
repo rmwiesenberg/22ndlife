@@ -4,10 +4,16 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import boundary.Textures.ModelTexture;
 import boundary.models.RawModel;
+import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
+import controllers.parsers.VoxelParser;
+import controllers.parsers.exceptions.InvalidImageSizeException;
+import entities.Voxel;
 
 import java.nio.*;
+import java.util.HashMap;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -89,30 +95,19 @@ public class DisplayManager {
 		StaticShader shader = new StaticShader();
 		shader1 = shader;													// TODO FIX
 		
-		float[] vertices = {																// TEMPORARY CODE FOR QUAD
-				-0.5f, 0.5f, 0,
-				-0.5f, -0.5f, 0,
-				0.5f, -0.5f, 0,
-				0.5f, 0.5f, 0,
 
-		};
+		// MUST PREPARE BEFORE LOADING VAO
+		renderer.prepare();														
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable( GL_BLEND );
 		
-		int[] indices = {
-				0, 1, 2,
-				2, 3, 0
-		};
-				
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		
-
-		
-		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
-		RawModel model = loader.loadToVAO(vertices, indices);
-		
+		HashMap<Integer, Voxel> voxels = null;
+		try {
+			voxels = VoxelParser.readJSON("src/resources/json/voxel-example.json", loader1);
+		} catch (InvalidImageSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
@@ -121,7 +116,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.render(model);
+			renderer.renderVoxel(voxels.get(4), 0);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers

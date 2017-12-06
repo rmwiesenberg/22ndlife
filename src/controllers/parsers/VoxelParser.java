@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import static java.lang.Math.toIntExact;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
@@ -20,9 +21,54 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import boundary.renderEngine.Loader;
 import controllers.parsers.exceptions.InvalidImageSizeException;
 
 public class VoxelParser {
+	private static float[][] vertices = {
+			// top
+			{-.5f, .5f, 0f,
+			 -.5f, -.5f, 0f,
+			 .5f, -.5f, 0f,
+			 .5f, .5f, 0f},
+			
+			// bottom
+			{-1f, 1f, -1f,
+		     -1f, -1f, -1f,
+			 1f, -1f, -1f,
+			 1f, 1f, -1f},
+			
+			// side 1 (north)
+			{1f, -1f, 1f,
+			 1f, 1f, 1f,
+			 1f, -1f, -1f,
+			 1f, 1f, -1f},
+			
+			// side 2 (south)
+			{-1f, -1f, 1f,
+			 -1f, 1f, 1f,
+			 -1f, -1f, -1f,
+			 -1f, 1f, -1f},
+			
+			// side 3 (east)
+			{-1f, 1f, 1f,
+			 -1f, -1f, 1f,
+			 -1f, 1f, -1f,
+			 -1f, -1f, -1f},
+			
+			// side 4 (west)
+			{1f, 1f, 1f,
+			 1f, -1f, 1f,
+			 1f, 1f, -1f,
+			 1f, -1f, -1f},
+	};
+	
+	private static int[] indices = {
+			0, 1, 2,
+			2, 3, 0,			
+	}; 
+	
+	
 	/**
 	 * Returns a HashMap of voxels that should be loaded into memory at start.
 	 * This is based on the given JSON for all voxels to be loaded into the game.
@@ -31,7 +77,7 @@ public class VoxelParser {
 	 * @return HashMap of voxels where their id is the key
 	 * @throws InvalidImageSizeException when image does not meet voxel size expectations
 	 */
-	public static HashMap<Integer, Voxel> readJSON(String filepath) 
+	public static HashMap<Integer, Voxel> readJSON(String filepath, Loader loader) 
 			throws InvalidImageSizeException {
 		JSONParser parser = new JSONParser();
 		JSONObject obj = null;
@@ -56,7 +102,7 @@ public class VoxelParser {
 			int voxelID = toIntExact((long) curVoxel.get("id"));
 			String voxelFile = (String) curVoxel.get("filename");
 			String voxelPath = voxelDir.concat(voxelFile);
-			voxels.put(voxelID, makeVoxel(voxelID, voxelPath));
+			voxels.put(voxelID, makeVoxel(voxelID, voxelPath, loader));
 		}		
 		return voxels;
 	}
@@ -69,7 +115,7 @@ public class VoxelParser {
 	 * @return voxel representative of the inputs
 	 * @throws InvalidImageSizeException when image does not meet voxel size expections
 	 */
-	private static Voxel makeVoxel(int voxelID, String voxelPath) 
+	private static Voxel makeVoxel(int voxelID, String voxelPath, Loader loader) 
 			throws InvalidImageSizeException {
 		BufferedImage image = null;
 		try {
@@ -77,78 +123,131 @@ public class VoxelParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// transfer image and create canvas
-	    final byte[] texture = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-	    final int width = image.getWidth();
-	    final int height = image.getHeight();
-	    final boolean hasAlphaChannel = image.getAlphaRaster() != null;
-		
+		// transfer image and create canvas  
+	    int width = image.getWidth();
+	    int height = image.getHeight();
+	    boolean hasAlpha = image.getColorModel().hasAlpha();
+	    byte[] texture = new byte[height*width*4];
+	    for (int x = 0; x < width; x++) {
+	    	for (int y = 0; y < height; y++) {
+	    		int argb = image.getRGB(x, y);
+	    		int idx = (y*width + x)*4;
+	    		texture[idx] = (byte) ((argb >> 16) & 0xff);
+	    		texture[idx+1] = (byte) ((argb >> 8) & 0xff);
+	    		texture[idx+2] = (byte) ((argb >> 0) & 0xff);
+	    		if (hasAlpha) {
+	    			texture[idx+3] = (byte) ((argb >> 24) & 0xff);
+	    		} else {
+	    			texture[idx+3] = (byte) 255;
+	    		}
+	    	}
+	    }
+
 		int sides = 6;
 		int idx = 4;
 		
 		int s;
 		int i;
-		int[][] uv = new int[6][8];
+		float[][] uv = new float[6][8];
 		
 		if(height == width){
 			// 1x1
+			
+			// sides
 			for(s = 0; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uv[s][(2*i)] = width*(i%2);
-					uv[s][(2*i)+1] = height*(i/2);
-				}
+				uv[s][0] = 0f;
+				uv[s][1] = 0f;
+				uv[s][2] = 1f;
+				uv[s][3] = 0f;
+				uv[s][4] = 0f;
+				uv[s][5] = 1f;
+				uv[s][6] = 1f;
+				uv[s][7] = 1f;
 			}
 		} else if (height*2 == width) {
 			// 2x1
-			for(i = 0; i < idx; i++) {
-				uv[0][(2*i)] = (width/2)*(i%2);
-				uv[0][(2*i)+1] = height*(i/2);
-			}
+			
+			// top
+			uv[0][0] = 0f;
+			uv[0][1] = 0f;
+			uv[0][2] = .5f;
+			uv[0][3] = 0f;
+			uv[0][4] = 0f;
+			uv[0][5] = 1f;
+			uv[0][6] = .5f;
+			uv[0][7] = 1f;
+			
+			// sides
 			for(s = 1; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uv[s][(2*i)] = width - (int)(width/2)*((3-i)%2);
-					uv[s][(2*i)+1] = height*(i/2);
-				}
+				uv[s][0] = .5f;
+				uv[s][1] = 0f;
+				uv[s][2] = 1f;
+				uv[s][3] = 0f;
+				uv[s][4] = .5f;
+				uv[s][5] = 1f;
+				uv[s][6] = 1f;
+				uv[s][7] = 1f;
 			}
 		} else if (height*3 == width) {
 			// 3x1
-			for(i = 0; i < idx; i++) {
-				uv[0][(2*i)] = (width/3)*(i%2);
-				uv[0][(2*i)+1] = height*(i/2);
-			}
-			for(i = 0; i < idx; i++) {
-				uv[1][(2*i)] = (width*2/3) - (width/3)*((3-i)%2);
-				uv[1][(2*i)+1] = height*(i/2);
-			}			
+			
+			// top
+			uv[0][0] = 0f;
+			uv[0][1] = 0f;
+			uv[0][2] = (float) 1/3;
+			uv[0][3] = 0f;
+			uv[0][4] = 0f;
+			uv[0][5] = 1f;
+			uv[0][6] = (float) 1/3;
+			uv[0][7] = 1f;
+			
+			// bottom
+			uv[1][0] = (float) 1/3;
+			uv[1][1] = 0f;
+			uv[1][2] = (float) 2/3;
+			uv[1][3] = 0f;
+			uv[1][4] = (float) 1/3;
+			uv[1][5] = 1f;
+			uv[1][6] = (float) 2/3;
+			uv[1][7] = 1f;
+			
+			//sides
 			for(s = 2; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uv[s][(2*i)] = width - (width/3)*((3-i)%2);
-					uv[s][(2*i)+1] = height*(i/2);
-				}
+				uv[s][0] = (float) 2/3;
+				uv[s][1] = 0f;
+				uv[s][2] = 1f;
+				uv[s][3] = 0f;
+				uv[s][4] = (float) 2/3;
+				uv[s][5] = 1f;
+				uv[s][6] = 1f;
+				uv[s][7] = 1f;	
 			}
 		} else if (height*3 == width*2) {
 			// 3x2
-			for(int h = 1; h <= 2; h++) {
-				for(int w = 1; w <= 3; w++) {
-					s = w * h - 1;
-					for(i = 0; i < idx; i++) {
-						uv[s][(2*i)] = (width*w/3) - (width/3)*((3-i)%2);
-						uv[s][(2*i)+1] = (height*h/2) - (height/2)*((3-i)/2);
-					}
+			// all sides competently
+			for(int h = 0; h < 2; h++) {
+				for(int w = 0; w < 3; w++) {
+					s = (h*3) + w;
+					uv[s][0] = ((float) w/3);
+					uv[s][1] = ((float) h/3);
+					uv[s][2] = ((float) (w+1)/3);
+					uv[s][3] = ((float) h/3);
+					uv[s][4] = ((float) (w+1)/3);
+					uv[s][5] = ((float) (h+1)/3);
+					uv[s][6] = ((float) w/3);
+					uv[s][7] = ((float) (h+1)/3);
 				}
 			}
 		} else {
 			throw new InvalidImageSizeException(voxelPath);
 		}
+				
+		int textureID = loader.loadTexture(texture, width, height);
+		int[] vaoID = new int[6];
+		for (s = 0; s < sides; s++) {
+			vaoID[s] = loader.loadToVAO(vertices[s], indices, uv[s]);
+		}		
 		
-		// adjust for zero indexing and tex bounds
-		for(s = 0; s < sides; s++) {
-			uv[s][2]--;
-			uv[s][5]--;
-			uv[s][6]--;
-			uv[s][7]--;
-		}
-		
-		return new Voxel(voxelID, width, height, hasAlphaChannel, texture, uv);
+		return new Voxel(voxelID, textureID, vaoID);
 	}
 }
