@@ -95,43 +95,11 @@ public class DisplayManager {
 		StaticShader shader = new StaticShader();
 		shader1 = shader;													// TODO FIX
 		
-//		float[] vertices = {																// TEMPORARY CODE FOR QUAD
-//				-0.5f, 0.5f, 0,
-//				-0.5f, -0.5f, 0,
-//				0.5f, -0.5f, 0,
-//				0.5f, 0.5f, 0,
-//
-//		};
-//		
-//		int[] indices = {
-//				0, 1, 2,
-//				2, 3, 0
-//		};
-//		
-//		float[] uv = {
-//				
-//				0, 0,
-//				0, 1,
-//				1, 1,
-//				1, 0
-//				
-//		};
-				
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		
 
-		
-		renderer.prepare();														// MUST PREPARE BEFORE LOADING VAO
+		// MUST PREPARE BEFORE LOADING VAO
+		renderer.prepare();														
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable( GL_BLEND );		
-
-//		RawModel model = loader.loadToVAO(vertices, indices, uv);
-//		ModelTexture texture = new ModelTexture(loader.loadTexture("dirtTex"));
-//		TexturedModel texModel = new TexturedModel(model, texture);
+		glEnable( GL_BLEND );
 		
 		HashMap<Integer, Voxel> voxels = null;
 		try {
