@@ -1,5 +1,8 @@
 package boundary.renderEngine;
 
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glEnable;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -43,8 +46,12 @@ public class Loader {
 	}
 	
 	public int loadTexture(byte[] colors, int width, int height) {
+		glEnable(GL_TEXTURE_2D);
 		int textureID = GL11.glGenTextures(); 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+		GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 
                 		  0, 
                 		  GL11.GL_RGBA,
@@ -54,6 +61,7 @@ public class Loader {
                 		  GL11.GL_RGBA, 
                 		  GL11.GL_UNSIGNED_BYTE, 
                 		  storeDataInByteBuffer(colors));
+		GL30.glGenerateMipmap(GL_TEXTURE_2D);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		return textureID;		
 	}
@@ -70,8 +78,7 @@ public class Loader {
 		
 	}
 	
-	private void bindIndicesBuffer(int[] indices) {
-		
+	private void bindIndicesBuffer(int[] indices) {		
 		int vboID =GL15.glGenBuffers();
 		vbos.add(vboID);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);

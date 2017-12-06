@@ -130,13 +130,13 @@ public class VoxelParser {
 	    byte[] texture = new byte[height*width*4];
 	    for (int x = 0; x < width; x++) {
 	    	for (int y = 0; y < height; y++) {
-	    		Color c = new Color(image.getRGB(x, y));
-	    		int idx = y*width + x;
-	    		texture[idx] = (byte) (c.getRed() & 0xff);
-	    		texture[idx+1] = (byte) (c.getGreen() & 0xff);
-	    		texture[idx+2] = (byte) (c.getBlue() & 0xff);
+	    		int argb = image.getRGB(x, y);
+	    		int idx = (y*width + x)*4;
+	    		texture[idx] = (byte) ((argb >> 16) & 0xff);
+	    		texture[idx+1] = (byte) ((argb >> 8) & 0xff);
+	    		texture[idx+2] = (byte) ((argb >> 0) & 0xff);
 	    		if (hasAlpha) {
-	    			texture[idx+3] = (byte) (c.getAlpha() & 0xff);
+	    			texture[idx+3] = (byte) ((argb >> 24) & 0xff);
 	    		} else {
 	    			texture[idx+3] = (byte) 255;
 	    		}
@@ -148,94 +148,104 @@ public class VoxelParser {
 		
 		int s;
 		int i;
-		int[][] uv = new int[6][8];
+		float[][] uv = new float[6][8];
 		
 		if(height == width){
 			// 1x1
+			
+			// sides
 			for(s = 0; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uv[s][(2*i)] = width*(i%2);
-					uv[s][(2*i)+1] = height*(i/2);
-				}
+				uv[s][0] = 0f;
+				uv[s][1] = 0f;
+				uv[s][2] = 1f;
+				uv[s][3] = 0f;
+				uv[s][4] = 0f;
+				uv[s][5] = 1f;
+				uv[s][6] = 1f;
+				uv[s][7] = 1f;
 			}
 		} else if (height*2 == width) {
 			// 2x1
-			for(i = 0; i < idx; i++) {
-				uv[0][(2*i)] = (width/2)*(i%2);
-				uv[0][(2*i)+1] = height*(i/2);
-			}
+			
+			// top
+			uv[0][0] = 0f;
+			uv[0][1] = 0f;
+			uv[0][2] = .5f;
+			uv[0][3] = 0f;
+			uv[0][4] = 0f;
+			uv[0][5] = 1f;
+			uv[0][6] = .5f;
+			uv[0][7] = 1f;
+			
+			// sides
 			for(s = 1; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uv[s][(2*i)] = width - (int)(width/2)*((3-i)%2);
-					uv[s][(2*i)+1] = height*(i/2);
-				}
+				uv[s][0] = .5f;
+				uv[s][1] = 0f;
+				uv[s][2] = 1f;
+				uv[s][3] = 0f;
+				uv[s][4] = .5f;
+				uv[s][5] = 1f;
+				uv[s][6] = 1f;
+				uv[s][7] = 1f;
 			}
 		} else if (height*3 == width) {
 			// 3x1
-			for(i = 0; i < idx; i++) {
-				uv[0][(2*i)] = (width/3)*(i%2);
-				uv[0][(2*i)+1] = height*(i/2);
-			}
-			for(i = 0; i < idx; i++) {
-				uv[1][(2*i)] = (width*2/3) - (width/3)*((3-i)%2);
-				uv[1][(2*i)+1] = height*(i/2);
-			}			
+			
+			// top
+			uv[0][0] = 0f;
+			uv[0][1] = 0f;
+			uv[0][2] = (float) 1/3;
+			uv[0][3] = 0f;
+			uv[0][4] = 0f;
+			uv[0][5] = 1f;
+			uv[0][6] = (float) 1/3;
+			uv[0][7] = 1f;
+			
+			// bottom
+			uv[1][0] = (float) 1/3;
+			uv[1][1] = 0f;
+			uv[1][2] = (float) 2/3;
+			uv[1][3] = 0f;
+			uv[1][4] = (float) 1/3;
+			uv[1][5] = 1f;
+			uv[1][6] = (float) 2/3;
+			uv[1][7] = 1f;
+			
+			//sides
 			for(s = 2; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uv[s][(2*i)] = width - (width/3)*((3-i)%2);
-					uv[s][(2*i)+1] = height*(i/2);
-				}
+				uv[s][0] = (float) 2/3;
+				uv[s][1] = 0f;
+				uv[s][2] = 1f;
+				uv[s][3] = 0f;
+				uv[s][4] = (float) 2/3;
+				uv[s][5] = 1f;
+				uv[s][6] = 1f;
+				uv[s][7] = 1f;	
 			}
 		} else if (height*3 == width*2) {
 			// 3x2
-			for(int h = 1; h <= 2; h++) {
-				for(int w = 1; w <= 3; w++) {
-					s = ((h-1) * 3) + (w-1);
-					for(i = 0; i < idx; i++) {
-						uv[s][(2*i)] = (width*w/3) - (width/3)*((3-i)%2);
-						uv[s][(2*i)+1] = (height*h/2) - (height/2)*((3-i)/2);
-					}
+			// all sides competently
+			for(int h = 0; h < 2; h++) {
+				for(int w = 0; w < 3; w++) {
+					s = (h*3) + w;
+					uv[s][0] = ((float) w/3);
+					uv[s][1] = ((float) h/3);
+					uv[s][2] = ((float) (w+1)/3);
+					uv[s][3] = ((float) h/3);
+					uv[s][4] = ((float) (w+1)/3);
+					uv[s][5] = ((float) (h+1)/3);
+					uv[s][6] = ((float) w/3);
+					uv[s][7] = ((float) (h+1)/3);
 				}
 			}
 		} else {
 			throw new InvalidImageSizeException(voxelPath);
 		}
-		
-		// adjust for zero indexing and tex bounds
-		for(s = 0; s < sides; s++) {
-			uv[s][2]--;
-			uv[s][5]--;
-			uv[s][6]--;
-			uv[s][7]--;
-		}
-		
-		float[][] uvFloat = new float[6][8];
-		if(height == 1) {
-			if (width != height) {
-				for(s = 0; s < sides; s++) {
-					for(i = 0; i < idx; i++) {
-						uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width - 1);
-					}
-				}
-			}
-			for(s = 0; s < sides; s++) {
-				for(i = 2; i < idx; i++) {
-					uvFloat[s][(2*i) + 1] = 1f;
-				}
-			}
-		} else {
-			for(s = 0; s < sides; s++) {
-				for(i = 0; i < idx; i++) {
-					uvFloat[s][(2*i)] = (float) uv[s][(2*i)]/((float) width - 1);
-					uvFloat[s][(2*i)+1] = (float) uv[s][(2*i)+1]/((float) height - 1);
-				}
-			}
-		}
 				
 		int textureID = loader.loadTexture(texture, width, height);
 		int[] vaoID = new int[6];
 		for (s = 0; s < sides; s++) {
-			vaoID[s] = loader.loadToVAO(vertices[s], indices, uvFloat[s]);
+			vaoID[s] = loader.loadToVAO(vertices[s], indices, uv[s]);
 		}		
 		
 		return new Voxel(voxelID, textureID, vaoID);
