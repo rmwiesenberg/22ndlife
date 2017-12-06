@@ -46,12 +46,23 @@ public class Loader {
 	}
 	
 	public int loadTexture(byte[] colors, int width, int height) {
+		// enable redering to Texture_2d
 		glEnable(GL_TEXTURE_2D);
+		
+		// get dat texID
 		int textureID = GL11.glGenTextures(); 
+		
+		// bind
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+		
+		// this informs the gpu how to read bytes. Important if you enjoy more than one color
 		GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+		
+		// this does blending. We are smart so we don't need it for voxels
 		GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
 		GL11.glTexParameteri(GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+		
+		// texture binderoni
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 
                 		  0, 
                 		  GL11.GL_RGBA,
@@ -61,7 +72,11 @@ public class Loader {
                 		  GL11.GL_RGBA, 
                 		  GL11.GL_UNSIGNED_BYTE, 
                 		  storeDataInByteBuffer(colors));
+		
+		// mipmap
 		GL30.glGenerateMipmap(GL_TEXTURE_2D);
+		
+		// unbind
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 		return textureID;		
 	}
