@@ -26,7 +26,24 @@ public abstract class ShaderProgram {
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
 		
+//		// Pointer to point where uniform varName is stored in memory
+//		int location =GL20.glGetUniformLocation(programID, "varName");
+//		
+//		// Stores uniform in memory location specified
+//		GL20.glUniform1f(location, 20);
+		
+		//getAllUniformLocations();
+		
 	}
+	
+	protected abstract void getAllUniformLocations();
+	
+	protected int getUniformLocation(String varName) {
+		// Gets memory location of uniform specified and returns it as an integer		
+		return GL20.glGetUniformLocation(programID, varName);		
+	}
+	
+	
 	
 	protected abstract void bindAttributes();
 	
