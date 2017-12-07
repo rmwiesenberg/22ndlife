@@ -19,6 +19,9 @@
 		},{
 			"id": 5,
 			"filename": "testtransvoxel.png"
+		},{
+			"id": 6,
+			"filename": "directional6.png" 
 		}
 	]
 }

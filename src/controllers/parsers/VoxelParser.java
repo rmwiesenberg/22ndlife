@@ -25,9 +25,9 @@ public class VoxelParser {
 	private static float[] vertices = {
 			// top
 			-.5f, .5f, 1f,
-			-.5f, -.5f, 1f,
+			.5f, .5f, 1f,
 			.5f, -.5f, 1f,
-			.5f, .5f, 1f
+			-.5f, -.5f, 1f
 	};
 	
 	private static int[] indices = {
