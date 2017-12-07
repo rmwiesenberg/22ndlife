@@ -4,9 +4,6 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
-import boundary.Textures.ModelTexture;
-import boundary.models.RawModel;
-import boundary.models.TexturedModel;
 import boundary.shaders.StaticShader;
 import controllers.parsers.VoxelParser;
 import controllers.parsers.exceptions.InvalidImageSizeException;
@@ -116,7 +113,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.renderVoxel(voxels.get(4), 3);
+			renderer.renderVoxel(voxels.get(1), 1);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers

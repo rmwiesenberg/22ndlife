@@ -12,10 +12,7 @@ import javax.imageio.ImageIO;
 
 import static java.lang.Math.toIntExact;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
