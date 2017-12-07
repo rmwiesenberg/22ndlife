@@ -25,42 +25,12 @@ import boundary.renderEngine.Loader;
 import controllers.parsers.exceptions.InvalidImageSizeException;
 
 public class VoxelParser {
-	private static float[][] vertices = {
+	private static float[] vertices = {
 			// top
-			{-.5f, .5f, 0f,
-			 -.5f, -.5f, 0f,
-			 .5f, -.5f, 0f,
-			 .5f, .5f, 0f},
-			
-			// bottom
-			{-1f, 1f, -1f,
-		     -1f, -1f, -1f,
-			 1f, -1f, -1f,
-			 1f, 1f, -1f},
-			
-			// side 1 (north)
-			{1f, -1f, 1f,
-			 1f, 1f, 1f,
-			 1f, -1f, -1f,
-			 1f, 1f, -1f},
-			
-			// side 2 (south)
-			{-1f, -1f, 1f,
-			 -1f, 1f, 1f,
-			 -1f, -1f, -1f,
-			 -1f, 1f, -1f},
-			
-			// side 3 (east)
-			{-1f, 1f, 1f,
-			 -1f, -1f, 1f,
-			 -1f, 1f, -1f,
-			 -1f, -1f, -1f},
-			
-			// side 4 (west)
-			{1f, 1f, 1f,
-			 1f, -1f, 1f,
-			 1f, 1f, -1f,
-			 1f, -1f, -1f},
+			-.5f, .5f, 1f,
+			-.5f, -.5f, 1f,
+			.5f, -.5f, 1f,
+			.5f, .5f, 1f
 	};
 	
 	private static int[] indices = {
@@ -245,7 +215,7 @@ public class VoxelParser {
 		int textureID = loader.loadTexture(texture, width, height);
 		int[] vaoID = new int[6];
 		for (s = 0; s < sides; s++) {
-			vaoID[s] = loader.loadToVAO(vertices[s], indices, uv[s]);
+			vaoID[s] = loader.loadToVAO(vertices, indices, uv[s]);
 		}		
 		
 		return new Voxel(voxelID, textureID, vaoID);
