@@ -199,13 +199,13 @@ public class VoxelParser {
 				for(int w = 0; w < 3; w++) {
 					s = (h*3) + w;
 					uv[s][0] = ((float) w/3);
-					uv[s][1] = ((float) h/3);
+					uv[s][1] = ((float) h/2);
 					uv[s][2] = ((float) (w+1)/3);
-					uv[s][3] = ((float) h/3);
+					uv[s][3] = ((float) h/2);
 					uv[s][4] = ((float) (w+1)/3);
-					uv[s][5] = ((float) (h+1)/3);
+					uv[s][5] = ((float) (h+1)/2);
 					uv[s][6] = ((float) w/3);
-					uv[s][7] = ((float) (h+1)/3);
+					uv[s][7] = ((float) (h+1)/2);
 				}
 			}
 		} else {
