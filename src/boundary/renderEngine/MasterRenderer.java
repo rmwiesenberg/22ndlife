@@ -3,6 +3,8 @@ package boundary.renderEngine;
 import org.lwjgl.opengl.GL11;
 
 import entities.Voxel;
+import entities.world.Camera;
+import entities.world.World;
 
 public class MasterRenderer {
 	
@@ -14,5 +16,9 @@ public class MasterRenderer {
 	
 	public void renderVoxel(Voxel voxel, int side) {
 		EntityRenderer.renderVoxelSide(voxel, side);
+	}
+	
+	public void renderWorld(World world, Camera camera) {
+		EntityRenderer.renderWorld(world, camera);
 	}
 }

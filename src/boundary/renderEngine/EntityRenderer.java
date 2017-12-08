@@ -1,29 +1,31 @@
 package boundary.renderEngine;
 
-import controllers.handlers.ViewHandler;
-import entities.block.IBlock;
-import entities.block.WorldBlock;
-import entities.world.Camera;
-import entities.world.World;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import entities.Voxel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import boundary.shaders.StaticShader;
+import controllers.handlers.ViewHandler;
+import entities.Voxel;
+import entities.block.IBlock;
+import entities.block.WorldBlock;
+import entities.world.Camera;
+import entities.world.World;
 
 public class EntityRenderer {
-	public static void renderWorld(World world, Camera camera) {
+	public static void renderWorld(World world, Camera camera, StaticShader shader) {
         final HashMap<IBlock, ArrayList<Vector3f>> blockView = ViewHandler.getBlockView(world, camera);
         for(IBlock block: blockView.keySet()){
             for(Vector3f vec: blockView.get(block)) {
                 if(!block.isScenery()) {
                     WorldBlock wBlock = (WorldBlock) block;
-                    renderWorldBlock(wBlock, vec, camera);
+                    renderWorldBlock(wBlock, vec, camera, shader);
                 } else {
                     // TODO
                 }
@@ -31,13 +33,14 @@ public class EntityRenderer {
         }
 	}
 
-	public static void renderWorld(World world) {
-		renderWorld(world, world.getCamera());
+	public static void renderWorld(World world, StaticShader shader) {
+		renderWorld(world, world.getCamera(), shader);
 	}
 
-	private static void renderWorldBlock(WorldBlock block, Vector3f vec, Camera camera){
+	private static void renderWorldBlock(WorldBlock block, Vector3f vec, Camera camera, StaticShader shader){
         Voxel voxel = block.getVoxel();
         Matrix4f transformationMatrix = new Matrix4f().translate(vec).rotateXYZ(new Vector3f()).scale(1);
+        shader.
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, voxel.getTexture());
         for (int s = 0; s < 6; s++) {
