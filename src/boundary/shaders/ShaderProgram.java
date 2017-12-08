@@ -138,4 +138,6 @@ public abstract class ShaderProgram {
 		
 	}
 
+	public void loadMatrix(int location_transformationMatrix, Matrix4f transformationMatrix) {
+	}
 }

@@ -51,7 +51,7 @@ public class WorldObjectParser {
 			e.printStackTrace();
 		}
 		String voxelDir = (String) obj.get("voxel");
-		if(voxelDir !=  voxelPath) {
+		if(!voxelDir.matches(voxelPath)) {
 			throw new InvalidConfigurationFileException();
 		}
 		JSONArray blockArr = (JSONArray) obj.get("block");

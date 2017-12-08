@@ -1,5 +1,6 @@
 package boundary.renderEngine;
 
+import boundary.shaders.StaticShader;
 import org.lwjgl.opengl.GL11;
 
 import entities.Voxel;
@@ -18,7 +19,7 @@ public class MasterRenderer {
 		EntityRenderer.renderVoxelSide(voxel, side);
 	}
 	
-	public void renderWorld(World world, Camera camera) {
-		EntityRenderer.renderWorld(world, camera);
+	public void renderWorld(World world, Camera camera, StaticShader shader) {
+		EntityRenderer.renderWorld(world, camera, shader);
 	}
 }

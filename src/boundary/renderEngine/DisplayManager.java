@@ -1,5 +1,11 @@
 package boundary.renderEngine;
 
+import controllers.parsers.WorldObjectParser;
+import controllers.parsers.exceptions.InvalidConfigurationFileException;
+import entities.block.IBlock;
+import entities.world.Camera;
+import entities.world.World;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
@@ -10,6 +16,7 @@ import controllers.parsers.exceptions.InvalidImageSizeException;
 import entities.Voxel;
 
 import java.nio.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -97,23 +104,43 @@ public class DisplayManager {
 		renderer.prepare();														
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable( GL_BLEND );
-		
+
+		String voxelPath = "src/resources/json/voxel-example.json";
 		HashMap<Integer, Voxel> voxels = null;
 		try {
-			voxels = VoxelParser.readJSON("src/resources/json/voxel-example.json", loader1);
+			voxels = VoxelParser.readJSON(voxelPath, loader1);
 		} catch (InvalidImageSizeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// Run the rendering loop until the user has attempted to close
+        WorldObjectParser wParser = new WorldObjectParser(voxels, voxelPath);
+
+		String worldObjectPath = "src/resources/json/block-example.json";
+		HashMap<Integer, IBlock> blocks = null;
+        try {
+            blocks = wParser.readWorldBlockJSON(worldObjectPath);
+        } catch (InvalidConfigurationFileException e) {
+            e.printStackTrace();
+        }
+
+        IBlock[][][] worldBlocks = new IBlock[1][1][1];
+        worldBlocks[0][0][0] = blocks.get(6);
+
+        Vector3f camPos = new Vector3f(0, 0, 0);
+        Vector3f camRot = new Vector3f(0, 0, 0);
+        Camera cam = new Camera(camPos, camRot);
+
+        World world = new World(worldBlocks, new ArrayList<>(), cam);
+
+        // Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
 		while ( !glfwWindowShouldClose(window) ) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 			
 			
 			shader.start();
-			renderer.renderVoxel(voxels.get(6), 1);
+			renderer.renderWorld(world, world.getCamera(), shader1);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers
