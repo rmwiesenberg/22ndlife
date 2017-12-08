@@ -1,22 +1,23 @@
 package entities.block;
 
+import entities.Voxel;
 import entities.item.ItemDrop;
 import entities.item.MTItemDrop;
 
 public class WorldBlock extends AbsWorldObject implements IBlock {
-	int voxel;
+	Voxel voxel;
 	
-	public WorldBlock(int id, String name, ItemDrop drop, int voxel) {
+	public WorldBlock(int id, String name, ItemDrop drop, Voxel voxel) {
 		super(id, name, drop);		
 		this.voxel = voxel;
 	}
 	
-	public WorldBlock(int id, String name, int voxel) {
+	public WorldBlock(int id, String name, Voxel voxel) {
 		super(id, name, new MTItemDrop());		
 		this.voxel = voxel;
 	}
 	
-	public int getVoxel() {
+	public Voxel getVoxel() {
 		return voxel;
 	}
 
@@ -24,4 +25,9 @@ public class WorldBlock extends AbsWorldObject implements IBlock {
 	public boolean isScenery() {
 		return false;
 	}
+
+    @Override
+    public boolean isMT() {
+        return true;
+    }
 }

@@ -15,5 +15,4 @@ public class MasterRenderer {
 	public void renderVoxel(Voxel voxel, int side) {
 		EntityRenderer.renderVoxelSide(voxel, side);
 	}
-
 }

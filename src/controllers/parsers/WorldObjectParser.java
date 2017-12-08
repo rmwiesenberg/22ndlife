@@ -54,7 +54,7 @@ public class WorldObjectParser {
 			int blockID = toIntExact((long) curBlock.get("id"));
 			String blockName = (String) curBlock.get("name");
 			int voxelID = toIntExact((long) curBlock.get("voxelID"));
-			blocks.put(blockID, new WorldBlock(blockID, blockName, voxelID));
+//			blocks.put(blockID, new WorldBlock(blockID, blockName, voxelID));
 		}
 		return blocks;
 	}
