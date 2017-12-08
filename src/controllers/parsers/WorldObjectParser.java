@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import static java.lang.Math.toIntExact;
 
+import entities.Voxel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,17 +17,24 @@ import entities.block.IBlock;
 import entities.block.WorldBlock;
 
 public class WorldObjectParser {
+	private HashMap<Integer, Voxel> voxels;
+	private String voxelPath;
+
+	public WorldObjectParser(HashMap<Integer, Voxel> voxels, String voxelPath){
+        this.voxels = voxels;
+	    this.voxelPath = voxelPath;
+    }
+
 	/**
 	 * Returns a HashMap of voxels that should be loaded into memory at start.
 	 * This is based on the given JSON for all voxels to be loaded into the game.
 	 * Verifies voxel path against world config
 	 * 
 	 * @param filepath absolute or project relative path of block JSON
-	 * @param voxelpath absolute or project relative path of voxel JSON
 	 * @return Hash of blocks in JSON
 	 * @throws InvalidConfigurationFileException thrown with incorrect voxel path
 	 */
-	public static HashMap<Integer, IBlock> readWorldBlockJSON(String filepath, String voxelpath) 
+	public HashMap<Integer, IBlock> readWorldBlockJSON(String filepath)
 			throws InvalidConfigurationFileException {
 		JSONParser parser = new JSONParser();
 		JSONObject obj = null;
@@ -43,7 +51,7 @@ public class WorldObjectParser {
 			e.printStackTrace();
 		}
 		String voxelDir = (String) obj.get("voxel");
-		if(voxelDir != voxelpath) {
+		if(voxelDir !=  voxelPath) {
 			throw new InvalidConfigurationFileException();
 		}
 		JSONArray blockArr = (JSONArray) obj.get("block");
@@ -54,9 +62,17 @@ public class WorldObjectParser {
 			int blockID = toIntExact((long) curBlock.get("id"));
 			String blockName = (String) curBlock.get("name");
 			int voxelID = toIntExact((long) curBlock.get("voxelID"));
-//			blocks.put(blockID, new WorldBlock(blockID, blockName, voxelID));
+			blocks.put(blockID, new WorldBlock(blockID, blockName, voxels.get(voxelID)));
 		}
 		return blocks;
 	}
-	
+
+	// Getters and Setters
+    public String getVoxelPath() {
+        return voxelPath;
+    }
+
+    public HashMap<Integer, Voxel> getVoxels() {
+        return voxels;
+    }
 }
