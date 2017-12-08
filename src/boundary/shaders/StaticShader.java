@@ -27,4 +27,7 @@ public class StaticShader extends ShaderProgram {
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
 		
 	}
+
+    public void loadTransformationMatrix(Matrix4f transformationMatrix) {
+    }
 }

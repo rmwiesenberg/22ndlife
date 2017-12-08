@@ -40,11 +40,10 @@ public class EntityRenderer {
 	private static void renderWorldBlock(WorldBlock block, Vector3f vec, Camera camera, StaticShader shader){
         Voxel voxel = block.getVoxel();
         Matrix4f transformationMatrix = new Matrix4f().translate(vec).rotateXYZ(new Vector3f()).scale(1);
-        shader.
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, voxel.getTexture());
-        for (int s = 0; s < 6; s++) {
-            renderVertexArray(voxel.getVAO(s));
+        for (int s = 0; s < 1; s++) {
+            renderVertexArray(shader, voxel.getVAO(s), transformationMatrix);
         }
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
@@ -64,12 +63,15 @@ public class EntityRenderer {
 
     /**
      * Assumes texture is already selected
+     * @param shader
      * @param vao
+     * @param transformationMatrix
      */
-    private static void renderVertexArray(int vao){
+    private static void renderVertexArray(StaticShader shader, int vao, Matrix4f transformationMatrix){
         GL30.glBindVertexArray(vao);
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
+        shader.loadTransformationMatrix(transformationMatrix);
         GL11.glDrawElements(GL11.GL_TRIANGLES, 6, GL11.GL_UNSIGNED_INT, 0);
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
