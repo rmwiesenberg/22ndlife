@@ -4,5 +4,9 @@
 *.log
 *.xcf
 
+# sublime
 *.sublime-project
 *.sublime-workspace
+
+# intelij
+/.idea/
