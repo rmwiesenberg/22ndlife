@@ -10,3 +10,4 @@
 
 # intelij
 /.idea/
+*.iml
