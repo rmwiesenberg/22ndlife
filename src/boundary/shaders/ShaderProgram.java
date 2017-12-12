@@ -139,7 +139,4 @@ public abstract class ShaderProgram {
 		return shaderID;
 		
 	}
-
-	public void loadMatrix(int location_transformationMatrix, Matrix4f transformationMatrix) {
-	}
 }
