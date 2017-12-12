@@ -4,8 +4,8 @@ import org.joml.Matrix4f;
 
 public class StaticShader extends ShaderProgram {
 	
-	private static final String vertexFile = "/boundary/shaders/vertexShader.txt";
-	private static final String fragmentFile = "/boundary/shaders/fragmentShader.txt";
+	private static final String vertexFile = "src/boundary/shaders/vertexShader.txt";
+	private static final String fragmentFile = "src/boundary/shaders/fragmentShader.txt";
 
 	int location_transformationMatrix;
 	

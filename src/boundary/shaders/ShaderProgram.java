@@ -1,17 +1,14 @@
 package boundary.shaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.FloatBuffer;
-
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import java.io.*;
+import java.nio.FloatBuffer;
 
 public abstract class ShaderProgram {
 	
@@ -106,10 +103,15 @@ public abstract class ShaderProgram {
 	private int loadShader(String file, int type) {
 		
 		StringBuilder shaderSource = new StringBuilder();
-		
-		InputStream in = Class.class.getResourceAsStream(file);
+
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		
+
 		String line;
 		try {
 			while ((line = reader.readLine()) != null) {
@@ -121,7 +123,7 @@ public abstract class ShaderProgram {
 			System.err.println("Could not load shader file!");
 			System.exit(-1);
 		}
-		
+
 		int shaderID = GL20.glCreateShader(type);
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);

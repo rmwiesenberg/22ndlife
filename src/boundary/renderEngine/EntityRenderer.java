@@ -1,15 +1,5 @@
 package boundary.renderEngine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-
 import boundary.shaders.StaticShader;
 import controllers.handlers.ViewHandler;
 import entities.Voxel;
@@ -17,6 +7,15 @@ import entities.block.IBlock;
 import entities.block.WorldBlock;
 import entities.world.Camera;
 import entities.world.World;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EntityRenderer {
 	public static void renderWorld(World world, Camera camera, StaticShader shader) {
