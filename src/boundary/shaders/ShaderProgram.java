@@ -63,7 +63,9 @@ public abstract class ShaderProgram {
 	}
 	
 	protected void loadMatrixToUniform(int location, Matrix4f mat) {
-		mat.set(matrixBuffer);
+		float[] matflt = new float[16];
+		mat.get(matflt);
+		matrixBuffer.put(matflt);
 		matrixBuffer.flip();
 		
 		GL20.glUniformMatrix4fv(location, false, matrixBuffer);

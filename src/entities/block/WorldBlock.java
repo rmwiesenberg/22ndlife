@@ -28,6 +28,6 @@ public class WorldBlock extends AbsWorldObject implements IBlock {
 
     @Override
     public boolean isMT() {
-        return true;
+        return false;
     }
 }

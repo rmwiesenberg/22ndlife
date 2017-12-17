@@ -15,10 +15,10 @@ public class MasterRenderer {
 		
 	}
 	
-	public void renderVoxel(Voxel voxel, int side) {
-		EntityRenderer.renderVoxelSide(voxel, side);
-	}
-	
+//	public void renderVoxel(Voxel voxel, int side, StaticShader shader) {
+//		EntityRenderer.renderVoxelSide(voxel, side, shader);
+//	}
+//	
 	public void renderWorld(World world, Camera camera, StaticShader shader) {
 		EntityRenderer.renderWorld(world, camera, shader);
 	}
