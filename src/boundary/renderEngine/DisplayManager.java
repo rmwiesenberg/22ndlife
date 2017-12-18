@@ -91,14 +91,15 @@ public class DisplayManager {
 
 	public void loop() {
 		GL.createCapabilities();
-		MasterRenderer renderer = new MasterRenderer();
 		
 		Loader loader = new Loader();
 		loader1 = loader;													// TODO FIX
 		
 		StaticShader shader = new StaticShader();
 		shader1 = shader;													// TODO FIX
-		
+
+
+		MasterRenderer renderer = new MasterRenderer(WIDTH, HEIGHT, shader);
 
 		// MUST PREPARE BEFORE LOADING VAO
 		renderer.prepare();														

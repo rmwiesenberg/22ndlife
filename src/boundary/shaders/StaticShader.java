@@ -8,6 +8,7 @@ public class StaticShader extends ShaderProgram {
 	private static final String fragmentFile = "src/boundary/shaders/fragmentShader.txt";
 
 	int location_transformationMatrix;
+	int location_projectionMatrix;
 	
 	public StaticShader() {
 		super(vertexFile, fragmentFile);
@@ -25,10 +26,15 @@ public class StaticShader extends ShaderProgram {
 	protected void getAllUniformLocations() {
 		
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
+		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
 		
 	}
 
     public void loadTransformationMatrix(Matrix4f transformationMatrix) {
 	    super.loadMatrixToUniform(location_transformationMatrix, transformationMatrix);
+    }
+
+    public void loadProjectionMatrix(Matrix4f projectionMatrix) {
+        super.loadMatrixToUniform(location_projectionMatrix, projectionMatrix);
     }
 }
