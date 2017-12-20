@@ -63,8 +63,7 @@ public abstract class ShaderProgram {
 	}
 	
 	protected void loadMatrixToUniform(int location, Matrix4f mat) {
-		float[] matflt = new float[16];
-		mat.get(matflt);
+		float[] matflt = mat.get(new float[16]);
 		matrixBuffer.put(matflt);
 		matrixBuffer.flip();
 		

@@ -33,8 +33,8 @@ public class DisplayManager {
 	private final int HEIGHT = 720;
 	// An fps of 1 is 60fps
 	private final int FPS = 1;
-	public static Loader loader1 = null;
-	public static StaticShader shader1 = null;
+	private static Loader loader1 = null;
+	private static StaticShader shader1 = null;
 	
 	public void init() {
 		// Setup an error callback. The default implementation
@@ -94,7 +94,7 @@ public class DisplayManager {
 		
 		Loader loader = new Loader();
 		loader1 = loader;													// TODO FIX
-		
+
 		StaticShader shader = new StaticShader();
 		shader1 = shader;													// TODO FIX
 
@@ -126,7 +126,8 @@ public class DisplayManager {
         }
 
         IBlock[][][] worldBlocks = new IBlock[1][1][1];
-        worldBlocks[0][0][0] = blocks.get(6);
+		assert blocks != null;
+		worldBlocks[0][0][0] = blocks.get(6);
 
         Vector3f camPos = new Vector3f(0, 0, 0);
         Vector3f camRot = new Vector3f(0, 0, 0);

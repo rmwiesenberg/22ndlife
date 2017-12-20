@@ -10,10 +10,10 @@ import entities.world.World;
 
 public class MasterRenderer {
 
-    Matrix4f projectionMatrix;
+    private Matrix4f projectionMatrix;
 
     private static final float FOV = 70f;
-    private static final float NEAR_PLANE = -0.1f;
+    private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 10000f;
 
     public MasterRenderer(int width, int height, StaticShader shader){
@@ -28,11 +28,7 @@ public class MasterRenderer {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 	}
-	
-//	public void renderVoxel(Voxel voxel, int side, StaticShader shader) {
-//		EntityRenderer.renderVoxelSide(voxel, side, shader);
-//	}
-//	
+
 	public void renderWorld(World world, Camera camera, StaticShader shader) {
 		EntityRenderer.renderWorld(world, camera, shader);
 	}

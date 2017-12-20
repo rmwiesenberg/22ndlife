@@ -7,8 +7,8 @@ public class StaticShader extends ShaderProgram {
 	private static final String vertexFile = "src/boundary/shaders/vertexShader.txt";
 	private static final String fragmentFile = "src/boundary/shaders/fragmentShader.txt";
 
-	int location_transformationMatrix;
-	int location_projectionMatrix;
+	private int location_transformationMatrix;
+	private int location_projectionMatrix;
 	
 	public StaticShader() {
 		super(vertexFile, fragmentFile);
