@@ -44,12 +44,4 @@ public class ViewHandler {
 	public static HashMap<IBlock, ArrayList<Vector3f>> getBlockView(World world, Camera camera){
 	    return getBlockView(world.getBlocks(), camera);
     }
-
-    /**
-     * @param world world with camera info to generate from
-     * @return blocks and their world coordinates as vec3f
-     */
-    public static HashMap<IBlock, ArrayList<Vector3f>> getBlockView(World world){
-        return getBlockView(world.getBlocks(), world.getCamera());
-    }
 }

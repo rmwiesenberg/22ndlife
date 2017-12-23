@@ -12,9 +12,9 @@ import java.nio.FloatBuffer;
 
 public abstract class ShaderProgram {
 	
-	int programID;
-	int vertexShaderID;
-	int fragmentShaderID;
+	private int programID;
+	private int vertexShaderID;
+	private int fragmentShaderID;
 	
 	FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	

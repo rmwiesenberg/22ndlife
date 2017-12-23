@@ -1,5 +1,8 @@
-package boundary.renderEngine;
+package boundary;
 
+import boundary.renderEngine.Loader;
+import boundary.renderEngine.MasterRenderer;
+import controllers.handlers.GameObjectHandler;
 import controllers.parsers.WorldObjectParser;
 import controllers.parsers.exceptions.InvalidConfigurationFileException;
 import entities.block.IBlock;
@@ -33,8 +36,9 @@ public class DisplayManager {
 	private final int HEIGHT = 720;
 	// An fps of 1 is 60fps
 	private final int FPS = 1;
-	private static Loader loader1 = null;
-	private static StaticShader shader1 = null;
+	private static Loader loader;
+	private static StaticShader shader;
+	private static MasterRenderer renderer;
 	
 	public void init() {
 		// Setup an error callback. The default implementation
@@ -55,7 +59,7 @@ public class DisplayManager {
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
-		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
+		// Setup a key callback. It will be called every time a key is pressed, repeated or released
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
@@ -87,44 +91,25 @@ public class DisplayManager {
 
 		// Make the window visible
 		glfwShowWindow(window);
+
+		// Ready rendering
+        GL.createCapabilities();
+
+        loader = new Loader();
+        shader = new StaticShader();
+        renderer = new MasterRenderer(WIDTH, HEIGHT, shader);
+
+        // MUST PREPARE BEFORE LOADING VAO
+        renderer.prepare();
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable( GL_BLEND );
+
 	}
 
 	public void loop() {
-		GL.createCapabilities();
-		
-		Loader loader = new Loader();
-		loader1 = loader;													// TODO FIX
-
-		StaticShader shader = new StaticShader();
-		shader1 = shader;													// TODO FIX
-
-
-		MasterRenderer renderer = new MasterRenderer(WIDTH, HEIGHT, shader);
-
-		// MUST PREPARE BEFORE LOADING VAO
-		renderer.prepare();														
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable( GL_BLEND );
-
-		String voxelPath = "src/resources/json/voxel-example.json";
-		HashMap<Integer, Voxel> voxels = null;
-		try {
-			voxels = VoxelParser.readJSON(voxelPath, loader1);
-		} catch (InvalidImageSizeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-        WorldObjectParser wParser = new WorldObjectParser(voxels, voxelPath);
-
-		String worldObjectPath = "src/resources/json/block-example.json";
-		HashMap<Integer, IBlock> blocks = null;
-        try {
-            blocks = wParser.readWorldBlockJSON(worldObjectPath);
-        } catch (InvalidConfigurationFileException e) {
-            e.printStackTrace();
-        }
-
+        GameObjectHandler gameObjectHandler = new GameObjectHandler(loader);
+        HashMap<Integer, IBlock> blocks = gameObjectHandler.getBlocks();
+        
         IBlock[][][] worldBlocks = new IBlock[1][1][1];
 		assert blocks != null;
 		worldBlocks[0][0][0] = blocks.get(6);
@@ -142,7 +127,7 @@ public class DisplayManager {
 			
 			
 			shader.start();
-			renderer.renderWorld(world, world.getCamera(), shader1);
+			renderer.renderWorld(world, world.getCamera(), shader);
 			shader.stop();
 			
 			glfwSwapBuffers(window); // swap the color buffers
@@ -155,9 +140,15 @@ public class DisplayManager {
 		}
 	}
 
+	public void swapBuffers(){
+	    glfwSwapBuffers(window);
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
 	public void terminate() {
-		loader1.cleanUp();
-		shader1.cleanUp();
+		loader.cleanUp();
+		shader.cleanUp();
 		
 	// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
@@ -167,4 +158,17 @@ public class DisplayManager {
 		glfwTerminate();
 		glfwSetErrorCallback(null).free();
 	}
+
+	public boolean shouldWindowClose(){
+		return glfwWindowShouldClose(window);
+	}
+
+	// Getters and Setters
+    public int getWidth(){
+	    return WIDTH;
+    }
+
+    public int getHeight(){
+	    return HEIGHT;
+    }
 }

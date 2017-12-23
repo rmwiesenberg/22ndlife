@@ -1,24 +1,22 @@
 package game;
 
-import boundary.renderEngine.DisplayManager;
+import boundary.DisplayManager;
+import controllers.MainStateController;
 
 public class MainGameLoop {
 
 	public static void main(String[] args) {
-		DisplayManager window = new DisplayManager();
-		
-		
-		window.init();
-		
-		window.loop();	
-				
-		window.terminate();
-		
-		
-		
-		
+		DisplayManager displayManager = new DisplayManager();
+		displayManager.init();
 
+		MainStateController mainStateController = new MainStateController(displayManager);
+		mainStateController.init();
+
+		while (!displayManager.shouldWindowClose()){
+			mainStateController.render();
+		}
+
+		mainStateController.terminate();
+		displayManager.terminate();
 	}
-	
-
 }
