@@ -5,7 +5,7 @@ import boundary.shaders.StaticShader;
 import controllers.handlers.GameObjectHandler;
 
 public class SplashController extends AbsSceneController {
-    MainMenuController mainMenuController;
+    private MainMenuController mainMenuController;
 
     public SplashController(MasterRenderer renderer, StaticShader shader, GameObjectHandler gameObjectHandler) {
         super(renderer, shader, gameObjectHandler);
@@ -26,5 +26,10 @@ public class SplashController extends AbsSceneController {
     @Override
     public void terminate() {
 
+    }
+
+    // Getters and Setters
+    public MainMenuController getMainMenuController() {
+        return mainMenuController;
     }
 }

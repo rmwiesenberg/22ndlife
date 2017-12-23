@@ -5,9 +5,7 @@ import boundary.shaders.StaticShader;
 import controllers.handlers.GameObjectHandler;
 
 public class MainMenuController extends AbsSceneController {
-
-
-    MainMenuController(MasterRenderer renderer, StaticShader shader, GameObjectHandler gameObjectHandler) {
+    public MainMenuController(MasterRenderer renderer, StaticShader shader, GameObjectHandler gameObjectHandler) {
         super(renderer, shader, gameObjectHandler);
     }
 
@@ -18,7 +16,7 @@ public class MainMenuController extends AbsSceneController {
 
     @Override
     public ISceneController execute() {
-        return null;
+        return new GameController(getRenderer(), getShader(), getGameObjectHandler());
     }
 
     @Override
