@@ -16,11 +16,10 @@ public abstract class AbsSceneController implements ISceneController {
 
     @Override
     public void init(){
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released
         glfwSetKeyCallback(renderer.getDisplayManager().getWindow(),
                 (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                glfwSetWindowShouldClose(window, true);
         });
     }
 
