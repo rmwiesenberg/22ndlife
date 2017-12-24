@@ -67,17 +67,17 @@ public class GameController extends AbsSceneController {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true);
             if ( key == GLFW_KEY_W )
-                camera.posSpeed(new Vector3f(1, 0, 0));
+                camera.moveFoward(1f);
             if ( key == GLFW_KEY_S )
-                camera.posSpeed(new Vector3f(-1, 0, 0));
+                camera.moveFoward(-1f);
             if ( key == GLFW_KEY_D )
-                camera.posSpeed(new Vector3f(0, 1, 0));
+                camera.moveRight(1f);
             if ( key == GLFW_KEY_A )
-                camera.posSpeed(new Vector3f(0, -1, 0));
+                camera.moveRight(-1f);
             if ( key == GLFW_KEY_SPACE )
-                camera.posSpeed(new Vector3f(0, 0, 1));
+                camera.moveUp(1f);
             if ( key == GLFW_KEY_C )
-                camera.posSpeed(new Vector3f(0, 0, -1));
+                camera.moveUp(-1f);
         });
     }
 
@@ -134,9 +134,7 @@ public class GameController extends AbsSceneController {
             double deltaX = newX - getDisplayManager().getWidth()/2;
             double deltaY = newY - getDisplayManager().getHeight()/2;
 
-            System.out.println(deltaY/getDisplayManager().getHeight());
-
-            worldHandler.getWorld().getCamera().rotSpeed(
+            worldHandler.getWorld().getCamera().moveRot(
                     new Vector3f((float) (deltaY / getDisplayManager().getWidth()),
                             0f, (float) (-deltaX / getDisplayManager().getHeight())));
 
