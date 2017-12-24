@@ -40,7 +40,7 @@ public class EntityRenderer {
         Matrix4f transformationMatrix = new Matrix4f().translate(vec.add(0,0, 0)).rotateXYZ(new Vector3f()).scale(1f);
         shader.loadTransformationMatrix(transformationMatrix);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, voxel.getTexture());
-        for (int s = 0; s < 1; s++) {
+        for (int s = 0; s < 6; s++) {
             renderVertexArray(shader, voxel.getVAO(s), transformationMatrix);
         }
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);

@@ -20,18 +20,19 @@ public class MasterRenderer {
     public MasterRenderer(DisplayManager displayManager, StaticShader shader){
     	this.displayManager = displayManager;
     	this.shader = shader;
+
+        createProjectionMatrix(displayManager.getWidth(), displayManager.getHeight());
+        startShader();
+        shader.loadProjectionMatrix(projectionMatrix);
+        stopShader();
     }
 	
 	public void prepare() {
-		createProjectionMatrix(displayManager.getWidth(), displayManager.getHeight());
-		startShader();
-		shader.loadProjectionMatrix(projectionMatrix);
-		stopShader();
-
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClearColor(0.4f, 0.7f, 1.0f, 1);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_BLEND);
 	}
 
 	public void renderWorld(World world, Camera camera, StaticShader shader) {
@@ -50,12 +51,12 @@ public class MasterRenderer {
 		float zm = FAR_PLANE - NEAR_PLANE;
 
 		// TODO: FIX MEEEEEE
-//		projectionMatrix.m00(xScale);
-//		projectionMatrix.m11(yScale);
-//		projectionMatrix.m22(-zp/zm);
-//		projectionMatrix.m23(-1f);
-//		projectionMatrix.m32(-(2f * FAR_PLANE * NEAR_PLANE) / zm);
-//		projectionMatrix.m33(0);
+		projectionMatrix.m00(xScale);
+		projectionMatrix.m11(yScale);
+		projectionMatrix.m22(-zp/zm);
+		projectionMatrix.m23(-1f);
+		projectionMatrix.m32(-(2f * FAR_PLANE * NEAR_PLANE) / zm);
+		projectionMatrix.m33(0);
 	}
 
 	public void cleanUp(){

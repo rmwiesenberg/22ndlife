@@ -46,6 +46,6 @@ public class StaticShader extends ShaderProgram {
 	}
 
 	public void loadViewMatrix(Camera camera) {
-	    loadViewMatrix(new Matrix4f().translate(camera.getPos()).rotateXYZ(camera.getRot()));
+	    loadViewMatrix(new Matrix4f().rotateXYZ(camera.getRot()).translate(camera.getPos()));
     }
 }

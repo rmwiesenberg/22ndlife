@@ -1,33 +1,64 @@
 package controllers.parsers;
 
+import boundary.renderEngine.Loader;
+import controllers.parsers.exceptions.InvalidImageSizeException;
 import entities.Voxel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
-
 import static java.lang.Math.toIntExact;
 
-import java.awt.image.BufferedImage;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import boundary.renderEngine.Loader;
-import controllers.parsers.exceptions.InvalidImageSizeException;
-
 public class VoxelParser {
-	private static float[] vertices = {
+	private static float[][] vertices = {
+	        // coordinates are in camera frame
 			// top
-			-.5f, .5f, 1f,
-			.5f, .5f, 1f,
-			.5f, -.5f, 1f,
-			-.5f, -.5f, 1f
+			{
+					-0.5f, 0.5f, -0.5f,
+					-0.5f, -0.5f, -0.5f,
+					0.5f, -0.5f, -0.5f,
+					0.5f, 0.5f, -0.5f,
+			},
+            // bottom
+			{
+					-0.5f, 0.5f, 0.5f,
+					-0.5f, -0.5f, 0.5f,
+					0.5f, -0.5f, 0.5f,
+					0.5f, 0.5f, 0.5f,
+			},
+            {
+                    -0.5f, 0.5f, -0.5f,
+                    -0.5f, -0.5f, -0.5f,
+                    -0.5f, -0.5f, 0.5f,
+                    -0.5f, 0.5f, 0.5f,
+            },
+			{
+					0.5f, 0.5f, -0.5f,
+					0.5f, -0.5f, -0.5f,
+					0.5f, -0.5f, 0.5f,
+					0.5f, 0.5f, 0.5f,
+			},
+            {
+                    -0.5f, -0.5f, -0.5f,
+                    0.5f, -0.5f, -0.5f,
+                    0.5f, -0.5f, 0.5f,
+                    -0.5f, -0.5f, 0.5f
+            },
+			{
+					-0.5f, 0.5f, -0.5f,
+					0.5f, 0.5f, -0.5f,
+					0.5f, 0.5f, 0.5f,
+                    -0.5f, 0.5f, 0.5f,
+			},
 	};
 	
 	private static int[] indices = {
@@ -212,7 +243,7 @@ public class VoxelParser {
 		int textureID = loader.loadTexture(texture, width, height);
 		int[] vaoID = new int[6];
 		for (s = 0; s < sides; s++) {
-			vaoID[s] = loader.loadToVAO(vertices, indices, uv[s]);
+			vaoID[s] = loader.loadToVAO(vertices[s], indices, uv[s]);
 		}		
 		
 		return new Voxel(voxelID, textureID, vaoID);
