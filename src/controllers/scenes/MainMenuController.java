@@ -10,6 +10,6 @@ public class MainMenuController extends AbsSceneController {
 
     @Override
     public ISceneController execute() {
-        return new GameController(getRenderer(), getGameObjectHandler(), "test");
+        return new GameController(getRenderer(), getGameObjectHandler(), this, "test");
     }
 }

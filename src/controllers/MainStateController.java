@@ -25,6 +25,7 @@ public class MainStateController {
     public void init(){
         renderer = new MasterRenderer(displayManager, new StaticShader());
         currentScene = new SplashController(renderer, gameObjectHandler);
+        renderer.prepare();
     }
 
     public void render(){
