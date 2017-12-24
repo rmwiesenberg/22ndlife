@@ -7,10 +7,6 @@ public class Camera {
 	private Vector3f rot;
 	private Vector3f posSpeed;
 	private Vector3f rotSpeed;
-
-	private Vector3f CAMERA_BIAS = new Vector3f((float) Math.toRadians(0),
-                                                (float) Math.toRadians(0),
-                                                (float) Math.toRadians(0));
 	
 	public Camera(Vector3f pos, Vector3f rot) {
 		this.pos = pos;
@@ -56,6 +52,6 @@ public class Camera {
 	}
 
 	public Vector3f getRot() {
-	    return new Vector3f(rot).add(CAMERA_BIAS);
+	    return rot;
 	}
 }
