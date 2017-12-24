@@ -16,13 +16,13 @@ public class Camera {
 	}
 
 	public void moveFoward(float scale) {
-        Vector3f vecX = new Vector3f(0, 1, 0);
-        pos.add(vecX.mul(-scale * posSpeed.y));
+        Vector3f vecX = new Vector3f(1, 0, 0);
+        pos.add(vecX.mul(-scale * posSpeed.x));
     }
 
     public void moveRight(float scale) {
-	    Vector3f vecY = new Vector3f(1, 0, 0);
-	    pos.add(vecY.mul(-scale * posSpeed.x));
+	    Vector3f vecY = new Vector3f(0, 1, 0);
+	    pos.add(vecY.mul(-scale * posSpeed.y));
     }
 
     public void moveUp(float scale) {
