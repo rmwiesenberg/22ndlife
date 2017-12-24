@@ -14,22 +14,17 @@ public class MainStateController {
     private GameObjectHandler gameObjectHandler;
 
     private static Loader loader;
-    private static StaticShader shader;
     private static MasterRenderer renderer;
 
     public MainStateController(DisplayManager displayManager){
         this.displayManager = displayManager;
+        loader = new Loader();
         this.gameObjectHandler = new GameObjectHandler(loader);
     }
 
     public void init(){
-        loader = new Loader();
-        shader = new StaticShader();
-        renderer = new MasterRenderer(displayManager.getWidth(),
-                                      displayManager.getHeight(),
-                                      shader);
-
-        currentScene = new SplashController(renderer, shader, gameObjectHandler);
+        renderer = new MasterRenderer(displayManager, new StaticShader());
+        currentScene = new SplashController(renderer, gameObjectHandler);
     }
 
     public void render(){
@@ -38,11 +33,12 @@ public class MainStateController {
     }
 
     public void terminate(){
-
+        loader.cleanUp();
+        renderer.cleanUp();
     }
 
     private void renderCurrentScene(){
-        shader.start();
+        renderer.startShader();
         ISceneController newScene = currentScene.execute();
 
         // check if scene returns new scene and cleanup if needed
@@ -51,6 +47,6 @@ public class MainStateController {
             currentScene = newScene;
             currentScene.init();
         }
-        shader.stop();
+        renderer.stopShader();
     }
 }

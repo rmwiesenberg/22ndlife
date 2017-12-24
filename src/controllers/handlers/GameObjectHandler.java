@@ -7,14 +7,12 @@ import controllers.parsers.exceptions.InvalidConfigurationFileException;
 import controllers.parsers.exceptions.InvalidImageSizeException;
 import entities.Voxel;
 import entities.block.IBlock;
-import entities.world.World;
 
 import java.util.HashMap;
 
 public class GameObjectHandler {
     HashMap<Integer, Voxel> voxels;
     HashMap<Integer, IBlock> blocks;
-    World world;
 
     public GameObjectHandler(Loader loader) {
         String voxelPath = "src/resources/json/voxel-example.json";

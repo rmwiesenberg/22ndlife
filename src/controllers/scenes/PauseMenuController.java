@@ -1,17 +1,15 @@
 package controllers.scenes;
 
 import boundary.renderEngine.MasterRenderer;
-import boundary.shaders.StaticShader;
 import controllers.handlers.GameObjectHandler;
-import controllers.scenes.AbsSceneController;
 
 public class PauseMenuController extends AbsSceneController {
     private MainMenuController mainMenuController;
     private GameController gameController;
 
-    PauseMenuController(MasterRenderer renderer, StaticShader shader, GameObjectHandler gameObjectHandler,
+    PauseMenuController(MasterRenderer renderer, GameObjectHandler gameObjectHandler,
                         MainMenuController mainMenuController, GameController gameController) {
-        super(renderer, shader, gameObjectHandler);
+        super(renderer, gameObjectHandler);
 
         this.mainMenuController = mainMenuController;
         this.gameController = gameController;
@@ -24,7 +22,7 @@ public class PauseMenuController extends AbsSceneController {
 
     @Override
     public ISceneController execute() {
-        return null;
+        return gameController;
     }
 
     @Override
@@ -32,6 +30,7 @@ public class PauseMenuController extends AbsSceneController {
 
     }
 
+    // Getters and Setters
     public MainMenuController getMainMenuController() {
         return mainMenuController;
     }

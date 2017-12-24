@@ -2,31 +2,19 @@ package boundary;
 
 import boundary.renderEngine.Loader;
 import boundary.renderEngine.MasterRenderer;
-import controllers.handlers.GameObjectHandler;
-import controllers.parsers.WorldObjectParser;
-import controllers.parsers.exceptions.InvalidConfigurationFileException;
-import entities.block.IBlock;
-import entities.world.Camera;
-import entities.world.World;
-import org.joml.Vector3f;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
 import boundary.shaders.StaticShader;
-import controllers.parsers.VoxelParser;
-import controllers.parsers.exceptions.InvalidImageSizeException;
-import entities.Voxel;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
 
-import java.nio.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.nio.IntBuffer;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class DisplayManager {
 
@@ -94,50 +82,6 @@ public class DisplayManager {
 
 		// Ready rendering
         GL.createCapabilities();
-
-        loader = new Loader();
-        shader = new StaticShader();
-        renderer = new MasterRenderer(WIDTH, HEIGHT, shader);
-
-        // MUST PREPARE BEFORE LOADING VAO
-        renderer.prepare();
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glEnable( GL_BLEND );
-
-	}
-
-	public void loop() {
-        GameObjectHandler gameObjectHandler = new GameObjectHandler(loader);
-        HashMap<Integer, IBlock> blocks = gameObjectHandler.getBlocks();
-        
-        IBlock[][][] worldBlocks = new IBlock[1][1][1];
-		assert blocks != null;
-		worldBlocks[0][0][0] = blocks.get(6);
-
-        Vector3f camPos = new Vector3f(0, 0, 0);
-        Vector3f camRot = new Vector3f(0, 0, 0);
-        Camera cam = new Camera(camPos, camRot);
-
-        World world = new World(worldBlocks, new ArrayList<>(), cam);
-
-        // Run the rendering loop until the user has attempted to close
-		// the window or has pressed the ESCAPE key.
-		while ( !glfwWindowShouldClose(window) ) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-			
-			
-			shader.start();
-			renderer.renderWorld(world, world.getCamera(), shader);
-			shader.stop();
-			
-			glfwSwapBuffers(window); // swap the color buffers
-
-			// Poll for window events. The key callback above will only be
-			// invoked during this call.
-			glfwPollEvents();
-			
-			
-		}
 	}
 
 	public void swapBuffers(){
@@ -147,9 +91,6 @@ public class DisplayManager {
     }
 
 	public void terminate() {
-		loader.cleanUp();
-		shader.cleanUp();
-		
 	// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
@@ -164,6 +105,10 @@ public class DisplayManager {
 	}
 
 	// Getters and Setters
+    public long getWindow(){
+	    return window;
+    }
+
     public int getWidth(){
 	    return WIDTH;
     }

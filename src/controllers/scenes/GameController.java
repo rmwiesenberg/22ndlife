@@ -1,33 +1,45 @@
 package controllers.scenes;
 
 import boundary.renderEngine.MasterRenderer;
-import boundary.shaders.StaticShader;
 import controllers.handlers.GameObjectHandler;
-import controllers.scenes.AbsSceneController;
+import controllers.handlers.WorldHandler;
+import entities.world.World;
+
+import java.io.File;
 
 public class GameController extends AbsSceneController {
     private PauseMenuController pauseMenuController;
     private MainMenuController mainMenuController;
+    private WorldHandler worldHandler;
 
-    GameController(MasterRenderer renderer, StaticShader shader, GameObjectHandler gameObjectHandler) {
-        super(renderer, shader, gameObjectHandler);
+    GameController(MasterRenderer renderer, GameObjectHandler gameObjectHandler, MainMenuController mainMenuController, String worldName) {
+        super(renderer, gameObjectHandler);
 
-        pauseMenuController = new PauseMenuController(renderer, shader, gameObjectHandler,
-                mainMenuController, this);
+        this.mainMenuController = mainMenuController;
+        pauseMenuController = new PauseMenuController(renderer, gameObjectHandler,  mainMenuController, this);
+
+        worldHandler = new WorldHandler(gameObjectHandler, worldName);
     }
 
-    @Override
-    public void init() {
+    GameController(MasterRenderer renderer, GameObjectHandler gameObjectHandler, MainMenuController mainMenuController, File worldFile) {
+        super(renderer, gameObjectHandler);
 
+        this.mainMenuController = mainMenuController;
+        pauseMenuController = new PauseMenuController(renderer, gameObjectHandler,  mainMenuController, this);
+
+        worldHandler = new WorldHandler(gameObjectHandler, worldFile);
     }
 
     @Override
     public ISceneController execute() {
-        return null;
+        World world = worldHandler.getWorld();
+        getRenderer().renderWorld(world, world.getCamera(), getRenderer().getShader());
+        return this;
     }
 
     @Override
     public void terminate() {
-
+        worldHandler.save();
     }
+
 }

@@ -1,13 +1,15 @@
 package boundary.renderEngine;
 
+import boundary.DisplayManager;
 import boundary.shaders.StaticShader;
+import entities.world.Camera;
+import entities.world.World;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
-import entities.world.Camera;
-import entities.world.World;
-
 public class MasterRenderer {
+	private DisplayManager displayManager;
+	private StaticShader shader;
 
     private Matrix4f projectionMatrix;
 
@@ -15,24 +17,28 @@ public class MasterRenderer {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 10000;
 
-    public MasterRenderer(int width, int height, StaticShader shader){
-        createProjectionMatrix(width, height);
-        shader.start();
-        shader.loadProjectionMatrix(projectionMatrix);
-        shader.stop();
+    public MasterRenderer(DisplayManager displayManager, StaticShader shader){
+    	this.displayManager = displayManager;
+    	this.shader = shader;
     }
 	
 	public void prepare() {
+		createProjectionMatrix(displayManager.getWidth(), displayManager.getHeight());
+		startShader();
+		shader.loadProjectionMatrix(projectionMatrix);
+		stopShader();
+
 		GL11.glClearColor(0.4f, 0.7f, 1.0f, 1);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_BLEND);
 	}
 
 	public void renderWorld(World world, Camera camera, StaticShader shader) {
 		EntityRenderer.renderWorld(world, camera, shader);
 	}
 
-	public void createProjectionMatrix(int width, int height) {
+	private void createProjectionMatrix(int width, int height) {
 
 		projectionMatrix = new Matrix4f();
 
@@ -50,4 +56,25 @@ public class MasterRenderer {
 //		projectionMatrix.m32(-(2f * FAR_PLANE * NEAR_PLANE) / zm);
 //		projectionMatrix.m33(0);
 	}
+
+	public void cleanUp(){
+        shader.cleanUp();
+    }
+
+    public void startShader(){
+        shader.start();
+    }
+
+    public void stopShader(){
+        shader.stop();
+    }
+
+	// Getters and Setters
+    public DisplayManager getDisplayManager() {
+        return displayManager;
+    }
+
+    public StaticShader getShader() {
+        return shader;
+    }
 }
