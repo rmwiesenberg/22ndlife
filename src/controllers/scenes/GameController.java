@@ -41,17 +41,17 @@ public class GameController extends AbsSceneController {
                 Camera camera = worldHandler.getWorld().getCamera();
                 if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                     glfwSetWindowShouldClose(window, true);
-                else if ( key == GLFW_KEY_W && action == GLFW_RELEASE )
+                else if ( key == GLFW_KEY_W )
                     camera.moveSpeed(new Vector3f(1, 0, 0));
-                else if ( key == GLFW_KEY_S && action == GLFW_RELEASE )
+                else if ( key == GLFW_KEY_S )
                     camera.moveSpeed(new Vector3f(-1, 0, 0));
-                else if ( key == GLFW_KEY_D && action == GLFW_RELEASE )
+                else if ( key == GLFW_KEY_D )
                     camera.moveSpeed(new Vector3f(0, 1, 0));
-                else if ( key == GLFW_KEY_A && action == GLFW_RELEASE )
+                else if ( key == GLFW_KEY_A )
                     camera.moveSpeed(new Vector3f(0, -1, 0));
-                else if ( key == GLFW_KEY_SPACE && action == GLFW_RELEASE )
+                else if ( key == GLFW_KEY_SPACE )
                     camera.moveSpeed(new Vector3f(0, 0, 1));
-                else if ( key == GLFW_KEY_LEFT_CONTROL && action == GLFW_RELEASE )
+                else if ( key == GLFW_KEY_LEFT_CONTROL )
                     camera.moveSpeed(new Vector3f(0, 0, -1));
         });
     }

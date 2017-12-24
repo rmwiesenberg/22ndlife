@@ -35,6 +35,7 @@ public class MasterRenderer {
 	}
 
 	public void renderWorld(World world, Camera camera, StaticShader shader) {
+        shader.loadViewMatrix(camera);
 		EntityRenderer.renderWorld(world, camera, shader);
 	}
 

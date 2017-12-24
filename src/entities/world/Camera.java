@@ -10,7 +10,7 @@ public class Camera {
 	public Camera(Vector3f pos, Vector3f rot) {
 		this.pos = pos;
 		this.rot = rot;
-		this.speed = 1f;
+		this.speed = .01f;
 	}
 
 	public void moveSpeed(Vector3f vec) {
