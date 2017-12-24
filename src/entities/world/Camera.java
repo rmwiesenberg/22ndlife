@@ -16,7 +16,7 @@ public class Camera {
                                 (float) Math.toRadians(90));
 		this.rot.add(rot);
 		this.posSpeed = new Vector3f(.1f, .1f, .1f);
-		this.rotSpeed = new Vector3f(.1f, .1f, .1f);
+		this.rotSpeed = new Vector3f(1f, 1f, 1f);
 	}
 
 	public void posSpeed(Vector3f vec) {
@@ -28,7 +28,6 @@ public class Camera {
 	}
 
 	public void rotSpeed(Vector3f vec) {
-        vec.normalize();
         Vector3f delta = new Vector3f(vec.x*rotSpeed.x,
                                       vec.y*rotSpeed.y,
                                       vec.z*rotSpeed.z);

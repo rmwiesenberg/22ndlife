@@ -1,5 +1,6 @@
 package controllers.scenes;
 
+import boundary.DisplayManager;
 import boundary.renderEngine.MasterRenderer;
 import controllers.handlers.GameObjectHandler;
 
@@ -36,4 +37,8 @@ public abstract class AbsSceneController implements ISceneController {
     public MasterRenderer getRenderer() {
         return renderer;
     }
+
+    protected DisplayManager getDisplayManager() { return renderer.getDisplayManager(); }
+
+    protected long getWindow() { return getDisplayManager().getWindow(); }
 }
