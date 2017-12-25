@@ -1,5 +1,6 @@
 package entities.world;
 
+import org.joml.Matrix3f;
 import org.joml.Vector3f;
 
 public class Camera {
@@ -16,13 +17,15 @@ public class Camera {
 	}
 
 	public void moveFoward(float scale) {
-        Vector3f vecX = new Vector3f(1, 0, 0);
-        pos.add(vecX.mul(-scale * posSpeed.x));
+        Matrix3f mat = new Matrix3f().rotateXYZ(rot).transpose();
+        Vector3f delta3 = new Vector3f(0, 0, scale * posSpeed.x).mul(mat);
+        pos.add(delta3);
     }
 
     public void moveRight(float scale) {
-	    Vector3f vecY = new Vector3f(0, 1, 0);
-	    pos.add(vecY.mul(-scale * posSpeed.y));
+        Matrix3f mat = new Matrix3f().rotateXYZ(rot).transpose();
+        Vector3f delta3 = new Vector3f(-scale * posSpeed.y, 0, 0).mul(mat);
+        pos.add(delta3);
     }
 
     public void moveUp(float scale) {
