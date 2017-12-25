@@ -1,25 +1,20 @@
-package boundary.renderEngine;
+package boundary;
 
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
-import boundary.Textures.ModelTexture;
-import boundary.models.RawModel;
-import boundary.models.TexturedModel;
+import boundary.renderEngine.Loader;
+import boundary.renderEngine.MasterRenderer;
 import boundary.shaders.StaticShader;
-import controllers.parsers.VoxelParser;
-import controllers.parsers.exceptions.InvalidImageSizeException;
-import entities.Voxel;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
 
-import java.nio.*;
-import java.util.HashMap;
+import java.nio.IntBuffer;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class DisplayManager {
 
@@ -29,8 +24,9 @@ public class DisplayManager {
 	private final int HEIGHT = 720;
 	// An fps of 1 is 60fps
 	private final int FPS = 1;
-	public static Loader loader1 = null;
-	public static StaticShader shader1 = null;
+	private static Loader loader;
+	private static StaticShader shader;
+	private static MasterRenderer renderer;
 	
 	public void init() {
 		// Setup an error callback. The default implementation
@@ -51,7 +47,7 @@ public class DisplayManager {
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 
-		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
+		// Setup a key callback. It will be called every time a key is pressed, repeated or released
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
@@ -83,56 +79,18 @@ public class DisplayManager {
 
 		// Make the window visible
 		glfwShowWindow(window);
+
+		// Ready rendering
+        GL.createCapabilities();
 	}
 
-	public void loop() {
-		GL.createCapabilities();
-		MasterRenderer renderer = new MasterRenderer();
-		
-		Loader loader = new Loader();
-		loader1 = loader;													// TODO FIX
-		
-		StaticShader shader = new StaticShader();
-		shader1 = shader;													// TODO FIX
-		
-
-		// MUST PREPARE BEFORE LOADING VAO
-		renderer.prepare();														
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable( GL_BLEND );
-		
-		HashMap<Integer, Voxel> voxels = null;
-		try {
-			voxels = VoxelParser.readJSON("src/resources/json/voxel-example.json", loader1);
-		} catch (InvalidImageSizeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// Run the rendering loop until the user has attempted to close
-		// the window or has pressed the ESCAPE key.
-		while ( !glfwWindowShouldClose(window) ) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-			
-			
-			shader.start();
-			renderer.renderVoxel(voxels.get(0), 0);
-			shader.stop();
-			
-			glfwSwapBuffers(window); // swap the color buffers
-
-			// Poll for window events. The key callback above will only be
-			// invoked during this call.
-			glfwPollEvents();
-			
-			
-		}
-	}
+	public void swapBuffers(){
+	    glfwSwapBuffers(window);
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 
 	public void terminate() {
-		loader1.cleanUp();
-		shader1.cleanUp();
-		
 	// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
@@ -141,4 +99,21 @@ public class DisplayManager {
 		glfwTerminate();
 		glfwSetErrorCallback(null).free();
 	}
+
+	public boolean shouldWindowClose(){
+		return glfwWindowShouldClose(window);
+	}
+
+	// Getters and Setters
+    public long getWindow(){
+	    return window;
+    }
+
+    public int getWidth(){
+	    return WIDTH;
+    }
+
+    public int getHeight(){
+	    return HEIGHT;
+    }
 }

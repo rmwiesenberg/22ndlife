@@ -10,7 +10,12 @@ public class MTBlock implements IBlock, IWorldObject {
 		return false;
 	}
 
-	@Override
+    @Override
+    public boolean isMT() {
+        return true;
+    }
+
+    @Override
 	public int getID() {
 		return 0;
 	}

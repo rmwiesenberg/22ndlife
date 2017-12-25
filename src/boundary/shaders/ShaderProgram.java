@@ -1,18 +1,22 @@
 package boundary.shaders;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
+import java.io.*;
+import java.nio.FloatBuffer;
+
 public abstract class ShaderProgram {
 	
-	int programID;
-	int vertexShaderID;
-	int fragmentShaderID;
+	private int programID;
+	private int vertexShaderID;
+	private int fragmentShaderID;
+	
+	FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	
 	public ShaderProgram(String vertexFile, String fragmentFile) {
 		
@@ -26,9 +30,53 @@ public abstract class ShaderProgram {
 		GL20.glLinkProgram(programID);
 		GL20.glValidateProgram(programID);
 		
+//		// Pointer to point where uniform varName is stored in memory
+//		int location =GL20.glGetUniformLocation(programID, "varName");
+//		
+//		// Stores uniform in memory location specified
+//		GL20.glUniform1f(location, 20);
+		
+		getAllUniformLocations();
+		
+	}
+	
+	protected abstract void getAllUniformLocations();
+	
+	protected int getUniformLocation(String varName) {
+		// Gets memory location of uniform specified and returns it as an integer		
+		return GL20.glGetUniformLocation(programID, varName);		
 	}
 	
 	protected abstract void bindAttributes();
+	
+	protected void loadFloatToUniform(int location, float value) {
+		
+		GL20.glUniform1f(location, value);
+	}
+	
+	protected void load2DVectorToUniform(int location, Vector2f vec) {
+		GL20.glUniform2f(location, vec.x, vec.y);
+	}
+	
+	protected void load3DVectorToUniform(int location, Vector3f vec) {
+		GL20.glUniform3f(location, vec.x, vec.y, vec.z);
+	}
+	
+	protected void loadMatrixToUniform(int location, Matrix4f mat) {
+		float[] matflt = mat.get(new float[16]);
+		matrixBuffer.put(matflt);
+		matrixBuffer.flip();
+		
+		GL20.glUniformMatrix4fv(location, false, matrixBuffer);
+	}
+	
+	protected void loadBooleanToUniform(int location, boolean bool) {
+		float value = 0;
+		if(bool) {
+			value = 1;
+		}		
+		GL20.glUniform1f(location, value);
+	}	
 	
 	protected void bindAttribute(String variableName, int attribute) {
 		GL20.glBindAttribLocation(programID, attribute, variableName);
@@ -56,10 +104,15 @@ public abstract class ShaderProgram {
 	private int loadShader(String file, int type) {
 		
 		StringBuilder shaderSource = new StringBuilder();
-		
-		InputStream in = Class.class.getResourceAsStream(file);
+
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		
+
 		String line;
 		try {
 			while ((line = reader.readLine()) != null) {
@@ -71,7 +124,7 @@ public abstract class ShaderProgram {
 			System.err.println("Could not load shader file!");
 			System.exit(-1);
 		}
-		
+
 		int shaderID = GL20.glCreateShader(type);
 		GL20.glShaderSource(shaderID, shaderSource);
 		GL20.glCompileShader(shaderID);
@@ -87,5 +140,4 @@ public abstract class ShaderProgram {
 		return shaderID;
 		
 	}
-
 }
