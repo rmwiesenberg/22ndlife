@@ -42,10 +42,10 @@ public class WorldHandler {
         assert blocks != null;
         worldBlocks[0][0][0] = blocks.get(6);
 
-        Vector3f camPos = new Vector3f(0, 0, 0);
-        Vector3f camRot = new Vector3f((float) Math.toRadians(0),
+        Vector3f camPos = new Vector3f(5, -5, 7);
+        Vector3f camRot = new Vector3f((float) Math.toRadians(135),
                                        (float) Math.toRadians(0),
-                                       (float) Math.toRadians(0));
+                                       (float) Math.toRadians(-45));
         Camera cam = new Camera(camPos, camRot);
 
         world = new World(worldBlocks, new ArrayList<>(), cam);
