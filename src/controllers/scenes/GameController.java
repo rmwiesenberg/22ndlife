@@ -86,8 +86,6 @@ public class GameController extends AbsSceneController {
         World world = worldHandler.getWorld();
         getRenderer().renderWorld(world, world.getCamera(), getRenderer().getShader());
         updateMouse();
-        System.out.println(world.getCamera().getPos());
-        System.out.println(world.getCamera().getRot());
         return this;
     }
 
