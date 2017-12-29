@@ -3,6 +3,10 @@ package controllers.scenes;
 import boundary.renderEngine.MasterRenderer;
 import controllers.handlers.GameObjectHandler;
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+
 public class PauseMenuController extends AbsSceneController {
     private MainMenuController mainMenuController;
     private GameController gameController;
@@ -16,26 +20,11 @@ public class PauseMenuController extends AbsSceneController {
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
-    public ISceneController execute() {
-        return gameController;
-    }
-
-    @Override
-    public void terminate() {
-
-    }
-
-    // Getters and Setters
-    public MainMenuController getMainMenuController() {
-        return mainMenuController;
-    }
-
-    public GameController getGameController() {
-        return gameController;
+    protected void setupInputCallback() {
+        glfwSetKeyCallback(getRenderer().getDisplayManager().getWindow(),
+                (window, key, scancode, action, mods) -> {
+                    if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+                        setNextScene(gameController);
+                });
     }
 }

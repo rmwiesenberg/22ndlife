@@ -10,18 +10,23 @@ public abstract class AbsSceneController implements ISceneController {
     private MasterRenderer renderer;
     private GameObjectHandler gameObjectHandler;
 
+    private ISceneController nextScene;
+
     AbsSceneController(MasterRenderer renderer, GameObjectHandler gameObjectHandler){
         this.renderer = renderer;
         this.gameObjectHandler = gameObjectHandler;
+        setNextScene(this);
     }
 
     @Override
     public void init(){
-        glfwSetKeyCallback(renderer.getDisplayManager().getWindow(),
-                (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true);
-        });
+        setupInputCallback();
+        setNextScene(this);
+    }
+
+    @Override
+    public void execute(){
+        updateInput();
     }
 
     @Override
@@ -29,16 +34,32 @@ public abstract class AbsSceneController implements ISceneController {
 
     }
 
+    protected void setupInputCallback() {
+        glfwSetKeyCallback(renderer.getDisplayManager().getWindow(), (window, key, scancode, action, mods) -> {
+            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+                glfwSetWindowShouldClose(window, true);
+        });
+    }
+
+    protected void updateInput() {
+
+    }
+
     // Getters and Setters
-    public GameObjectHandler getGameObjectHandler() {
+    GameObjectHandler getGameObjectHandler() {
         return gameObjectHandler;
     }
 
-    public MasterRenderer getRenderer() {
+    MasterRenderer getRenderer() {
         return renderer;
     }
 
-    protected DisplayManager getDisplayManager() { return renderer.getDisplayManager(); }
+    DisplayManager getDisplayManager() { return renderer.getDisplayManager(); }
 
-    protected long getWindow() { return getDisplayManager().getWindow(); }
+    long getWindow() { return getDisplayManager().getWindow(); }
+
+    void setNextScene(ISceneController nextScene) { this.nextScene = nextScene; }
+
+    @Override
+    public ISceneController getNextScene() { return nextScene; }
 }

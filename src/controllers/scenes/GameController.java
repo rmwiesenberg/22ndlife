@@ -15,7 +15,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class GameController extends AbsSceneController {
     private PauseMenuController pauseMenuController;
-    private MainMenuController mainMenuController;
     private WorldHandler worldHandler;
 
     private boolean mouseLocked = false;
@@ -24,69 +23,21 @@ public class GameController extends AbsSceneController {
 
     GameController(MasterRenderer renderer, GameObjectHandler gameObjectHandler, MainMenuController mainMenuController, String worldName) {
         super(renderer, gameObjectHandler);
-
-        this.mainMenuController = mainMenuController;
         pauseMenuController = new PauseMenuController(renderer, gameObjectHandler,  mainMenuController, this);
-
         worldHandler = new WorldHandler(gameObjectHandler, worldName);
-
-        mousePreLockX = BufferUtils.createDoubleBuffer(1);
-        mousePreLockY = BufferUtils.createDoubleBuffer(1);
-
-        mousePreLockX.put(renderer.getDisplayManager().getWidth() / 2);
-        mousePreLockY.put(renderer.getDisplayManager().getHeight() / 2);
-
-        mousePreLockX.rewind();
-        mousePreLockY.rewind();
     }
 
     GameController(MasterRenderer renderer, GameObjectHandler gameObjectHandler, MainMenuController mainMenuController, File worldFile) {
         super(renderer, gameObjectHandler);
-
-        this.mainMenuController = mainMenuController;
         pauseMenuController = new PauseMenuController(renderer, gameObjectHandler,  mainMenuController, this);
-
         worldHandler = new WorldHandler(gameObjectHandler, worldFile);
-
-        mousePreLockX = BufferUtils.createDoubleBuffer(1);
-        mousePreLockY = BufferUtils.createDoubleBuffer(1);
-
-        mousePreLockX.put(renderer.getDisplayManager().getWidth() / 2);
-        mousePreLockY.put(renderer.getDisplayManager().getHeight() / 2);
-
-        mousePreLockX.rewind();
-        mousePreLockY.rewind();
     }
 
     @Override
-    public void init(){
-        glfwSetCursorPos(getWindow(), mousePreLockX.get(), mousePreLockY.get());
-
-        glfwSetKeyCallback(getWindow(), (window, key, scancode, action, mods) -> {
-            Camera camera = worldHandler.getWorld().getCamera();
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true);
-            if ( key == GLFW_KEY_W )
-                camera.moveFoward(1f);
-            if ( key == GLFW_KEY_S )
-                camera.moveFoward(-1f);
-            if ( key == GLFW_KEY_D )
-                camera.moveRight(1f);
-            if ( key == GLFW_KEY_A )
-                camera.moveRight(-1f);
-            if ( key == GLFW_KEY_SPACE )
-                camera.moveUp(1f);
-            if ( key == GLFW_KEY_C )
-                camera.moveUp(-1f);
-        });
-    }
-
-    @Override
-    public ISceneController execute() {
+    public void execute() {
         World world = worldHandler.getWorld();
         getRenderer().renderWorld(world, world.getCamera(), getRenderer().getShader());
-        updateMouse();
-        return this;
+        updateInput();
     }
 
     @Override
@@ -94,7 +45,37 @@ public class GameController extends AbsSceneController {
         worldHandler.save();
     }
 
-    private void updateMouse() {
+    @Override
+    protected void setupInputCallback() {
+        glfwSetKeyCallback(getRenderer().getDisplayManager().getWindow(), (window, key, scancode, action, mods) -> {
+            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+                setNextScene(pauseMenuController);
+        });
+    }
+
+    @Override
+    protected void updateInput() {
+        updateCamera();
+    }
+
+    private void updateCamera() {
+        // move camera
+        Camera camera = worldHandler.getWorld().getCamera();
+        long window = getWindow();
+        if ( glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
+            camera.moveFoward(1f);
+        if ( glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
+            camera.moveFoward(-1f);
+        if ( glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
+            camera.moveRight(1f);
+        if ( glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
+            camera.moveRight(-1f);
+        if ( glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS )
+            camera.moveUp(1f);
+        if ( glfwGetKey(window,  GLFW_KEY_C) == GLFW_PRESS )
+            camera.moveUp(-1f);
+
+        // rotate camera
         if (glfwGetMouseButton(getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !mouseLocked) {
             DoubleBuffer newX = BufferUtils.createDoubleBuffer(1);
             DoubleBuffer newY = BufferUtils.createDoubleBuffer(1);
@@ -108,7 +89,8 @@ public class GameController extends AbsSceneController {
 
             glfwSetInputMode(getWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-            glfwSetCursorPos(getWindow(), getDisplayManager().getWidth() / 2, getDisplayManager().getHeight() / 2);
+            glfwSetCursorPos(getWindow(), getDisplayManager().getWidth() / 2,
+                    getDisplayManager().getHeight() / 2);
 
             mouseLocked = true;
         }
@@ -134,14 +116,12 @@ public class GameController extends AbsSceneController {
             double deltaX = newX - getDisplayManager().getWidth()/2;
             double deltaY = newY - getDisplayManager().getHeight()/2;
 
-            worldHandler.getWorld().getCamera().moveRot(
-                    new Vector3f((float) (deltaY / getDisplayManager().getWidth()),
-                            0f, (float) (-deltaX / getDisplayManager().getHeight())));
+            camera.moveRot(new Vector3f((float) (deltaY / getDisplayManager().getWidth()), 0f,
+                    (float) (-deltaX / getDisplayManager().getHeight())));
 
-            glfwSetCursorPos(getWindow(), getDisplayManager().getWidth() / 2, getDisplayManager().getHeight() / 2);
-        } else {
-            return;
+            glfwSetCursorPos(getWindow(), getDisplayManager().getWidth() / 2,
+                    getDisplayManager().getHeight() / 2);
         }
-    }
 
+    }
 }

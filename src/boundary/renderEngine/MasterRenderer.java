@@ -50,7 +50,6 @@ public class MasterRenderer {
 		float zp = FAR_PLANE + NEAR_PLANE;
 		float zm = FAR_PLANE - NEAR_PLANE;
 
-		// TODO: FIX MEEEEEE
 		projectionMatrix.m00(xScale);
 		projectionMatrix.m11(yScale);
 		projectionMatrix.m22(-zp/zm);

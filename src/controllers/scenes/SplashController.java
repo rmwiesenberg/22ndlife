@@ -13,12 +13,7 @@ public class SplashController extends AbsSceneController {
     }
 
     @Override
-    public ISceneController execute() {
-        return mainMenuController;
-    }
-
-    // Getters and Setters
-    public MainMenuController getMainMenuController() {
-        return mainMenuController;
+    public void execute() {
+        setNextScene(mainMenuController);
     }
 }
