@@ -19,10 +19,10 @@ public class ViewHandler {
         int zSize = blocks.length;
         int ySize = blocks[0].length;
         int xSize = blocks[0][0].length;
-        for(int x = 0; x < xSize; x++){
+        for(int z = 0; z < zSize; z++){
             for(int y = 0; y < ySize; y++){
-                for(int z = 0; z < zSize; z++){
-                    IBlock curBlock = blocks[x][y][z];
+                for(int x = 0; x < xSize; x++){
+                    IBlock curBlock = blocks[z][y][x];
                     if(curBlock.isMT()){
                         continue;
                     }

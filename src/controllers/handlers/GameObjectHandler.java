@@ -15,7 +15,7 @@ public class GameObjectHandler {
     HashMap<Integer, IBlock> blocks;
 
     public GameObjectHandler(Loader loader) {
-        String voxelPath = "src/resources/json/voxel-example.json";
+        String voxelPath = "resources/json/voxel-example.json";
         try {
             voxels = VoxelParser.readJSON(voxelPath, loader);
         } catch (InvalidImageSizeException e) {
@@ -25,7 +25,7 @@ public class GameObjectHandler {
 
         WorldObjectParser wParser = new WorldObjectParser(voxels, voxelPath);
 
-        String worldObjectPath = "src/resources/json/block-example.json";
+        String worldObjectPath = "resources/json/block-example.json";
         try {
             blocks = wParser.readWorldBlockJSON(worldObjectPath);
         } catch (InvalidConfigurationFileException e) {

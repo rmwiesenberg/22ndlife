@@ -40,7 +40,9 @@ public class MainStateController {
 
     private void renderCurrentScene(){
         renderer.startShader();
-        ISceneController newScene = currentScene.execute();
+        currentScene.execute();
+
+        ISceneController newScene = currentScene.getNextScene();
 
         // check if scene returns new scene and cleanup if needed
         if (newScene != currentScene) {
