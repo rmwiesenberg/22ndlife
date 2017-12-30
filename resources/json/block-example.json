@@ -1,0 +1,34 @@
+{
+  "voxel": "resources/json/voxel-example.json",
+  "block": [
+  	{
+  	  "id": 0,
+	  "name": "empty",
+	  "voxelID": 0,
+	},{
+	  "id": 1,
+      "name": "test1",
+	  "voxelID": 1,
+	},{
+	  "id": 2,
+      "name": "test2",
+      "voxelID": 2,
+	},{
+      "id": 3,
+      "name": "test3",
+      "voxelID": 3,
+	},{
+      "id": 4,
+      "name": "test6",
+      "voxelID": 4,
+	},{
+      "id": 5,
+      "name": "trans",
+      "voxelID": 5,
+	},{
+      "id": 6,
+      "name": "dickbutt",
+      "voxelID": 6
+    }
+  ]
+}
