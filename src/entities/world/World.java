@@ -1,6 +1,7 @@
 package entities.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.joml.Vector3i;
 
@@ -9,11 +10,12 @@ import entities.block.MTBlock;
 import entities.subject.ISubject;
 
 public class World {
-	private IBlock[][][] blocks;
+	private HashMap<Vector3i, IBlock> blocks;
 	private ArrayList<ISubject> subjects;
 	private Camera camera;
 	
-	public World(IBlock[][][] blocks, ArrayList<ISubject> subjects, Camera camera){
+	public World(HashMap<Vector3i, IBlock> blocks,
+				 ArrayList<ISubject> subjects, Camera camera){
 		this.blocks = blocks;
 		this.subjects = subjects;
 		this.camera = camera;
@@ -27,27 +29,49 @@ public class World {
 		// TODO
 		return;
 	}
-	
-	void addBlock(IBlock block, Vector3i pos) {
-		blocks[pos.x][pos.y][pos.z] = block;
+
+    public void addBlock(IBlock block, Vector3i pos) {
+		blocks.put(pos, block);
 	}
-	
-	void remBlock(Vector3i pos) {
+
+    public void remBlock(Vector3i pos) {
 		addBlock(new MTBlock(), pos);
 	}
-	
-	void addSubject(ISubject subj) {
+
+    public void addSubject(ISubject subj) {
 		subjects.add(subj);
 	}
-	
-	void remSubject(ISubject subj) {
+
+    public void remSubject(ISubject subj) {
 		subjects.remove(subj);
 	}
 
+	public boolean hasBlockAt(Vector3i pos) {
+	    return (blocks.containsKey(pos));
+    }
+
+    public boolean hasBlockAt(int x, int y, int z) {
+        return hasBlockAt(new Vector3i(x, y, z));
+    }
+
 	// Getters and Setters
-	public IBlock[][][] getBlocks() {
+	public HashMap<Vector3i, IBlock> getBlocks() {
 		return blocks;
 	}
+
+    /**
+     * gets block at specified position
+     * @param pos Vector3i
+     * @return block at position, MTBlock if not hasBlockAt
+     */
+
+	public IBlock getBlock(Vector3i pos) {
+	    if(!hasBlockAt(pos)) {
+	        return new MTBlock();
+        } else {
+	        return blocks.get(pos);
+        }
+    }
 
 	public ArrayList<ISubject> getSubjects() {
 		return subjects;

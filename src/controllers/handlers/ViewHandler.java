@@ -4,44 +4,33 @@ import entities.block.IBlock;
 import entities.world.Camera;
 import entities.world.World;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ViewHandler {
     /**
-     * @param blocks list of block to consider
-     * @param camera camera to evaluate at
-     * @return blocks and their world coordinates as vec3f
-     */
-    private static HashMap<IBlock, ArrayList<Vector3f>> getBlockView(IBlock[][][] blocks, Camera camera){
-        HashMap<IBlock, ArrayList<Vector3f>> blockView = new HashMap<>();
-        int zSize = blocks.length;
-        int ySize = blocks[0].length;
-        int xSize = blocks[0][0].length;
-        for(int z = 0; z < zSize; z++){
-            for(int y = 0; y < ySize; y++){
-                for(int x = 0; x < xSize; x++){
-                    IBlock curBlock = blocks[z][y][x];
-                    if(curBlock.isMT()){
-                        continue;
-                    }
-                    if(!blockView.containsKey(curBlock)){
-                        blockView.put(curBlock, new ArrayList<>());
-                    }
-                    blockView.get(curBlock).add(new Vector3f(x, y, z));
-                }
-            }
-        }
-        return blockView;
-	}
-
-    /**
      * @param world world with info to generate from
      * @param camera camera to base reference on
      * @return blocks and their world coordinates as vec3f
      */
-	public static HashMap<IBlock, ArrayList<Vector3f>> getBlockView(World world, Camera camera){
-	    return getBlockView(world.getBlocks(), camera);
+	public static HashMap<IBlock, ArrayList<Vector3i>> getBlockView(World world, Camera camera){
+        HashMap<IBlock, ArrayList<Vector3i>> blockView = new HashMap<>();
+        for(int z = -1; z <= 1; z++){
+            for(int y = -1; y <= 1; y++){
+                for(int x = -1; x <= 1; x++){
+                    Vector3i pos = new Vector3i(x, y, z);
+                    IBlock curBlock = world.getBlock(pos);
+                    if(!blockView.containsKey(curBlock)){
+                        blockView.put(curBlock, new ArrayList<>());
+                    }
+                    if(!curBlock.isMT()){
+                        blockView.get(curBlock).add(pos);
+                    }
+                }
+            }
+        }
+        return blockView;
     }
 }

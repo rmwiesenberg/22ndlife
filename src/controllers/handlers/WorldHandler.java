@@ -4,6 +4,7 @@ import entities.block.IBlock;
 import entities.world.Camera;
 import entities.world.World;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,21 +38,7 @@ public class WorldHandler {
 
     private void generate(){
         HashMap<Integer, IBlock> blocks = gameObjectHandler.getBlocks();
-
-        IBlock[][][] worldBlocks = new IBlock[1][3][3];
         assert blocks != null;
-
-        int zMax = worldBlocks.length;
-        int yMax = worldBlocks[0].length;
-        int xMax = worldBlocks[0][0].length;
-
-        for(int z = 0; z < zMax; z++){
-            for(int y = 0; y < yMax; y++){
-                for(int x = 0; x < xMax; x++){
-                    worldBlocks[z][y][x] = blocks.get(6);
-                }
-            }
-        }
 
         Vector3f camPos = new Vector3f(5, -5, 7);
         Vector3f camRot = new Vector3f((float) Math.toRadians(135),
@@ -59,7 +46,17 @@ public class WorldHandler {
                                        (float) Math.toRadians(-45));
         Camera cam = new Camera(camPos, camRot);
 
-        world = new World(worldBlocks, new ArrayList<>(), cam);
+        world = new World(new HashMap<>(), new ArrayList<>(), cam);
+
+        world.addBlock(blocks.get(6), new Vector3i(-1, 1, -1));
+        world.addBlock(blocks.get(6), new Vector3i(0, 0, 0));
+        world.addBlock(blocks.get(6), new Vector3i(-1, 0, 0));
+        world.addBlock(blocks.get(6), new Vector3i(0, 1, 0));
+        world.addBlock(blocks.get(6), new Vector3i(1, 1, 1));
+        world.addBlock(blocks.get(6), new Vector3i(-1, -1, 1));
+        world.addBlock(blocks.get(6), new Vector3i(1, 0, 1));
+        world.addBlock(blocks.get(6), new Vector3i(1, -1, 1));;
+        world.addBlock(blocks.get(6), new Vector3i(0, -1, 1));
     }
 
     // Getters and Setters

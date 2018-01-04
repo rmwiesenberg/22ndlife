@@ -12,7 +12,7 @@ public class Camera {
 	public Camera(Vector3f pos, Vector3f rot) {
 		this.pos = pos;
 		this.rot = rot;
-		this.posSpeed = new Vector3f(.01f, .01f, .01f);
+		this.posSpeed = new Vector3f(.1f, .1f, .1f);
 		this.rotSpeed = new Vector3f(1f, 1f, 1f);
 	}
 

@@ -9,6 +9,7 @@ import entities.world.Camera;
 import entities.world.World;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -19,9 +20,9 @@ import java.util.HashMap;
 
 public class EntityRenderer {
 	public static void renderWorld(World world, Camera camera, StaticShader shader) {
-        final HashMap<IBlock, ArrayList<Vector3f>> blockView = ViewHandler.getBlockView(world, camera);
+        final HashMap<IBlock, ArrayList<Vector3i>> blockView = ViewHandler.getBlockView(world, camera);
         for(IBlock block: blockView.keySet()){
-            for(Vector3f vec: blockView.get(block)) {
+            for(Vector3i vec: blockView.get(block)) {
                 if(!block.isScenery()) {
                     WorldBlock wBlock = (WorldBlock) block;
                     renderWorldBlock(wBlock, vec, camera, shader);
@@ -33,11 +34,12 @@ public class EntityRenderer {
         }
 	}
 
-	private static void renderWorldBlock(WorldBlock block, Vector3f vec, Camera camera, StaticShader shader){
+	private static void renderWorldBlock(WorldBlock block, Vector3i vec, Camera camera, StaticShader shader){
         Voxel voxel = block.getVoxel();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, voxel.getTexture());
-        Matrix4f transformationMatrix = new Matrix4f().translate(vec.add(0,0, 0)).rotateXYZ(new Vector3f()).scale(1f);
+        Vector3f vecf = new Vector3f(vec);
+        Matrix4f transformationMatrix = new Matrix4f().translate(vecf).rotateXYZ(new Vector3f()).scale(1f);
         shader.loadTransformationMatrix(transformationMatrix);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, voxel.getTexture());
         for (int s = 0; s < 6; s++) {
